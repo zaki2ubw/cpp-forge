@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/28 11:50:59 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/03/29 13:43:37 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/03/29 15:58:58 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ Account::Account(int initial_deposit)
 
 Account::~Account(void)
 {
+	_displayTimestamp();
 	std::cout << "index:" << _accountIndex << ";";
 	std::cout << "amount:" << _amount << ";closed" << std::endl;
 }
@@ -139,6 +140,5 @@ void		Account::_displayTimestamp(void)
 
 Account::Account(void)
 {
-	//禁断のコンストラクタ二度打ち。なんのために存在してる？？？？？？
 }
 
