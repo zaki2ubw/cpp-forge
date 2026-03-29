@@ -6,11 +6,12 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 14:09:49 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/03/23 14:57:12 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/03/29 16:18:57 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iomanip>
+#include <cstdlib>
 #include "phonebook.hpp"
 
 
@@ -117,7 +118,8 @@ void	PhoneBook::addContact(void)
 	for (int index = 0; index < SIZE;)
 	{
 		std::cout << getPrompt(index) << std::endl;
-		getline(std::cin, input);
+		if (!getline(std::cin, input))
+			break ;
 		if (contacts[_nextRow].addColumn(index, input) == true)
 			index++;
 		else
@@ -146,7 +148,8 @@ void	PhoneBook::searchContact(void)
 		displaySeparate();
 	}
 	std::cout << "Please select Index" << std::endl;
-	getline(std::cin, input);
+	if (!getline(std::cin, input))
+		return ;
 	index = getIndex(input);
 	if (index < 0 || index >= _registered)
 	{
