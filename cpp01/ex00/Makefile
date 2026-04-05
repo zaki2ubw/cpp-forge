@@ -6,7 +6,7 @@
 #    By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/04 11:42:43 by sohyamaz          #+#    #+#              #
-#    Updated: 2026/04/04 11:44:29 by sohyamaz         ###   ########.fr        #
+#    Updated: 2026/04/05 11:33:26 by sohyamaz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = summon_zombie
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
 
-SRCS = Zombie.cpp newZombie.cpp randomChump.cpp
+SRCS = main.cpp Zombie.cpp newZombie.cpp randomChump.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
