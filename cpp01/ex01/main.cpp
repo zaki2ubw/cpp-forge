@@ -6,12 +6,24 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 14:44:08 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/04/05 16:41:21 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/04/05 16:50:20 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Zombie.hpp"
 #include <cstdlib>
+
+namespace {
+	bool	isOnlySpace(const std::string& str)
+	{
+		for (size_t i = 0; i < str.size(); i++)
+		{
+			if (!std::isspace(static_cast<unsigned char>(str[i])))
+				return (false);
+		}
+		return (true);
+	}
+}
 
 int	main(void)
 {
@@ -24,7 +36,7 @@ int	main(void)
 	char*				endptr;
 
 	std::cout << askSize << std::endl << ">";
-	if (!getline(std::cin, tmpStr))
+	if (!getline(std::cin, tmpStr) || tmpStr.empty() || isOnlySpace(tmpStr))
 		return 1;
 	std::cout << std::endl;
 	hordeSize = static_cast<int>(std::strtol(tmpStr.c_str(), &endptr, 10));
