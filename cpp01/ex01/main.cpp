@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 14:44:08 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/04/05 16:30:26 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/04/05 16:41:21 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,23 @@ int	main(void)
 	std::string			tmpStr;
 	char*				endptr;
 
-	std::cout << askSize << std::endl;
-	std::cout << ">";
+	std::cout << askSize << std::endl << ">";
 	if (!getline(std::cin, tmpStr))
 		return 1;
 	std::cout << std::endl;
 	hordeSize = static_cast<int>(std::strtol(tmpStr.c_str(), &endptr, 10));
-	if (*endptr != '\0')
+	if (*endptr != '\0' || hordeSize < 0)
 		return 1;
-	std::cout << askName << std::endl;
-	std::cout << ">";
+	if (hordeSize == 0)
+	{
+		std::cout << "No Zombie sponed" << std::endl;
+		return 0;
+	}
+	std::cout << askName << std::endl << ">";
 	if (!getline(std::cin, hordeName))
 		return 1;
 	std::cout << std::endl;
 	horde = zombieHorde(hordeSize, hordeName);
-	if (!horde)
-		return 1;
 	for (int i = 0; i < hordeSize; i++)
 		horde[i].announce();
 	delete[] horde;
