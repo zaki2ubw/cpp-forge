@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 18:36:02 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/04/05 19:42:50 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/04/08 01:02:42 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ class Weapon
 	public :
 		Weapon(std::string weaponType);
 		~Weapon();
-		void	Weapon::setType(std::string param);
+		void				Weapon::setType(std::string param);
 		const std::string&	getType(void) const;
 
 	private :

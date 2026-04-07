@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   HumanA.hpp                                         :+:      :+:    :+:   */
+/*   HumanB.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/05 19:01:42 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/04/08 01:08:16 by sohyamaz         ###   ########.fr       */
+/*   Created: 2026/04/08 00:32:59 by sohyamaz          #+#    #+#             */
+/*   Updated: 2026/04/08 00:42:35 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Weapon.hpp"
 
-class HumanA
+HumanB::HumanB(std::string name)
 {
-	public :
-		HumanA(std::string name, weapon::weapon weaponREF);
-		~HumanA();
-		void	attack(void);
+	myName = name;
+}
 
-	private :
-		Weapon::Weapon	myWeapon;
-		std::string		myName;
+HumanB::~HumanB()
+{
+}
+
+void	HumanB::attack()
+{
+	std::string	msg = " attacks with their ";
+
+	std::cout << myName << msg << myWeapon.getType() << std::endl;
+	return ;
 }
