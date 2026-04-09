@@ -6,18 +6,20 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 18:36:02 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/04/08 01:02:42 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/04/09 23:26:19 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
+#pragma once
+
+#include <string>
 
 class Weapon
 {
 	public :
 		Weapon(std::string weaponType);
 		~Weapon();
-		void				Weapon::setType(std::string param);
+		void				setType(const std::string& param);
 		const std::string&	getType(void) const;
 
 	private :
