@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+
+# Vim
+*.swp
+*.swo
+*~
+
+# build files
+*.o
+*.a
+*.out
+
+# binaries（課題ごとに生成される）
+*/miniSed
+*/megaphone
+*/phonebook
+*/account
+*/violence
+*/*Test
+
+# logs（cpp00/ex02とか）
+*.log
+
+# sed output（今回のゴミ）
+*.replace

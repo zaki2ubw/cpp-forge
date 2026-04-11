@@ -6,11 +6,14 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 19:51:17 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/04/05 20:04:43 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/04/09 23:09:17 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
+
 #include "Weapon.hpp"
+#include <iostream>
 
 class HumanB
 {
@@ -18,9 +21,9 @@ class HumanB
 		HumanB(std::string name);
 		~HumanB();
 		void	attack();
-		void	setWeapon(std::string weaponName);
+		void	setWeapon(Weapon& weaponREF);
 
 	private :
-		Weapon::Weapon*	myWeapon;
+		Weapon*			myWeapon;
 		std::string		myName;
-}
+} ;

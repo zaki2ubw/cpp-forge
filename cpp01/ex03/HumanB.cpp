@@ -1,30 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   HumanA.cpp                                         :+:      :+:    :+:   */
+/*   HumanB.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/05 19:23:29 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/04/09 23:18:43 by sohyamaz         ###   ########.fr       */
+/*   Created: 2026/04/08 00:32:59 by sohyamaz          #+#    #+#             */
+/*   Updated: 2026/04/09 23:22:12 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "HumanA.hpp"
+#include "HumanB.hpp"
 
-HumanA::HumanA(std::string name, Weapon& weaponREF)
-	: myWeapon(weaponREF), myName(name)
+HumanB::HumanB(std::string name)
+	: myWeapon(NULL), myName(name)
 {
 }
 
-HumanA::~HumanA()
+HumanB::~HumanB()
 {
 }
 
-void	HumanA::attack()
+void	HumanB::attack()
 {
 	std::string	msg = " attacks with their ";
 
-	std::cout << myName << msg << myWeapon.getType() << std::endl;
+	if (myWeapon == NULL)
+	{
+		std::cout << myName << " has No Weapon, can't attack." << std::endl;
+		return ;
+	}
+	std::cout << myName << msg << myWeapon->getType() << std::endl;
+	return ;
+}
+
+void	HumanB::setWeapon(Weapon& weaponREF)
+{
+	myWeapon = &weaponREF;
 	return ;
 }

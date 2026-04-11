@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   HumanA.cpp                                         :+:      :+:    :+:   */
+/*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/05 19:23:29 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/04/09 23:18:43 by sohyamaz         ###   ########.fr       */
+/*   Created: 2026/04/10 15:27:22 by sohyamaz          #+#    #+#             */
+/*   Updated: 2026/04/10 15:31:17 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "HumanA.hpp"
+#include "utils.hpp"
 
-HumanA::HumanA(std::string name, Weapon& weaponREF)
-	: myWeapon(weaponREF), myName(name)
+bool	isOnlySpace(const std::string& str)
 {
-}
-
-HumanA::~HumanA()
-{
-}
-
-void	HumanA::attack()
-{
-	std::string	msg = " attacks with their ";
-
-	std::cout << myName << msg << myWeapon.getType() << std::endl;
-	return ;
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		if (!std::isspace(static_cast<unsigned char>(str[i])))
+			return false;
+	}
+	return true;
 }

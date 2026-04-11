@@ -1,30 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   HumanA.cpp                                         :+:      :+:    :+:   */
+/*   sed.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/05 19:23:29 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/04/09 23:18:43 by sohyamaz         ###   ########.fr       */
+/*   Created: 2026/04/10 12:21:34 by sohyamaz          #+#    #+#             */
+/*   Updated: 2026/04/10 22:27:38 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "HumanA.hpp"
+#pragma once
 
-HumanA::HumanA(std::string name, Weapon& weaponREF)
-	: myWeapon(weaponREF), myName(name)
-{
-}
+#include <iostream>
+#include <string>
 
-HumanA::~HumanA()
-{
-}
-
-void	HumanA::attack()
-{
-	std::string	msg = " attacks with their ";
-
-	std::cout << myName << msg << myWeapon.getType() << std::endl;
-	return ;
-}
+std::string	sedSingleLine(
+		const std::string& line, const std::string& tgt, const std::string& rep);
