@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 14:03:30 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/04/11 14:28:34 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/04/11 14:43:18 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,20 @@ Harl::~Harl()
 
 void	Harl::complain(std::string state)
 {
-	Harl::(void)funcp *(void) = {debug(), info(), warning(), error()};
-	std::string[] level = {"DEBUG", "INFO", "WARNING", "ERROR"}
-	typedef	std::pair<level::iterator, msg::iterator>
-	while (state[i] != level[i])
+	void(Harl::*funcp[])(void);
+	size_t	levels[];
+
+	funcp[0] = &Harl::debug();
+	funcp[1] = &Harl::info();
+	funcp[2] = &Harl::warning();
+	funcp[3] = &Harl::error();
+	levels[0] = "DEBUG";
+	levels[1] = "INFO";
+	levels[2] = "WARNING";
+	levels[3] = "ERROR";
+	while (state != level[i])
 		i++;
-	func[i]();
+	Harl.funcp[i]();
 	return ;
 }
 
