@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 07:49:20 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/04/25 09:17:53 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/04/25 19:36:29 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@ class Fixed
 	public :
 		Fixed();
 		~Fixed();
-		//copyConstructor
 		Fixed(const Fixed& src);
-		//operatorOverLoder
+		Fixed&				operator=(const Fixed& src);
 		int					getRawBits(void) const;
 		void				setRawBits(int const raw);
 	private :
