@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 07:49:20 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/04/26 18:22:45 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/04/27 22:16:01 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,22 @@ class Fixed
 		Fixed				operator-(const Fixed& subtract) const;
 		Fixed				operator*(const Fixed& multiplicate) const ;
 		Fixed				operator/(const Fixed& divide) const;
-		Fixed				operator++(void);
-		Fixed&				operator++(int);
-		Fixed				operator--(void);
-		Fixed&				operator--(int);
+		Fixed&				operator++(void);
+		Fixed				operator++(int);
+		Fixed&				operator--(void);
+		Fixed				operator--(int);
 
 		//function
 		int					getRawBits(void) const;
 		void				setRawBits(int const raw);
 		float				toFloat(void) const;
 		int					toInt(void) const;
+
+		//static function
+		static Fixed&		min(Fixed& first, Fixed& second);
+		static const Fixed&	min(const Fixed& first, const Fixed& second);
+		static Fixed&		max(Fixed& first, Fixed& second);
+		static const Fixed&	max(const Fixed& first, const Fixed& second);
 
 	private :
 		int					fixedPointValue;

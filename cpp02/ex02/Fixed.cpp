@@ -6,12 +6,13 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 08:02:43 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/04/26 18:36:42 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/04/27 22:40:23 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <cmath>
+#include <cstdlib>
 #include "Fixed.hpp"
 
 const int	Fixed::fractBit = 8;
@@ -20,31 +21,26 @@ const int	Fixed::bitShift = 1 << fractBit;
 Fixed::Fixed()
 	: fixedPointValue(0)
 {
-	std::cout << "Default constructor called" << std::endl;
 }
 
 Fixed::Fixed(const int intVal)
 	: fixedPointValue(0)
 {
-	std::cout << "Int constructor called" << std::endl;
 	this->fixedPointValue = intVal * bitShift;
 }
 
 Fixed::Fixed(const float floatVal)
 	: fixedPointValue(0)
 {
-	std::cout << "Float constructor called" << std::endl;
 	this->fixedPointValue = static_cast<int>(roundf(floatVal * bitShift));
 }
 
 Fixed::~Fixed()
 {
-	std::cout << "Destructor called" << std::endl;
 }
 
 Fixed::Fixed(const Fixed& src)
 {
-	std::cout << "Copy constructor called" << std::endl;
 	this->fixedPointValue = src.getRawBits();
 }
 
@@ -72,11 +68,11 @@ bool	Fixed::operator!=(const Fixed& target) const
 }
 
 bool	Fixed::operator>(const Fixed& target) const
+{
 	if (this->fixedPointValue > target.fixedPointValue)
 		return true;
 	else
 		return false;
-{
 }
 
 bool	Fixed::operator<(const Fixed& target) const
@@ -115,57 +111,63 @@ Fixed	Fixed::operator-(const Fixed& subtract) const
 {
 	Fixed	result;
 
-	result.fixedPointValue = this->fixedPointValue - add.fixedPointValue;
+	result.fixedPointValue = this->fixedPointValue - subtract.fixedPointValue;
 	return result;
 }
 
 Fixed	Fixed::operator*(const Fixed& multiplicate) const
 {
-	Fixed	result;
+	float	realThisValue = this->toFloat();
+	float	realMultiValue = multiplicate.toFloat();
+	Fixed	result(realThisValue * realMultiValue);
 
-	result.fixedPointValue = this->fixedPointValue * add.fixedPointValue;
 	return result;
 }
 
 Fixed	Fixed::operator/(const Fixed& divide) const
 {
-	Fixed	result;
+	if (divide.getRawBits()	== 0)
+	{
+		std::cerr << "Division by 0 is Taboo. It has no answer" << std::endl;
+		exit(EXIT_FAILURE);
+	}
+	float	realThisValue = this->toFloat();
+	float	realDivideValue = divide.toFloat();
+	Fixed	result(realThisValue / realDivideValue);
 
-	result.fixedPointValue = this->fixedPointValue / add.fixedPointValue;
 	return result;
 }
 
-Fixed	Fixed::operator++(void)
+Fixed&	Fixed::operator++(void)
 {
-	this->fixedPointValue + 1;
+	this->fixedPointValue += 1;
 	return *this;
 }
 
-Fixed&	Fixed::operator++(int)
+Fixed	Fixed::operator++(int)
 {
-	Fixed&	result = this;
+	Fixed	copy(*this);
 
-	result.fixedPointValue + 1;
-	return result;
+	this->fixedPointValue += 1;
+	return copy;
 }
 
-Fixed	Fixed::operator--(void)
+Fixed&	Fixed::operator--(void)
 {
-	this->fixedPointValue + 1;
+	this->fixedPointValue -= 1;
 	return *this;
 }
 
-Fixed&	Fixed::operator--(int)
+Fixed	Fixed::operator--(int)
 {
-	Fixed&	result = this;
+	Fixed	copy(*this);
 
-	result.fixedPointValue - 1;
-	return result;
+	this->fixedPointValue -= 1;
+	return copy;
 }
 
 int		Fixed::getRawBits(void) const
 {
-	std::cout << "getRawBits member function called" << std::endl;
 	return (this->fixedPointValue);
 }
 
@@ -189,6 +191,38 @@ int		Fixed::toInt(void) const
 
 	val = this->fixedPointValue / bitShift;
 	return val;
+}
+
+Fixed&	Fixed::min(Fixed& first, Fixed& second)
+{
+	if (first <= second)
+		return first;
+	else
+		return second;
+}
+
+const Fixed&	Fixed::min(const Fixed& first, const Fixed& second)
+{
+	if (first <= second)
+		return first;
+	else
+		return second;
+}
+
+Fixed&	Fixed::max(Fixed& first, Fixed& second)
+{
+	if (first >= second)
+		return first;
+	else
+		return second;
+}
+
+const Fixed&	Fixed::max(const Fixed& first, const Fixed& second)
+{
+	if (first >= second)
+		return first;
+	else
+		return second;
 }
 
 std::ostream&	operator<<(std::ostream& os, const Fixed& src)
