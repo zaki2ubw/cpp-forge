@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 08:02:43 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/02 17:32:46 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/02 17:38:12 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 const int	Fixed::bitShift = 1 << Fixed::fractBit;
 const int	Fixed::maxIntInput = std::numeric_limits<int>::max() >> Fixed::fractBit;
 const int	Fixed::minIntInput = std::numeric_limits<int>::min() >> Fixed::fractBit;
-const float	Fixed::maxFloatInput = std::numeric_limits<float>::max() >> Fixed::fractBit;
-const float	Fixed::minFloatInput = std::numeric_limits<float>::min() >> Fixed::fractBit;
+const float	Fixed::maxFloatInput = std::numeric_limits<float>::max() / bitShift;
+const float	Fixed::minFloatInput = std::numeric_limits<float>::min() / bitShift;
 
 std::ostream&	operator<<(std::ostream& os, const Fixed& src)
 {
@@ -77,7 +77,6 @@ Fixed&	Fixed::operator=(const Fixed& src)
 
 int		Fixed::getRawBits(void) const
 {
-	std::cout << "getRawBits member function called" << std::endl;
 	return (this->_rawBit);
 }
 

@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 07:49:20 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/04/25 19:36:29 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/02 16:00:09 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ class Fixed
 		int					getRawBits(void) const;
 		void				setRawBits(int const raw);
 	private :
-		int					fixedPointValue;
+		int					_rawBit;
 		static const int	fractBit;
 };

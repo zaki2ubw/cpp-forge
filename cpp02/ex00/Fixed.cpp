@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 08:02:43 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/02 15:44:23 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/02 16:00:30 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 const int	Fixed::fractBit = 8;
 
 Fixed::Fixed()
-	: fixedPointValue(0)
+	: _rawBit(0)
 {
 	std::cout << "Default constructor called" << std::endl;
 }
@@ -36,18 +36,18 @@ Fixed&	Fixed::operator=(const Fixed& src)
 {
 	std::cout << "Copy assignment operator called" << std::endl;
 	if (this != &src)
-		this->fixedPointValue = src.getRawBits();
+		this->_rawBit = src.getRawBits();
 	return (*this);
 }
 
 int		Fixed::getRawBits(void) const
 {
 	std::cout << "getRawBits member function called" << std::endl;
-	return (this->fixedPointValue);
+	return (this->_rawBit);
 }
 
 void	Fixed::setRawBits(int const raw)
 {
-	this->fixedPointValue = raw;
+	this->_rawBit = raw;
 	return ;
 }
