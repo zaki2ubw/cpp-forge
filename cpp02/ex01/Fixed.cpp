@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 08:02:43 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/02 17:27:18 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/02 17:32:46 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 #include <cmath>
 #include "Fixed.hpp"
 
-const int	Fixed::bitShift = 1 << Fixed::flactBit;
-const int	Fixed::maxIntInput = std::numeric_limits<int>::max() >> Fixed::flactBit;
-const int	Fixed::minIntInput = std::numeric_limits<int>::min() >> Fixed::flactBit;
-const float	Fixed::maxFloatInput = std::numeric_limits<float>::max() >> Fixed::flactBit;
-const float	Fixed::minFloatInput = std::numeric_limits<float>::min() >> Fixed::flactBit;
+const int	Fixed::bitShift = 1 << Fixed::fractBit;
+const int	Fixed::maxIntInput = std::numeric_limits<int>::max() >> Fixed::fractBit;
+const int	Fixed::minIntInput = std::numeric_limits<int>::min() >> Fixed::fractBit;
+const float	Fixed::maxFloatInput = std::numeric_limits<float>::max() >> Fixed::fractBit;
+const float	Fixed::minFloatInput = std::numeric_limits<float>::min() >> Fixed::fractBit;
 
 std::ostream&	operator<<(std::ostream& os, const Fixed& src)
 {

@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 07:49:20 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/02 17:27:16 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/02 17:31:48 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ class Fixed
 		float				toFloat(void) const;
 		int					toInt(void) const;
 	private :
-		int					_rawBits;
+		int					_rawBit;
 		static const int	fractBit = 8;
 		static const int	bitShift;
 		static const int	maxIntInput;
