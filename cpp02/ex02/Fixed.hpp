@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 07:49:20 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/04/27 22:16:01 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/02 17:52:12 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 class Fixed
 {
 	public :
-		//constructor/destructor
+		//Constructor&Destructor
 		Fixed();
-		Fixed(const int	intVal);
-		Fixed(const float floatVal);
-		~Fixed();
+		explicit Fixed(const int intVal);
+		explicit Fixed(const float floatVal);
 		Fixed(const Fixed& src);
+		~Fixed();
 
 		//overlodedOperator
 		Fixed&				operator=(const Fixed& src);
@@ -54,9 +54,13 @@ class Fixed
 		static const Fixed&	max(const Fixed& first, const Fixed& second);
 
 	private :
-		int					fixedPointValue;
-		static const int	fractBit;
+		int					_rawBit;
+		static const int	fractBit = 8;
 		static const int	bitShift;
+		static const int	maxIntInput;
+		static const int	minIntInput;
+		static const float	maxFloatInput;
+		static const float	minFloatInput;
 };
 
 std::ostream&	operator<<(std::ostream& os, const Fixed& src);
