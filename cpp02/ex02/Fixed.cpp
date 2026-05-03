@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 08:02:43 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/03 15:31:00 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/03 16:37:45 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@
 #include "Fixed.hpp"
 
 const int	Fixed::bitShift = 1 << Fixed::fractBit;
-const float	Fixed::maxFloatInput = std::numeric_limits<float>::max() / bitShift;
-const float	Fixed::minFloatInput = std::numeric_limits<float>::min() / bitShift;
+const float	Fixed::maxFloatInput =\
+	static_cast<float>(std::numeric_limits<int>::max() / bitShift);
+const float	Fixed::minFloatInput =\
+	static_cast<float>(std::numeric_limits<int>::min() / bitShift);
 const int	Fixed::maxIntInput = std::numeric_limits<int>::max() / bitShift;
 const int	Fixed::minIntInput = std::numeric_limits<int>::min() / bitShift;
-static bool	willMulOverFlow(int	left, int right);
+static bool	willMulOverFlow(int left, int right);
 static bool	willAddOverFlow(int left, int right);
 
 Fixed::Fixed()
@@ -125,6 +127,10 @@ Fixed	Fixed::operator+(const Fixed& add) const
 
 Fixed	Fixed::operator-(const Fixed& subtract) const
 {
+	if (subtract.getRawBits() == std::numeric_limits<int>::min())
+		throw std::overflow_error("Fixed subtraction overflow");
+	if (willAddOverFlow(this->_rawBit, -subtract.getRawBits()))
+		throw std::overflow_error("Fixed subtraction overflow");
 	Fixed	result;
 
 	result._rawBit = this->_rawBit - subtract._rawBit;
@@ -156,10 +162,15 @@ Fixed	Fixed::operator*(const Fixed& multiplicate) const
 Fixed	Fixed::operator/(const Fixed& divide) const
 {
 	if (divide.getRawBits()	== 0)
-		throw std::invalid_argument("0 division");
+		throw std::invalid_argument("Fixed division by 0");
 	if (this->_rawBit == 0)
 		return Fixed(0);
-	int resultRaw = (this->_rawBit / divide.getRawBits()) / bitShift;
+	if (willMulOverFlow(this->_rawBit, bitShift))
+		throw std::overflow_error("Fixed division overflow");
+	int numerator = this->_rawBit * bitShift;
+	if (numerator == std::numeric_limits<int>::min() && divide.getRawBits() == -1)
+		throw std::overflow_error("Fixed division overflow");
+	int resultRaw = numerator / divide.getRawBits();
 	Fixed	result;
 	result.setRawBits(resultRaw);
 	return result;
@@ -167,12 +178,16 @@ Fixed	Fixed::operator/(const Fixed& divide) const
 
 Fixed&	Fixed::operator++(void)
 {
+	if (willAddOverFlow(this->_rawBit, 1))
+		throw std::overflow_error("Fixed increment overflow");
 	this->_rawBit += 1;
 	return *this;
 }
 
 Fixed	Fixed::operator++(int)
 {
+	if (willAddOverFlow(this->_rawBit, 1))
+		throw std::overflow_error("Fixed increment overflow");
 	Fixed	copy(*this);
 
 	this->_rawBit += 1;
@@ -181,12 +196,16 @@ Fixed	Fixed::operator++(int)
 
 Fixed&	Fixed::operator--(void)
 {
+	if (willAddOverFlow(this->_rawBit, -1))
+		throw std::overflow_error("Fixed decrement overflow");
 	this->_rawBit -= 1;
 	return *this;
 }
 
 Fixed	Fixed::operator--(int)
 {
+	if (willAddOverFlow(this->_rawBit, -1))
+		throw std::overflow_error("Fixed decrement overflow");
 	Fixed	copy(*this);
 
 	this->_rawBit -= 1;
@@ -292,7 +311,7 @@ static bool	willAddOverFlow(int left, int right)
 
 	if (right > 0)
 		return left > intMax - right;
-	else
+	if (right < 0)
 		return left < intMin - right;
 	return false;
 }

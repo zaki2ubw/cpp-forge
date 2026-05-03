@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 09:08:44 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/03 15:06:43 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/03 17:01:18 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,175 +35,211 @@ int		main(void)
 	}
 	return 0;
 }
-//---testcases---
-//#include <string>
+////Testcases
+//#include <iostream>
+//#include <limits>
+//#include <stdexcept>
+//#include "Fixed.hpp"
 //
-//static void	section(const std::string& title)
+//static void section(const std::string& title)
 //{
-//	std::cout << "\n==================================================" << std::endl;
-//	std::cout << title << std::endl;
-//	std::cout << "==================================================" << std::endl;
+//	std::cout << "\n==================================================\n";
+//	std::cout << title << "\n";
+//	std::cout << "==================================================\n";
 //}
 //
-//static void	caseLine(const std::string& expr,
-//					const Fixed& actual,
-//					const std::string& expected)
+//static Fixed raw(int n)
 //{
-//	std::cout << "[CASE] " << expr << std::endl;
-//	std::cout << "  actual   : " << actual << std::endl;
-//	std::cout << "  expected : " << expected << std::endl;
-//	std::cout << std::endl;
+//	Fixed f;
+//	f.setRawBits(n);
+//	return f;
 //}
 //
-//static void	boolLine(const std::string& expr, bool actual, bool expected)
+//static void expectRawExplain(const std::string& name, const std::string& formula,
+//							 const Fixed& actual, int expectedRaw)
 //{
-//	std::cout << "[CASE] " << expr << std::endl;
-//	std::cout << "  actual   : " << (actual ? "true" : "false") << std::endl;
-//	std::cout << "  expected : " << (expected ? "true" : "false") << std::endl;
-//	std::cout << std::endl;
+//	if (actual.getRawBits() == expectedRaw)
+//		std::cout << "[OK] " << name << "\n";
+//	else
+//		std::cout << "[NG] " << name << "\n";
+//	std::cout << "  formula  : " << formula << "\n";
+//	std::cout << "  actual   : raw=" << actual.getRawBits()
+//			  << ", value=" << actual << "\n";
+//	std::cout << "  expected : raw=" << expectedRaw << "\n\n";
 //}
 //
-//int	main(void)
+//static void expectThrowExplain(const std::string& name, const std::string& formula,
+//							   void (*f)(void))
 //{
-//	section("01. SUBJECT SAMPLE");
+//	try {
+//		f();
+//		std::cout << "[NG] " << name << "\n";
+//		std::cout << "  formula  : " << formula << "\n";
+//		std::cout << "  actual   : no throw\n";
+//		std::cout << "  expected : throw\n\n";
+//	}
+//	catch (const std::exception& e) {
+//		std::cout << "[OK] " << name << "\n";
+//		std::cout << "  formula  : " << formula << "\n";
+//		std::cout << "  actual   : threw: " << e.what() << "\n";
+//		std::cout << "  expected : throw\n\n";
+//	}
+//}
 //
-//	Fixed a;
-//	Fixed const b(Fixed(5.05f) * Fixed(2));
+//static void expectNoThrowExplain(const std::string& name, const std::string& formula,
+//								 void (*f)(void))
+//{
+//	try {
+//		f();
+//		std::cout << "[OK] " << name << "\n";
+//		std::cout << "  formula  : " << formula << "\n";
+//		std::cout << "  actual   : no throw\n";
+//		std::cout << "  expected : no throw\n\n";
+//	}
+//	catch (const std::exception& e) {
+//		std::cout << "[NG] " << name << "\n";
+//		std::cout << "  formula  : " << formula << "\n";
+//		std::cout << "  actual   : threw: " << e.what() << "\n";
+//		std::cout << "  expected : no throw\n\n";
+//	}
+//}
 //
-//	caseLine("a", a, "0");
-//	caseLine("++a", ++a, "0.00390625");
-//	caseLine("a", a, "0.00390625");
-//	caseLine("a++", a++, "0.00390625");
-//	caseLine("a", a, "0.0078125");
-//	caseLine("b = Fixed(5.05f) * Fixed(2)", b, "10.1016");
-//	caseLine("Fixed::max(a, b)", Fixed::max(a, b), "10.1016");
+///* constructor */
+//static void ctorIntMaxThrow(void) { Fixed x(std::numeric_limits<int>::max()); (void)x; }
+//static void ctorIntMinThrow(void) { Fixed x(std::numeric_limits<int>::min()); (void)x; }
+//static void ctorIntMaxSafe(void) { Fixed x(std::numeric_limits<int>::max() / 256); (void)x; }
+//static void ctorIntMinSafe(void) { Fixed x(std::numeric_limits<int>::min() / 256); (void)x; }
+//static void ctorFloatInf(void) { Fixed x(std::numeric_limits<float>::infinity()); (void)x; }
+//static void ctorFloatNInf(void) { Fixed x(-std::numeric_limits<float>::infinity()); (void)x; }
+//static void ctorFloatNaN(void) { Fixed x(std::numeric_limits<float>::quiet_NaN()); (void)x; }
 //
-//	section("02. COMPARISON");
+///* add/sub */
+//static void addMaxOverflow(void) { Fixed x = raw(std::numeric_limits<int>::max()); Fixed y = raw(1); (void)(x + y); }
+//static void addMinOverflow(void) { Fixed x = raw(std::numeric_limits<int>::min()); Fixed y = raw(-1); (void)(x + y); }
+//static void subMinNegationOverflow(void) { Fixed x = raw(0); Fixed y = raw(std::numeric_limits<int>::min()); (void)(x - y); }
+//static void subMaxOverflow(void) { Fixed x = raw(std::numeric_limits<int>::max()); Fixed y = raw(-1); (void)(x - y); }
 //
-//	Fixed x(10);
-//	Fixed y(10);
-//	Fixed z(20);
+///* mul */
+//static void mulHugePositiveOverflow(void) { Fixed x = raw(std::numeric_limits<int>::max()); Fixed y = raw(512); (void)(x * y); }
+//static void mulHugeNegativeOverflow(void) { Fixed x = raw(std::numeric_limits<int>::min()); Fixed y = raw(-256); (void)(x * y); }
 //
-//	std::cout << "input: x=10, y=10, z=20\n" << std::endl;
+///* div */
+//static void divByZero(void) { Fixed x(1); Fixed y; (void)(x / y); }
+//static void divNumeratorOverflow(void) { Fixed x = raw(std::numeric_limits<int>::max()); Fixed y = raw(256); (void)(x / y); }
+//static void divIntMinByMinusOne(void) { Fixed x = raw(std::numeric_limits<int>::min() / 256); Fixed y = raw(-1); (void)(x / y); }
 //
-//	boolLine("x == y", x == y, true);
-//	boolLine("x != y", x != y, false);
-//	boolLine("x < z", x < z, true);
-//	boolLine("z > x", z > x, true);
-//	boolLine("x <= y", x <= y, true);
-//	boolLine("x >= y", x >= y, true);
-//	boolLine("z <= x", z <= x, false);
-//	boolLine("x >= z", x >= z, false);
+///* inc/dec */
+//static void incOverflow(void) { Fixed x = raw(std::numeric_limits<int>::max()); ++x; }
+//static void decOverflow(void) { Fixed x = raw(std::numeric_limits<int>::min()); --x; }
 //
-//	section("03. ARITHMETIC");
+//int main(void)
+//{
+//	section("01. CONSTRUCTOR BORDER");
 //
-//	Fixed p(5.5f);
-//	Fixed q(2);
+//	expectNoThrowExplain("int max safe",
+//		"Fixed(INT_MAX / 256) -> raw=(INT_MAX / 256) * 256, safe",
+//		ctorIntMaxSafe);
+//	expectNoThrowExplain("int min safe",
+//		"Fixed(INT_MIN / 256) -> raw=(INT_MIN / 256) * 256, safe",
+//		ctorIntMinSafe);
+//	expectThrowExplain("int max overflow",
+//		"Fixed(INT_MAX) -> INT_MAX * 256 overflows",
+//		ctorIntMaxThrow);
+//	expectThrowExplain("int min overflow",
+//		"Fixed(INT_MIN) -> INT_MIN * 256 overflows",
+//		ctorIntMinThrow);
+//	expectThrowExplain("float +inf",
+//		"infinity cannot be converted to finite raw",
+//		ctorFloatInf);
+//	expectThrowExplain("float -inf",
+//		"-infinity cannot be converted to finite raw",
+//		ctorFloatNInf);
+//	expectThrowExplain("float NaN",
+//		"NaN is not a valid numeric value",
+//		ctorFloatNaN);
 //
-//	std::cout << "input: p=5.5, q=2\n" << std::endl;
+//	section("02. NORMAL RAW RESULTS");
 //
-//	caseLine("p + q", p + q, "7.5");
-//	caseLine("p - q", p - q, "3.5");
-//	caseLine("p * q", p * q, "11");
-//	caseLine("p / q", p / q, "2.75");
+//	expectRawExplain("Fixed(1) raw",
+//		"1 * 256 = 256",
+//		Fixed(1), 256);
+//	expectRawExplain("Fixed(-1) raw",
+//		"-1 * 256 = -256",
+//		Fixed(-1), -256);
+//	expectRawExplain("1.5 * 1.5",
+//		"(384 * 384) / 256 = 576",
+//		Fixed(1.5f) * Fixed(1.5f), 576);
+//	expectRawExplain("6 / 3",
+//		"(1536 * 256) / 768 = 512",
+//		Fixed(6) / Fixed(3), 512);
+//	expectRawExplain("-6 / 3",
+//		"(-1536 * 256) / 768 = -512",
+//		Fixed(-6) / Fixed(3), -512);
+//	expectRawExplain("-6 / -3",
+//		"(-1536 * 256) / -768 = 512",
+//		Fixed(-6) / Fixed(-3), 512);
+//	expectRawExplain("5 + -2",
+//		"1280 + -512 = 768",
+//		Fixed(5) + Fixed(-2), 768);
+//	expectRawExplain("5 - 2",
+//		"1280 - 512 = 768",
+//		Fixed(5) - Fixed(2), 768);
 //
-//	section("04. NEGATIVE VALUES");
+//	section("03. ADD / SUB OVERFLOW");
 //
-//	Fixed n1(-3.5f);
-//	Fixed n2(2);
+//	expectThrowExplain("INT_MAX raw + 1",
+//		"INT_MAX + 1 overflows int",
+//		addMaxOverflow);
+//	expectThrowExplain("INT_MIN raw + -1",
+//		"INT_MIN - 1 overflows int",
+//		addMinOverflow);
+//	expectThrowExplain("0 - INT_MIN raw",
+//		"0 - INT_MIN requires -INT_MIN, which overflows",
+//		subMinNegationOverflow);
+//	expectThrowExplain("INT_MAX raw - -1",
+//		"INT_MAX - (-1) = INT_MAX + 1, overflow",
+//		subMaxOverflow);
 //
-//	std::cout << "input: n1=-3.5, n2=2\n" << std::endl;
+//	section("04. MUL OVERFLOW / EDGE");
 //
-//	caseLine("n1 + n2", n1 + n2, "-1.5");
-//	caseLine("n1 - n2", n1 - n2, "-5.5");
-//	caseLine("n1 * n2", n1 * n2, "-7");
-//	caseLine("n1 / n2", n1 / n2, "-1.75");
+//	expectThrowExplain("INT_MAX raw * 2.0",
+//		"(INT_MAX * 512) / 256 exceeds int",
+//		mulHugePositiveOverflow);
+//	expectThrowExplain("INT_MIN raw * -1.0",
+//		"(INT_MIN * -256) / 256 = -INT_MIN, overflow",
+//		mulHugeNegativeOverflow);
+//	expectRawExplain("INT_MIN raw * tiny -1 raw",
+//		"(INT_MIN * -1) / 256 = 8388608, fits int",
+//		raw(std::numeric_limits<int>::min()) * raw(-1),
+//		8388608);
 //
-//	section("05. PREFIX / POSTFIX ++");
+//	section("05. DIV OVERFLOW / ZERO");
 //
-//	Fixed inc;
+//	expectThrowExplain("division by zero",
+//		"right raw is 0",
+//		divByZero);
+//	expectThrowExplain("division numerator overflow",
+//		"INT_MAX * 256 overflows before division",
+//		divNumeratorOverflow);
+//	expectThrowExplain("division INT_MIN / -1 guard",
+//		"numerator == INT_MIN and divisor == -1 overflows",
+//		divIntMinByMinusOne);
 //
-//	std::cout << "input: inc starts from 0\n" << std::endl;
+//	section("06. INC / DEC OVERFLOW");
 //
-//	caseLine("inc", inc, "0");
-//	caseLine("++inc", ++inc, "0.00390625");
-//	caseLine("inc after ++inc", inc, "0.00390625");
-//	caseLine("inc++", inc++, "0.00390625");
-//	caseLine("inc after inc++", inc, "0.0078125");
+//	expectThrowExplain("++INT_MAX raw",
+//		"INT_MAX + 1 overflows",
+//		incOverflow);
+//	expectThrowExplain("--INT_MIN raw",
+//		"INT_MIN - 1 overflows",
+//		decOverflow);
 //
-//	section("06. PREFIX / POSTFIX --");
+//	section("07. EXPLICIT COMPILE TEST");
 //
-//	Fixed dec(1);
-//
-//	std::cout << "input: dec starts from 1\n" << std::endl;
-//
-//	caseLine("dec", dec, "1");
-//	caseLine("--dec", --dec, "0.996094");
-//	caseLine("dec after --dec", dec, "0.996094");
-//	caseLine("dec--", dec--, "0.996094");
-//	caseLine("dec after dec--", dec, "0.992188");
-//
-//	section("07. MIN / MAX");
-//
-//	Fixed m1(1);
-//	Fixed m2(2);
-//	Fixed m3(2);
-//
-//	std::cout << "input: m1=1, m2=2, m3=2\n" << std::endl;
-//
-//	caseLine("Fixed::min(m1, m2)", Fixed::min(m1, m2), "1");
-//	caseLine("Fixed::max(m1, m2)", Fixed::max(m1, m2), "2");
-//	caseLine("Fixed::min(m2, m3)", Fixed::min(m2, m3), "2");
-//	caseLine("Fixed::max(m2, m3)", Fixed::max(m2, m3), "2");
-//
-//	section("08. MIN RETURNS REFERENCE");
-//
-//	Fixed r1(1);
-//	Fixed r2(2);
-//
-//	std::cout << "before: r1=" << r1 << ", r2=" << r2 << std::endl;
-//	std::cout << "operation: Fixed::min(r1, r2) = Fixed(42)" << std::endl;
-//
-//	Fixed::min(r1, r2) = Fixed(42);
-//
-//	std::cout << "after : r1=" << r1 << "  expected: 42" << std::endl;
-//	std::cout << "after : r2=" << r2 << "  expected: 2" << std::endl;
-//
-//	section("09. CONST MIN / MAX");
-//
-//	const Fixed c1(100);
-//	const Fixed c2(200);
-//
-//	std::cout << "input: const c1=100, const c2=200\n" << std::endl;
-//
-//	caseLine("Fixed::min(c1, c2)", Fixed::min(c1, c2), "100");
-//	caseLine("Fixed::max(c1, c2)", Fixed::max(c1, c2), "200");
-//
-//	std::cout << "// Fixed::min(c1, c2) = Fixed(999);" << std::endl;
-//	std::cout << "// This should NOT compile because const overload returns const Fixed&." << std::endl;
-//
-//	section("10. RAW / CONVERSION");
-//
-//	Fixed rawTest(42.42f);
-//
-//	caseLine("rawTest", rawTest, "42.4219");
-//	std::cout << "[CASE] rawTest.toInt()" << std::endl;
-//	std::cout << "  actual   : " << rawTest.toInt() << std::endl;
-//	std::cout << "  expected : 42" << std::endl;
-//	std::cout << std::endl;
-//
-//	std::cout << "[CASE] rawTest.getRawBits()" << std::endl;
-//	std::cout << "  actual   : " << rawTest.getRawBits() << std::endl;
-//	std::cout << "  expected : 10860" << std::endl;
-//	std::cout << std::endl;
-//
-//	section("11. DIVISION BY ZERO");
-//
-//	std::cout << "This case is intentionally commented out." << std::endl;
-//	std::cout << "The subject says crashing on division by zero is acceptable." << std::endl;
-//
-//	//Fixed zero(0);
-//	//std::cout << p / zero << std::endl;
+//	std::cout << "Uncomment these. They should NOT compile if constructors are explicit:\n";
+//	std::cout << "// Fixed a = 1;\n";
+//	std::cout << "// Fixed b = 1.5f;\n";
+//	std::cout << "// void f(Fixed x); f(1);\n";
 //
 //	return 0;
 //}
