@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 07:49:20 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/03 15:21:47 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/03 15:31:11 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,6 @@ class Fixed
 		int					_rawBit;
 		static const int	fractBit = 8;
 		static const int	bitShift;
-		static const int	intMax;
-		static const int	intMin;
-		static const float	floatMax;
-		static const float	floatMin;
 		static const int	maxIntInput;
 		static const int	minIntInput;
 		static const float	maxFloatInput;

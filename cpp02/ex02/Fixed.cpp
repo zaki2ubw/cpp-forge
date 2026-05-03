@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 08:02:43 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/03 15:23:50 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/03 15:31:00 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,10 @@
 #include "Fixed.hpp"
 
 const int	Fixed::bitShift = 1 << Fixed::fractBit;
-const int	Fixed::intMax = std::numeric_limits<int>::max();
-const int	Fixed::intMin = std::numeric_limits<int>::min();
-const float	Fixed::floatMax = std::numeric_limits<float>::max();
-const float	Fixed::floatMin = std::numeric_limits<float>::min();
-const int	Fixed::maxIntInput = Fixed::intMax >> Fixed::fractBit;
-const int	Fixed::minIntInput = Fixed::intMin >> Fixed::fractBit;
-const float	Fixed::maxFloatInput = Fixed::floatMax / bitShift;
-const float	Fixed::minFloatInput = Fixed::floatMin / bitShift;
-
+const float	Fixed::maxFloatInput = std::numeric_limits<float>::max() / bitShift;
+const float	Fixed::minFloatInput = std::numeric_limits<float>::min() / bitShift;
+const int	Fixed::maxIntInput = std::numeric_limits<int>::max() / bitShift;
+const int	Fixed::minIntInput = std::numeric_limits<int>::min() / bitShift;
 static bool	willMulOverFlow(int	left, int right);
 static bool	willAddOverFlow(int left, int right);
 
@@ -265,6 +260,9 @@ std::ostream&	operator<<(std::ostream& os, const Fixed& src)
 
 static bool		willMulOverFlow(int left, int right)
 {
+	const int	intMax = std::numeric_limits<int>::max();
+	const int	intMin = std::numeric_limits<int>::min();
+
 	if (left == 0 || right == 0)
 		return false;
 	if (left == -1 && right == intMin)
@@ -289,6 +287,9 @@ static bool		willMulOverFlow(int left, int right)
 
 static bool	willAddOverFlow(int left, int right)
 {
+	const int	intMax = std::numeric_limits<int>::max();
+	const int	intMin = std::numeric_limits<int>::min();
+
 	if (right > 0)
 		return left > intMax - right;
 	else
