@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 14:29:51 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/04/29 16:32:55 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/03 17:26:18 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ Point::Point(const Point& src)
 
 Point&	Point::operator=(const Point& src)
 {
+	//Const value must not overRide
 	(void)src;
 	return *this;
 }
