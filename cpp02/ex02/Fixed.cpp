@@ -6,20 +6,28 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 08:02:43 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/02 18:53:00 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/03 15:18:18 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <cmath>
 #include <cstdlib>
+#include <limits>
 #include "Fixed.hpp"
 
 const int	Fixed::bitShift = 1 << Fixed::fractBit;
-const int	Fixed::maxIntInput = std::numeric_limits<int>::max() >> Fixed::fractBit;
-const int	Fixed::minIntInput = std::numeric_limits<int>::min() >> Fixed::fractBit;
-const float	Fixed::maxFloatInput = std::numeric_limits<float>::max() / bitShift;
-const float	Fixed::minFloatInput = std::numeric_limits<float>::min() / bitShift;
+const int	Fixed::intMax = std::numeric_limits<int>::max();
+const int	Fixed::intMin = std::numeric_limits<int>::min();
+const float	Fixed::floatMax = std::numeric_limits<float>::max();
+const float	Fixed::floatMin = std::numeric_limits<float>::min();
+const int	Fixed::maxIntInput = Fixed::intMax >> Fixed::fractBit;
+const int	Fixed::minIntInput = Fixed::intMin >> Fixed::fractBit;
+const float	Fixed::maxFloatInput = Fixed::floatMax / bitShift;
+const float	Fixed::minFloatInput = Fixed::floatMin / bitShift;
+
+static bool	willMulOverFlow(int	left, int right);
+static bool	willAddOverFlow(int left, int right);
 
 Fixed::Fixed()
 	: _rawBit(0)
@@ -113,9 +121,10 @@ bool	Fixed::operator<=(const Fixed& target) const
 
 Fixed	Fixed::operator+(const Fixed& add) const
 {
+	if (willAddOverFlow(this->_rawBit, add.getRawBits()))
+		throw std::overflow_error("Fixed Addition overflow");
 	Fixed	result;
-
-	result._rawBit = this->_rawBit + add._rawBit;
+	result.setRawBits(this->_rawBit + add.getRawBits());
 	return result;
 }
 
@@ -129,43 +138,35 @@ Fixed	Fixed::operator-(const Fixed& subtract) const
 
 Fixed	Fixed::operator*(const Fixed& multiplicate) const
 {
-	if (this->_rawBit == 0 || multiplicate.getRawBits() == 0)
-		return Fixed(0);
-	if (this->_rawBit > 0 && multiplicate.getRawBits() > 0)
-	{
-		if (INT_MAX / this->_rawBit < multiplicate.getRawBits())
-			throw std::overflow_error("Fixed float value overflow");
-	}
-	else if (this->_rawBit < 0 && multiplicate.getRawBits() < 0)
-	{
-		if (INT_MAX / this->_rawBit < multiplicate.getRawBits())
-			throw std::overflow_error("Fixed float value overflow");
-	}
-	else if (this->_rawBit > 0 && multiplicate.getRawBits() < 0)
-	{
-		if (INT_MIN / this->_rawBit < multiplicate.getRawBits())
-			throw std::overflow_error("Fixed float value overflow");
-	}
-	else if (this->_rawBit < 0 && multiplicate.getRawBits() > 0)
-	{
-		if (INT_MIN / this->_rawBit > multiplicate.getRawBits())
-			throw std::overflow_error("Fixed float value overflow");
-	}
-	Fixed	result((this->_rawBit * multiplicate.getRawBits()) / bitShift);
+	int	left_raw = this->_rawBit;
+	int right_raw = multiplicate.getRawBits();
+	int	intPartOfLeft = left_raw / bitShift;
+	int	fractPartOfLeft = left_raw % bitShift;
+
+	if (willMulOverFlow(intPartOfLeft, right_raw))
+		throw std::overflow_error("Fixed multiplication overflow");
+	int	intPartOfResult = intPartOfLeft * right_raw;
+	if (willMulOverFlow(fractPartOfLeft, right_raw))
+		throw std::overflow_error("Fixed multiplication overflow");
+	int fractPartOfResult = (fractPartOfLeft * right_raw) / bitShift;
+	if (willAddOverFlow(intPartOfResult, fractPartOfResult))
+		throw std::overflow_error("Fixed multiplication overflow");
+	int resultRaw = intPartOfResult + fractPartOfResult;
+
+	Fixed	result;
+	result.setRawBits(resultRaw);
 	return result;
 }
 
 Fixed	Fixed::operator/(const Fixed& divide) const
 {
 	if (divide.getRawBits()	== 0)
-	{
-		std::cerr << "Division by 0 is Taboo. It has no answer" << std::endl;
-		exit(EXIT_FAILURE);
-	}
-	float	realThisValue = this->toFloat();
-	float	realDivideValue = divide.toFloat();
-	Fixed	result(realThisValue / realDivideValue);
-
+		throw std::invalid_argument("0 division");
+	if (this->_rawBit == 0)
+		return Fixed(0);
+	int resultRaw = (this->_rawBit / divide.getRawBits()) / bitShift;
+	Fixed	result;
+	result.setRawBits(resultRaw);
 	return result;
 }
 
@@ -260,4 +261,37 @@ std::ostream&	operator<<(std::ostream& os, const Fixed& src)
 {
 	os << src.toFloat();
 	return os;
+}
+
+static bool		willMulOverFlow(int left, int right)
+{
+	if (left == 0 || right == 0)
+		return false;
+	if (left == -1 && right == Fixed::intMin)
+		return true;
+	if (left == Fixed::intMin && right == -1)
+		return true;
+	if (left > 0)
+	{
+		if (right > 0)
+			return right > Fixed::intMax / left;
+		else
+			return right < Fixed::intMin / left;
+	}
+	else
+	{
+		if (right > 0)
+			return right > Fixed::intMin / left;
+		else
+			return right < Fixed::intMax / left;
+	}
+}
+
+static bool	willAddOverFlow(int left, int right)
+{
+	if (right > 0)
+		return left > Fixed::intMax - right;
+	else
+		return left < Fixed::intMin - right;
+	return false;
 }

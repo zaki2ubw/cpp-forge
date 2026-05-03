@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 09:08:44 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/04/27 22:54:58 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/03 15:06:43 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,23 @@
 //subject main
 int		main(void)
 {
-	Fixed a;
-	Fixed const b( Fixed( 5.05f ) * Fixed( 2 ) );
-	std::cout << a << std::endl;
-	std::cout << ++a << std::endl;
-	std::cout << a << std::endl;
-	std::cout << a++ << std::endl;
-	std::cout << a << std::endl;
-	std::cout << b << std::endl;
-	std::cout << Fixed::max( a, b ) << std::endl;
+	try
+	{
+		Fixed a;
+		Fixed const b( Fixed( 5.05f ) * Fixed( 2 ) );
+		std::cout << a << std::endl;
+		std::cout << ++a << std::endl;
+		std::cout << a << std::endl;
+		std::cout << a++ << std::endl;
+		std::cout << a << std::endl;
+		std::cout << b << std::endl;
+		std::cout << Fixed::max( a, b ) << std::endl;
+	}
+	catch (std::exception const& e)
+	{
+		std::cout << e.what() << std::endl;
+		return 1;
+	}
 	return 0;
 }
 //---testcases---
