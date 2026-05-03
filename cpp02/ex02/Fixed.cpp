@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 08:02:43 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/03 15:18:18 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/03 15:23:50 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,31 +267,31 @@ static bool		willMulOverFlow(int left, int right)
 {
 	if (left == 0 || right == 0)
 		return false;
-	if (left == -1 && right == Fixed::intMin)
+	if (left == -1 && right == intMin)
 		return true;
-	if (left == Fixed::intMin && right == -1)
+	if (left == intMin && right == -1)
 		return true;
 	if (left > 0)
 	{
 		if (right > 0)
-			return right > Fixed::intMax / left;
+			return right > intMax / left;
 		else
-			return right < Fixed::intMin / left;
+			return right < intMin / left;
 	}
 	else
 	{
 		if (right > 0)
-			return right > Fixed::intMin / left;
+			return right > intMin / left;
 		else
-			return right < Fixed::intMax / left;
+			return right < intMax / left;
 	}
 }
 
 static bool	willAddOverFlow(int left, int right)
 {
 	if (right > 0)
-		return left > Fixed::intMax - right;
+		return left > intMax - right;
 	else
-		return left < Fixed::intMin - right;
+		return left < intMin - right;
 	return false;
 }

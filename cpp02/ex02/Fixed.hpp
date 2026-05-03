@@ -6,22 +6,13 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 07:49:20 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/03 15:19:37 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/03 15:21:47 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <iostream>
-
-static const int	intMax;
-static const int	intMin;
-static const float	floatMax;
-static const float	floatMin;
-static const int	maxIntInput;
-static const int	minIntInput;
-static const float	maxFloatInput;
-static const float	minFloatInput;
 
 class Fixed
 {
@@ -66,6 +57,14 @@ class Fixed
 		int					_rawBit;
 		static const int	fractBit = 8;
 		static const int	bitShift;
+		static const int	intMax;
+		static const int	intMin;
+		static const float	floatMax;
+		static const float	floatMin;
+		static const int	maxIntInput;
+		static const int	minIntInput;
+		static const float	maxFloatInput;
+		static const float	minFloatInput;
 };
 
 std::ostream&	operator<<(std::ostream& os, const Fixed& src);
