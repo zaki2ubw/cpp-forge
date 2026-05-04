@@ -6,16 +6,27 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 09:08:44 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/03 17:31:31 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/04 11:54:18 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
+#include <sstream>
+#include <string>
 #include <limits>
 #include <stdexcept>
 #include "Point.hpp"
 
 bool	bsp(Point const a, Point const b, Point const c, Point const point);
+
+static std::string	g_failed[256];
+static int			g_failedCount = 0;
+
+static void	addFailed(const std::string& name)
+{
+	if (g_failedCount < 256)
+		g_failed[g_failedCount++] = name;
+}
 
 static void	section(const char* title)
 {
@@ -24,15 +35,26 @@ static void	section(const char* title)
 
 static void	fixedCase(const char* name, const Fixed& actual, const char* expected)
 {
+	std::ostringstream	oss;
+	bool				ok;
+
+	oss << actual;
+	ok = (oss.str() == expected);
+
 	std::cout << "[FIXED] " << name << std::endl;
-	std::cout << "  actual   : " << actual << std::endl;
+	std::cout << "  actual   : " << oss.str() << std::endl;
 	std::cout << "  expected : " << expected << std::endl;
+	std::cout << "  result   : " << (ok ? "OK" : "KO") << std::endl;
 	std::cout << std::endl;
+
+	if (!ok)
+		addFailed(name);
 }
 
 static void	throwCase(const char* name, void (*fn)(void), bool expectedThrow)
 {
 	bool	thrown = false;
+	bool	ok;
 
 	std::cout << "[THROW] " << name << std::endl;
 	try
@@ -44,10 +66,14 @@ static void	throwCase(const char* name, void (*fn)(void), bool expectedThrow)
 		thrown = true;
 		std::cout << "  caught   : " << e.what() << std::endl;
 	}
+	ok = (thrown == expectedThrow);
 	std::cout << "  actual   : " << (thrown ? "throw" : "no throw") << std::endl;
 	std::cout << "  expected : " << (expectedThrow ? "throw" : "no throw") << std::endl;
-	std::cout << "  result   : " << (thrown == expectedThrow ? "OK" : "KO") << std::endl;
+	std::cout << "  result   : " << (ok ? "OK" : "KO") << std::endl;
 	std::cout << std::endl;
+
+	if (!ok)
+		addFailed(name);
 }
 
 static void	testIntCtorMax(void)
@@ -143,7 +169,7 @@ static void	printPoint(const char* name, Point const& p)
 	std::cout << name << "(" << p.getX() << ", " << p.getY() << ")";
 }
 
-static void	runBspTest(const char* name,
+static void	bspCase(const char* name,
 					Point const& a,
 					Point const& b,
 					Point const& c,
@@ -151,6 +177,7 @@ static void	runBspTest(const char* name,
 					bool expected)
 {
 	bool result = bsp(a, b, c, p);
+	bool ok = (result == expected);
 
 	std::cout << "[BSP] " << name << std::endl;
 	std::cout << "  triangle : ";
@@ -165,12 +192,40 @@ static void	runBspTest(const char* name,
 	std::cout << std::endl;
 	std::cout << "  expected : " << (expected ? "inside" : "outside") << std::endl;
 	std::cout << "  actual   : " << (result ? "inside" : "outside") << std::endl;
-	std::cout << "  result   : " << (result == expected ? "OK" : "KO") << std::endl;
+	std::cout << "  result   : " << (ok ? "OK" : "KO") << std::endl;
 	std::cout << std::endl;
+
+	if (!ok)
+		addFailed(name);
+}
+
+static void	printSummary(void)
+{
+	int i;
+
+	section("FAILED TESTS");
+	if (g_failedCount == 0)
+	{
+		std::cout << "All tests passed!" << std::endl;
+		return ;
+	}
+	i = 0;
+	while (i < g_failedCount)
+	{
+		std::cout << "[KO] " << g_failed[i] << std::endl;
+		i++;
+	}
 }
 
 int	main(void)
 {
+	//// ===== explicit TEST (uncomment to test) =====
+	//// ===== if uncomment, must compile error! =====
+	// Fixed test1 = 1;
+	// Fixed test2 = 1.5f;
+	// void foo(Fixed x);
+	// foo(1);
+	//// =============================================
 	section("FIXED BASIC");
 
 	fixedCase("Fixed(2) + Fixed(3)", Fixed(2) + Fixed(3), "5");
@@ -195,55 +250,43 @@ int	main(void)
 	throwCase("++ raw INT_MAX", testIncOverflow, true);
 	throwCase("-- raw INT_MIN", testDecOverflow, true);
 
-	section("EXPLICIT CHECK");
-
-	std::cout << "// These should NOT compile if uncommented:" << std::endl;
-	std::cout << "// Fixed a = 1;" << std::endl;
-	std::cout << "// Fixed b = 1.5f;" << std::endl;
-	std::cout << std::endl;
-
 	section("BSP REVIEW TEST");
 
 	Point a(0.0f, 0.0f);
 	Point b(10.0f, 0.0f);
 	Point c(0.0f, 10.0f);
 
-	runBspTest("inside center", a, b, c, Point(1.0f, 1.0f), true);
-	runBspTest("inside near edge", a, b, c, Point(0.1f, 0.1f), true);
-	runBspTest("outside far", a, b, c, Point(10.0f, 10.0f), false);
-	runBspTest("outside negative", a, b, c, Point(-1.0f, 1.0f), false);
+	bspCase("inside center", a, b, c, Point(1.0f, 1.0f), true);
+	bspCase("inside near edge", a, b, c, Point(0.1f, 0.1f), true);
+	bspCase("outside far", a, b, c, Point(10.0f, 10.0f), false);
+	bspCase("outside negative", a, b, c, Point(-1.0f, 1.0f), false);
 
-	runBspTest("on vertex A", a, b, c, Point(0.0f, 0.0f), false);
-	runBspTest("on vertex B", a, b, c, Point(10.0f, 0.0f), false);
-	runBspTest("on vertex C", a, b, c, Point(0.0f, 10.0f), false);
-	runBspTest("on edge AB", a, b, c, Point(5.0f, 0.0f), false);
-	runBspTest("on edge AC", a, b, c, Point(0.0f, 5.0f), false);
-	runBspTest("on edge BC", a, b, c, Point(5.0f, 5.0f), false);
+	bspCase("on vertex A", a, b, c, Point(0.0f, 0.0f), false);
+	bspCase("on vertex B", a, b, c, Point(10.0f, 0.0f), false);
+	bspCase("on vertex C", a, b, c, Point(0.0f, 10.0f), false);
+	bspCase("on edge AB", a, b, c, Point(5.0f, 0.0f), false);
+	bspCase("on edge AC", a, b, c, Point(0.0f, 5.0f), false);
+	bspCase("on edge BC", a, b, c, Point(5.0f, 5.0f), false);
 
-	runBspTest("inside reversed", a, c, b, Point(1.0f, 1.0f), true);
-	runBspTest("outside reversed", a, c, b, Point(10.0f, 10.0f), false);
-	runBspTest("edge reversed", a, c, b, Point(5.0f, 5.0f), false);
+	bspCase("inside reversed", a, c, b, Point(1.0f, 1.0f), true);
+	bspCase("outside reversed", a, c, b, Point(10.0f, 10.0f), false);
+	bspCase("edge reversed", a, c, b, Point(5.0f, 5.0f), false);
 
 	Point fa(4.0f, -2.0f);
 	Point fb(-4.0f, 2.0f);
-	Point fc(4.424242f, -0.00424242f);
-	Point centroid(
-		(4.0f + -4.0f + 4.424242f) / 3.0f,
-		(-2.0f + 2.0f + -0.00424242f) / 3.0f
-	);
+	Point fc(4.5f, 1.0f);
 
-	runBspTest("sample outside", fa, fb, fc, Point(4.2f, 3.141592f), false);
-	runBspTest("far outside", fa, fb, fc, Point(5.0f, 5.0f), false);
-	runBspTest("centroid inside", fa, fb, fc, centroid, true);
-	runBspTest("near A outside", fa, fb, fc, Point(4.1f, -2.1f), false);
+	bspCase("float triangle inside", fa, fb, fc, Point(1.0f, 0.0f), true);
+	bspCase("float triangle outside", fa, fb, fc, Point(5.0f, 5.0f), false);
+	bspCase("float triangle near A outside", fa, fb, fc, Point(4.1f, -2.1f), false);
 
 	Point da(0.0f, 0.0f);
 	Point db(5.0f, 5.0f);
 	Point dc(10.0f, 10.0f);
 
-	runBspTest("collapsed triangle point on line", da, db, dc, Point(3.0f, 3.0f), false);
-	runBspTest("collapsed triangle point off line", da, db, dc, Point(3.0f, 4.0f), false);
+	bspCase("collapsed triangle point on line", da, db, dc, Point(3.0f, 3.0f), false);
+	bspCase("collapsed triangle point off line", da, db, dc, Point(3.0f, 4.0f), false);
 
-	section("TEST FINISHED");
+	printSummary();
 	return 0;
 }
