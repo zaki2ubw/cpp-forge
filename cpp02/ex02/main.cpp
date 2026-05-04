@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 09:08:44 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/03 17:01:18 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/04 11:55:55 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,13 +233,6 @@ int		main(void)
 //	expectThrowExplain("--INT_MIN raw",
 //		"INT_MIN - 1 overflows",
 //		decOverflow);
-//
-//	section("07. EXPLICIT COMPILE TEST");
-//
-//	std::cout << "Uncomment these. They should NOT compile if constructors are explicit:\n";
-//	std::cout << "// Fixed a = 1;\n";
-//	std::cout << "// Fixed b = 1.5f;\n";
-//	std::cout << "// void f(Fixed x); f(1);\n";
 //
 //	return 0;
 //}

@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 08:02:43 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/03 16:37:45 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/04 11:34:51 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,10 +284,10 @@ static bool		willMulOverFlow(int left, int right)
 
 	if (left == 0 || right == 0)
 		return false;
-	if (left == -1 && right == intMin)
-		return true;
-	if (left == intMin && right == -1)
-		return true;
+	if (left == -1)
+		return right == intMin;
+	if (left == intMin)
+		return right == -1;
 	if (left > 0)
 	{
 		if (right > 0)
