@@ -6,25 +6,25 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 13:18:09 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/04 18:19:55 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/05 19:21:04 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
+#include "Logger.hpp"
 #include "ClapTrap.hpp"
 
 ClapTrap::ClapTrap()
 	:name_("DefalTrap"), hitPoint_(10), energyPoint_(10), damage_(0)
 {
-	std::cout << "[Construct] Hi, I am..., Ops I have no UniqueName." << std::endl;
+	Logger::construct("Hi, I am..., Ops I have no UniqueName.");
 	this->showStatus();
 }
 
 ClapTrap::ClapTrap(const std::string& name)
 	:name_(name), hitPoint_(10), energyPoint_(10), damage_(0)
 {
-	std::cout << "[Construct] Hi, I am " << name;
-	std::cout << ". The Gratest Robot in this world!!" << std::endl;
+	Logger::construct("Hi, I am " + name
+			+ ". The Gratest Robot in this world!!");
 	this->showStatus();
 }
 
@@ -34,14 +34,14 @@ ClapTrap::ClapTrap(const ClapTrap& src)
 	 energyPoint_(src.energyPoint_),
 	 damage_(src.damage_)
 {
-	std::cout << "[Construct] Hi, I am " << this->name_;
-	std::cout << ". One of the copy of the Gratest Robot in this world!!" << std::endl;
+	Logger::construct("Hi, I am " + this->name_
+			+ ". One of the copy of the Gratest Robot in this world!!");
 	this->showStatus();
 }
 
 ClapTrap::~ClapTrap()
 {
-	std::cout << "[Destruct] Bye-bye friends!!" << std::endl;
+	Logger::destruct("Bye-bye friends!!");
 }
 
 ClapTrap&	ClapTrap::operator=(const ClapTrap& src)
@@ -75,19 +75,21 @@ unsigned int	ClapTrap::getCurrentDmg() const
 
 void	ClapTrap::attack(const std::string& target)
 {
+	if (this->hitPoint_ == 0)
+	{
+		Logger::warning(this->name_ + " is already dead. Nothing has happend.");
+		return ;
+	}
 	if (this->energyPoint_ == 0)
 	{
-		std::cout << "[ATTACK]: ";
-		std::cout << this->name_ << " ";
-		std::cout << "has no energy. Can not do anything." << std::endl;
+		Logger::warning(this->name_ + " has no energy. Can't do anything.");
 		return ;
 	}
 	this->energyPoint_ -= 1;
-	std::cout << "[ATTACK]: ";
-	std::cout << this->name_ << " ";
-	std::cout << "attacks " << target << ", ";
-	std::cout << "causing " << this->damage_ << " ";
-	std::cout << "points of damage!" << std::endl;
+	std::stringstream ss;
+	ss << this->damage_;
+	Logger::action("ATTACK: " + this->name_ + " attacks " + target
+			+ " causing " + ss.str() + " points of damage!");
 	this->showStatus();
 	return ;
 }
@@ -96,20 +98,22 @@ void	ClapTrap::takeDamage(unsigned int amount)
 {
 	if (this->hitPoint_ == 0)
 	{
-		this->showDeadLog();
+		Logger::warning(this->name_ + " is already dead. Nothing has happend.");
 		return ;
 	}
 	if (amount >= this->hitPoint_)
 		this->hitPoint_ = 0;
 	else
 		this->hitPoint_ -= amount;
-	std::cout << "[DAMAGE]: ";
-	std::cout << this->name_ << " ";
-	std::cout << "loose " << amount << " ";
-	std::cout << "points of HP" << std::endl;
+	std::stringstream ss;
+	ss << this->hitPoint_;
+	std::stringstream sa;
+	sa << amount;
+	Logger::action("DAMAGE: " + this->name_ +
+			" loose " + sa.str() + " points of HP.");
 	if (this->hitPoint_ == 0)
 	{
-		std::cout << this->name_ << " is dead." << std::endl;
+		Logger::warning(this->name_ + " is dead. Nothing will happen.");
 		return ;
 	}
 	this->showStatus();
@@ -120,38 +124,29 @@ void	ClapTrap::beRepaired(unsigned int amount)
 {
 	if (this->hitPoint_ == 0)
 	{
-		this->showDeadLog();
+		Logger::warning(this->name_ + " is already dead. Nothing has happend.");
 		return ;
 	}
 	if (this->energyPoint_ == 0)
 	{
-		std::cout << "[REPAIR]: ";
-		std::cout << this->name_ << " ";
-		std::cout << "has no energy. Can not do anything." << std::endl;
+		Logger::warning(this->name_ + " has no energy. Can't do anything.");
 		return ;
 	}
 	this->energyPoint_ -= 1;
 	this->hitPoint_ += amount;
-	std::cout << "[REPAIR]: ";
-	std::cout << this->name_ << " ";
-	std::cout << "repaired " << amount << " ";
-	std::cout << "points of HP" << std::endl;
+	std::stringstream ss;
+	ss << amount;
+	Logger::action("REPAIR: " + this->name_ + " repaired "
+			+ ss.str() + " points of HP!");
 	this->showStatus();
 	return ;
 }
 
 void	ClapTrap::showStatus() const
 {
-	std::cout << "[INFO] Name: " << this->name_ << std::endl;
-	std::cout << "[INFO] HP  : " << this->hitPoint_ << std::endl;
-	std::cout << "[INFO] EP  : " << this->energyPoint_ << std::endl;
-	std::cout << "[INFO] DMG : " << this->damage_ << std::endl;
+	Logger::Info("NAME", this->name_);
+	Logger::Info("HP", this->hitPoint_);
+	Logger::Info("EP", this->energyPoint_);
+	Logger::Info("DMG", this->damage_);
 	return ;
-}
-
-void	ClapTrap::showDeadLog() const
-{
-	std::cout << "[ATTENTION] ";
-	std::cout << this->name_ << " ";
-	std::cout << "is already dead. Nothing has happend" << std::endl;
 }

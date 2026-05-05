@@ -6,7 +6,7 @@
 #    By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/04 13:13:10 by sohyamaz          #+#    #+#              #
-#    Updated: 2026/05/04 13:17:24 by sohyamaz         ###   ########.fr        #
+#    Updated: 2026/05/05 19:11:47 by sohyamaz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = CL4P-TP
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
 
-SRCS = main.cpp ClapTrap.cpp
+SRCS = main.cpp ClapTrap.cpp Logger.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
