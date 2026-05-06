@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 13:18:09 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/06 18:26:20 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/06 20:04:06 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@ ClapTrap::ClapTrap()
 {
 	Logger::construct("Default ClapTrap is sponed.");
 	Logger::action("GREET : Hi, I am ... Ops, I have no Name...");
+	this->showStatus();
+}
+
+ClapTrap::ClapTrap(const std::string& name)
+	:name_(name), hitPoint_(10), energyPoint_(10), damage_(0)
+{
+	Logger::construct("Named ClapTrap " + this->name_ + " is sponed.");
+	Logger::action("GREET : Hi, I am " + this->name_
+			+ ". The Gratest Robot in this world!!");
 	this->showStatus();
 }
 
@@ -35,11 +44,11 @@ ClapTrap::ClapTrap(const std::string& name,
 
 ClapTrap::ClapTrap(const ClapTrap& src)
 	:name_(src.name_),
-	 hitPoint_(src.energyPoint_),
+	 hitPoint_(src.hitPoint_),
 	 energyPoint_(src.energyPoint_),
 	 damage_(src.damage_)
 {
-	Logger::construct("Copyed ClapTrap " + this->name_ + " is sponed.");
+	Logger::construct("Copyid ClapTrap " + this->name_ + " is sponed.");
 	Logger::action("GREET : Hi, I am " + this->name_
 			+ ". One of the copy of the Gratest Robot in this world!!");
 	this->showStatus();
@@ -53,10 +62,13 @@ ClapTrap::~ClapTrap()
 
 ClapTrap&	ClapTrap::operator=(const ClapTrap& src)
 {
-	this->name_ = src.getName();
-	this->hitPoint_ = src.getCurrentHp();
-	this->energyPoint_ = src.getCurrentEp();
-	this->damage_ = src.getCurrentDmg();
+	if (this != &src)
+	{
+		this->name_ = src.getName();
+		this->hitPoint_ = src.getCurrentHp();
+		this->energyPoint_ = src.getCurrentEp();
+		this->damage_ = src.getCurrentDmg();
+	}
 	return *this;
 }
 

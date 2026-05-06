@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 13:17:44 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/06 18:26:14 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/06 19:46:16 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ class ClapTrap
 	public :
 		//Constructor&Destructor
 		ClapTrap();
+		explicit ClapTrap(const std::string& name);
 		explicit ClapTrap(const std::string& name,
 						  unsigned int hp,
 						  unsigned int ep,
@@ -40,9 +41,11 @@ class ClapTrap
 		virtual void	takeDamage(unsigned int amount);
 		virtual void	beRepaired(unsigned int amount);
 
-	private :
+	protected :
 		std::string		name_;
 		unsigned int	hitPoint_;
 		unsigned int	energyPoint_;
 		unsigned int	damage_;
+
+	private :
 };
