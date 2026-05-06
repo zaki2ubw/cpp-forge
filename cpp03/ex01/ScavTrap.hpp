@@ -6,12 +6,12 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 19:24:18 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/05 20:25:41 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/06 18:16:22 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-# include <string>
+# include "ClapTrap.hpp"
 
 class ScavTrap : Public ClapTrap
 {
@@ -25,22 +25,13 @@ class ScavTrap : Public ClapTrap
 		//Overlode Operator
 		ScavTrap&		operator=(const ClapTrap& src);
 
-		//function
-		std::string		getName() const;
-		unsigned int	getCurrentHp() const;
-		unsigned int	getCurrentEp() const;
-		unsigned int	getCurrentDmg() const;
-		void			attack(const std::string& target);
-		void			takeDamage(unsigned int amount);
-		void			beRepaired(unsigned int amount);
-		void			showStatus() const;
+		//OverRide Functions
+		virtual void	attack(const std::string& target);
+		virtual void	takeDamage(unsigned int amount);
+		virtual void	beRepaired(unsigned int amount);
 
-		//ScavTrap
+		//ScavTrap Additional Functions
 		void			guardGate();
 
 	private :
-		std::string		name_;
-		unsigned int	hitPoint_;
-		unsigned int	energyPoint_;
-		unsigned int	damage_;
 };
