@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:22:43 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/06 22:42:06 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/07 09:08:51 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ int	main(void)
 	c.beRepaired(10);
 	d.attack(target);
 	d.takeDamage(10);
-	d.attack(target);
+	d.beRepaired(10);
+	e.attack(target);
 	e.takeDamage(10);
-	e.beRepaired(10);
 	e.beRepaired(10);
 	f.attack(target);
 	f.takeDamage(10);
