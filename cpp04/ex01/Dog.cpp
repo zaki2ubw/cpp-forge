@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 17:30:34 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/09 22:08:37 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/10 02:57:50 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,15 @@
 #include "Dog.hpp"
 
 Dog::Dog()
-	: Animal()
+	:Animal(), brain_(new Brain())
 {
 	this->type = "Dog";
-	this->brain_ = new Brain;
 	Logger::construct("Dog is sponed.");
 }
 
 Dog::Dog(const Dog& src)
-	:Animal(src)
+	:Animal(src), brain_(new Brain())
 {
-	this->brain_ = new Brain(*src.brain_);
 	Logger::construct("Dog is sponed by copy.");
 }
 
