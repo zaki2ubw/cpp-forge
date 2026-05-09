@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 19:24:38 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/09 12:35:35 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/09 12:45:54 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ ScavTrap::ScavTrap(const std::string& name,
 				   unsigned int dmg)
 	:ClapTrap(name, hp, ep, dmg)
 {
-	Logger::construct("Copied ScavTrap " + this->name_ + " is sponed.");
+	Logger::construct("Named ScavTrap " + this->name_ + " is sponed.");
 	Logger::action(std::string("GREET : ") + "Now I stand as ScavTrap, " +
 			       "inherited all parts of ClapTrap!!");
 }
@@ -45,7 +45,7 @@ ScavTrap::ScavTrap(const std::string& name,
 ScavTrap::ScavTrap(const ScavTrap& src)
 	:ClapTrap(src)
 {
-	Logger::construct("Named ScavTrap " + this->name_ + " is sponed.");
+	Logger::construct("Copied ScavTrap " + this->name_ + " is sponed.");
 	Logger::action(std::string("GREET : ") + "Now I stand as ScavTrap, " +
 				   "inherited all parts of ClapTrap!!");
 }

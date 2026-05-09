@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 22:21:48 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/09 12:35:50 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/09 12:54:47 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ FragTrap::FragTrap(const std::string& name,
 				   unsigned int dmg)
 	:ClapTrap(name, hp, ep, dmg)
 {
-	Logger::construct("Copied FragTrap " + this->name_ + " is sponed.");
+	Logger::construct("Named FragTrap " + this->name_ + " is sponed.");
 	Logger::action(std::string("GREET : ") + "Now I stand as FragTrap, " +
 			       "inherited all parts of ClapTrap!!");
 }
@@ -45,7 +45,7 @@ FragTrap::FragTrap(const std::string& name,
 FragTrap::FragTrap(const FragTrap& src)
 	:ClapTrap(src)
 {
-	Logger::construct("Named FragTrap " + this->name_ + " is sponed.");
+	Logger::construct("Copied FragTrap " + this->name_ + " is sponed.");
 	Logger::action(std::string("GREET : ") + "Now I stand as FragTrap, " +
 				   "inherited all parts of ClapTrap!!");
 }
