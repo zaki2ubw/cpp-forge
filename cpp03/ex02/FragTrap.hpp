@@ -6,14 +6,14 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 22:08:28 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/06 22:39:41 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/09 12:28:50 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 # include "ClapTrap.hpp"
 
-class FragTrap : public ClapTrap
+class FragTrap : virtual public ClapTrap
 {
 	public :
 		//Constructor&Destructor
@@ -34,6 +34,13 @@ class FragTrap : public ClapTrap
 
 		//FragTrap Additional Functions
 		void			highFiveGuys();
+
+	protected :
+		//Default status
+		static const std::string	kDefaultName;
+		static const unsigned int	kDefaultHp = 100;
+		static const unsigned int	kDefaultEp = 100;
+		static const unsigned int	kDefaultDmg = 30;
 
 	private :
 };

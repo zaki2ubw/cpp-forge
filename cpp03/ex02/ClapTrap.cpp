@@ -6,15 +6,17 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 13:18:09 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/06 20:04:06 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/09 12:47:01 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Logger.hpp"
 #include "ClapTrap.hpp"
 
+const std::string	ClapTrap::kDefaultName = "DefaulTrap";
+
 ClapTrap::ClapTrap()
-	:name_("DefalTrap"), hitPoint_(10), energyPoint_(10), damage_(0)
+	:name_(kDefaultName), hitPoint_(kDefaultHp), energyPoint_(kDefaultEp), damage_(kDefaultDmg)
 {
 	Logger::construct("Default ClapTrap is sponed.");
 	Logger::action("GREET : Hi, I am ... Ops, I have no Name...");
@@ -22,7 +24,7 @@ ClapTrap::ClapTrap()
 }
 
 ClapTrap::ClapTrap(const std::string& name)
-	:name_(name), hitPoint_(10), energyPoint_(10), damage_(0)
+	:name_(name), hitPoint_(kDefaultHp), energyPoint_(kDefaultEp), damage_(kDefaultDmg)
 {
 	Logger::construct("Named ClapTrap " + this->name_ + " is sponed.");
 	Logger::action("GREET : Hi, I am " + this->name_
@@ -48,7 +50,7 @@ ClapTrap::ClapTrap(const ClapTrap& src)
 	 energyPoint_(src.energyPoint_),
 	 damage_(src.damage_)
 {
-	Logger::construct("Copyid ClapTrap " + this->name_ + " is sponed.");
+	Logger::construct("Copied ClapTrap " + this->name_ + " is sponed.");
 	Logger::action("GREET : Hi, I am " + this->name_
 			+ ". One of the copy of the Gratest Robot in this world!!");
 	this->showStatus();

@@ -6,15 +6,17 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 19:24:38 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/06 20:09:25 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/09 12:45:54 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Logger.hpp"
 #include "ScavTrap.hpp"
 
+const std::string	ScavTrap::kDefaultName = "DefaultScav";
+
 ScavTrap::ScavTrap()
-	:ClapTrap("DefaltScav", 100, 50, 20)
+	:ClapTrap(kDefaultName, kDefaultHp, kDefaultEp, kDefaultDmg)
 {
 	Logger::construct("Default ScavTrap " + this->name_ + " is sponed.");
 	Logger::action(std::string("GREET : ") + "Now I stand as ScavTrap, " +
@@ -22,7 +24,7 @@ ScavTrap::ScavTrap()
 }
 
 ScavTrap::ScavTrap(const std::string& name)
-	:ClapTrap(name, 100, 50, 20)
+	:ClapTrap(name, kDefaultHp, kDefaultEp, kDefaultDmg)
 {
 	Logger::construct("Named ScavTrap " + this->name_ + " is sponed.");
 	Logger::action(std::string("GREET : ") + "Now I stand as ScavTrap, " +
@@ -35,7 +37,7 @@ ScavTrap::ScavTrap(const std::string& name,
 				   unsigned int dmg)
 	:ClapTrap(name, hp, ep, dmg)
 {
-	Logger::construct("Copied ScavTrap " + this->name_ + " is sponed.");
+	Logger::construct("Named ScavTrap " + this->name_ + " is sponed.");
 	Logger::action(std::string("GREET : ") + "Now I stand as ScavTrap, " +
 			       "inherited all parts of ClapTrap!!");
 }
@@ -43,7 +45,7 @@ ScavTrap::ScavTrap(const std::string& name,
 ScavTrap::ScavTrap(const ScavTrap& src)
 	:ClapTrap(src)
 {
-	Logger::construct("Named ScavTrap " + this->name_ + " is sponed.");
+	Logger::construct("Copied ScavTrap " + this->name_ + " is sponed.");
 	Logger::action(std::string("GREET : ") + "Now I stand as ScavTrap, " +
 				   "inherited all parts of ClapTrap!!");
 }
