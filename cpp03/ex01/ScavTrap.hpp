@@ -6,14 +6,14 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 19:24:18 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/06 20:00:13 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/09 12:31:09 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 # include "ClapTrap.hpp"
 
-class ScavTrap : public ClapTrap
+class ScavTrap : virtual public ClapTrap
 {
 	public :
 		//Constructor&Destructor
@@ -34,6 +34,13 @@ class ScavTrap : public ClapTrap
 
 		//ScavTrap Additional Functions
 		void			guardGate();
+
+	protected :
+		//Default status
+		static const std::string	kDefaultName;
+		static const unsigned int	kDefaultHp = 100;
+		static const unsigned int	kDefaultEp = 50;
+		static const unsigned int	kDefaultDmg = 20;
 
 	private :
 };

@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 13:17:44 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/06 19:46:16 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/09 12:32:24 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,17 @@ class ClapTrap
 		virtual void	beRepaired(unsigned int amount);
 
 	protected :
+		//Default status
+		static const std::string	kDefaultName;
+		static const unsigned int	kDefaultHp = 10;
+		static const unsigned int	kDefaultEp = 10;
+		static const unsigned int	kDefaultDmg = 0;
+		//status
 		std::string		name_;
 		unsigned int	hitPoint_;
 		unsigned int	energyPoint_;
 		unsigned int	damage_;
+
 
 	private :
 };
