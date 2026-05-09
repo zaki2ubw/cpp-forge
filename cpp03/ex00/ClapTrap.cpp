@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 13:18:09 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/09 12:35:13 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/09 12:48:26 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ ClapTrap::ClapTrap(const ClapTrap& src)
 	 energyPoint_(src.energyPoint_),
 	 damage_(src.damage_)
 {
-	Logger::construct("Copyid ClapTrap " + this->name_ + " is sponed.");
+	Logger::construct("Copied ClapTrap " + this->name_ + " is sponed.");
 	Logger::action("GREET : Hi, I am " + this->name_
 			+ ". One of the copy of the Gratest Robot in this world!!");
 	this->showStatus();
