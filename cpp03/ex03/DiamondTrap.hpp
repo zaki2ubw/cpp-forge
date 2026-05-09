@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 09:58:57 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/09 11:18:29 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/09 12:28:17 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ class DiamondTrap : public ScavTrap, public FragTrap
 
 		//DiamondTrap Additional Functions
 		void			whoAmI();
+
+	protected :
+		static const std::string	kDefaultName;
 
 	private :
 		std::string		name_;

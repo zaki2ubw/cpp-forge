@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 22:08:28 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/09 10:07:48 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/09 12:28:50 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@ class FragTrap : virtual public ClapTrap
 
 		//FragTrap Additional Functions
 		void			highFiveGuys();
+
+	protected :
+		//Default status
+		static const std::string	kDefaultName;
+		static const unsigned int	kDefaultHp = 100;
+		static const unsigned int	kDefaultEp = 100;
+		static const unsigned int	kDefaultDmg = 30;
 
 	private :
 };

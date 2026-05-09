@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 19:24:18 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/09 10:07:34 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/09 12:31:09 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@ class ScavTrap : virtual public ClapTrap
 
 		//ScavTrap Additional Functions
 		void			guardGate();
+
+	protected :
+		//Default status
+		static const std::string	kDefaultName;
+		static const unsigned int	kDefaultHp = 100;
+		static const unsigned int	kDefaultEp = 50;
+		static const unsigned int	kDefaultDmg = 20;
 
 	private :
 };

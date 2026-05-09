@@ -6,15 +6,17 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 22:21:48 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/06 22:40:13 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/09 12:35:50 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Logger.hpp"
 #include "FragTrap.hpp"
 
+const std::string	FragTrap::kDefaultName = "DefaultFrag";
+
 FragTrap::FragTrap()
-	:ClapTrap("DefaltFrag", 100, 100, 30)
+	:ClapTrap(kDefaultName, kDefaultHp, kDefaultEp, kDefaultDmg)
 {
 	Logger::construct("Default FragTrap " + this->name_ + " is sponed.");
 	Logger::action(std::string("GREET : ") + "Now I stand as FragTrap, " +
@@ -22,7 +24,7 @@ FragTrap::FragTrap()
 }
 
 FragTrap::FragTrap(const std::string& name)
-	:ClapTrap(name, 100, 100, 30)
+	:ClapTrap(name, kDefaultHp, kDefaultEp, kDefaultDmg)
 {
 	Logger::construct("Named FragTrap " + this->name_ + " is sponed.");
 	Logger::action(std::string("GREET : ") + "Now I stand as FragTrap, " +
