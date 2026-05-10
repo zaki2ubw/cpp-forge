@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 14:38:12 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/05 19:18:05 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/10 12:22:39 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ class Logger
 		static void			construct(const std::string& msg);
 		static void			destruct(const std::string& msg);
 		static void			action(const std::string& msg);
-		static void			Info(const std::string& key, const std::string& str);
-		static void			Info(const std::string& key, int num);
+		static void			info(const std::string& key, const std::string& str);
+		static void			info(const std::string& key, int num);
 
 		//SYSTEMLOG
 		static void			sysInfo(const std::string& msg);

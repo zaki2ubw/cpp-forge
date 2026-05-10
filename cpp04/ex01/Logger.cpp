@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 15:26:22 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/05 19:14:30 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/10 12:22:52 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ void		Logger::action(const std::string& msg)
 	return ;
 }
 
-void		Logger::Info(const std::string& key, const std::string& str)
+void		Logger::info(const std::string& key, const std::string& str)
 {
 	appInfo(key, str);
 	return ;
 }
 
-void		Logger::Info(const std::string& key, int num)
+void		Logger::info(const std::string& key, int num)
 {
 	std::stringstream ss;
 	ss << num;

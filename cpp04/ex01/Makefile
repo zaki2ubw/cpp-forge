@@ -6,7 +6,7 @@
 #    By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/09 13:39:58 by sohyamaz          #+#    #+#              #
-#    Updated: 2026/05/09 19:16:01 by sohyamaz         ###   ########.fr        #
+#    Updated: 2026/05/10 13:46:21 by sohyamaz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = Zoo
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
 
-SRCS = main.cpp Logger.cpp Animal.cpp Dog.cpp Cat.cpp
+SRCS = main.cpp Logger.cpp Animal.cpp Dog.cpp Cat.cpp Brain.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
@@ -37,7 +37,7 @@ re: fclean all
 
 WRONGNAME = WrongZoo
 
-WRONGSRCS = WrongMain.cpp Logger.cpp WrongAnimal.cpp Animal.cpp Dog.cpp WrongCat.cpp
+WRONGSRCS = WrongMain.cpp Logger.cpp WrongAnimal.cpp Animal.cpp Dog.cpp WrongCat.cpp Brain.cpp
 
 WRONGOBJS = $(WRONGSRCS:.cpp=.o)
 
@@ -46,6 +46,6 @@ wrong: $(WRONGNAME)
 $(WRONGNAME): $(WRONGOBJS)
 	$(CXX) $(CXXFLAGS) $(WRONGOBJS) -o $(WRONGNAME)
 
-reWrong: fclean wrong
+rewrong: fclean wrong
 
-.PHONY: all clean fclean re wrong
+.PHONY: all clean fclean re wrong rewrong

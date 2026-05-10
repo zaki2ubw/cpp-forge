@@ -6,7 +6,7 @@
 /*   By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 17:37:55 by sohyamaz          #+#    #+#             */
-/*   Updated: 2026/05/10 02:58:48 by sohyamaz         ###   ########.fr       */
+/*   Updated: 2026/05/10 13:51:07 by sohyamaz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 #include "Cat.hpp"
 
 Cat::Cat()
-	:Animal(), brain_(new Brain())
+	: Animal(), brain_(new Brain())
 {
 	this->type = "Cat";
 	Logger::construct("Cat is sponed.");
 }
 
 Cat::Cat(const Cat& src)
-	:Animal(src), brain_(new Brain())
+	:Animal(src), brain_(new Brain(*src.brain_))
 {
 	Logger::construct("Cat is sponed by copy.");
 }
 
 Cat::~Cat()
 {
-	delete brain_;
 	Logger::destruct("Cat is desponed.");
+	delete brain_;
 }
 
 Cat&		Cat::operator=(const Cat& src)
@@ -45,5 +45,16 @@ Cat&		Cat::operator=(const Cat& src)
 void		Cat::makeSound() const
 {
 	std::cout << "Meow!!" << std::endl;
+	return ;
+}
+
+std::string	Cat::getIdea(size_t i) const
+{
+	return this->brain_->getAnIdea(i);
+}
+
+void		Cat::setIdea(size_t i, const std::string& idea)
+{
+	this->brain_->setAnIdea(i, idea);
 	return ;
 }
