@@ -6,7 +6,7 @@
 #    By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/09 13:39:58 by sohyamaz          #+#    #+#              #
-#    Updated: 2026/05/09 19:16:01 by sohyamaz         ###   ########.fr        #
+#    Updated: 2026/05/10 13:46:42 by sohyamaz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,6 @@ wrong: $(WRONGNAME)
 $(WRONGNAME): $(WRONGOBJS)
 	$(CXX) $(CXXFLAGS) $(WRONGOBJS) -o $(WRONGNAME)
 
-reWrong: fclean wrong
+rewrong: fclean wrong
 
-.PHONY: all clean fclean re wrong
+.PHONY: all clean fclean re wrong rewrong
