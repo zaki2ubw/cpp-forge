@@ -1,18 +1,20 @@
-// This is Inheritance from std::exception version
+#pragma once
+
 #include <exception>
+#include <ostream>
+#include <stdexcept>
 #include <string>
 
+// This is Inheritance from std::exception version
 class Bureaucrat {
 public:
   // Constructor & Destructor
-  Bureaucrat(const std::string &name, unsigned int grade);
+  Bureaucrat(const std::string &name, int grade);
   ~Bureaucrat();
 
   // Getter
   const std::string &getName() const;
-  std::string &getName();
-  const std::string &getGrade() const;
-  std::string &getGrade();
+  int getGrade() const;
 
   // Requirement Upper/Lower Functions
   void incrementGrade();
@@ -31,55 +33,47 @@ public:
 private:
   // Requirement Members
   const std::string name_;
-  unsigned int grade_;
+  int grade_;
 
   // Forbidden OCF Functions
   Bureaucrat();
-  Bureaucrat(Bureaucrat &src);
-  Bureaucrat &operator=(const Breaaucrat &src);
+  Bureaucrat(const Bureaucrat &src);
+  Bureaucrat &operator=(const Bureaucrat &src);
 };
 
-sstream &operator<<(
+//// This is Inheritance from std::logic_error version
+// class Bureaucrat {
+// public:
+//   // Constructor & Destructor
+//   Bureaucrat(const std::string &name, int grade);
+//   ~Bureaucrat();
+//
+//   // Getter
+//   const std::string &getName() const;
+//   int getGrade() const;
+//
+//   // Requirement Upper/Lower Functions
+//   void incrementGrade();
+//   void decrementGrade();
+//
+//   // Exception class definition
+//   class OutOfRangeException : public std::logic_error {
+//   public:
+//     OutOfRangeException(int grade);
+//   };
+//
+// private:
+//   // Requirement Members
+//   const std::string name_;
+//   int grade_;
+//
+//   // Exception Helper
+//   static std::string makeErrMsg(int grade);
+//
+//   // Forbidden OCF Functions
+//   Bureaucrat();
+//   Bureaucrat(const Bureaucrat &src);
+//   Bureaucrat &operator=(const Bureaucrat &src);
+// };
 
-// This is Inheritance from std::logic_error version
-#include <stdexcept>
-#include <string>
-
-class Bureaucrat {
-public:
-  // Constructor & Destructor
-  Bureaucrat(const std::string &name, unsigned int grade);
-  ~Bureaucrat();
-
-  // Getter
-  const std::string &getName() const;
-  std::string &getName();
-  const std::string &getGrade() const;
-  std::string &getGrade();
-
-  // Requirement Upper/Lower Functions
-  void incrementGrade();
-  void decrementGrade();
-
-  // Exception class definition
-  class GradeTooHighException : public std::logic_error {
-  public:
-    void tooHighException() const throw()
-        : std::logic_err("[ERROR] Grade must be lower than 1") {};
-  };
-  class GradeTooLowException : public std::logic_error {
-  public:
-    void tooLowException() const throw()
-        : std::logic_err("[ERROR] Grade must be Higher than 150") {};
-  };
-
-private:
-  // Requirement Members
-  const std::string name_;
-  unsigned int grade_;
-
-  // Forbidden OCF Functions
-  Bureaucrat();
-  Bureaucrat(Bureaucrat & src);
-  Bureaucrat &operator=(const Breaaucrat &src);
-};
+std::ostream &operator<<(std::ostream &os, const Bureaucrat &br);

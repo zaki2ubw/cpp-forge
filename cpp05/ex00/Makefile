@@ -6,16 +6,16 @@
 #    By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/09 13:39:58 by sohyamaz          #+#    #+#              #
-#    Updated: 2026/06/15 07:14:29 by sohyamaz         ###   ########.fr        #
+#    Updated: 2026/06/16 19:27:32 by sohyamaz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = Zoo
+NAME = Bureaucrat
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
 
-SRCS = main.cpp Logger.cpp
+SRCS = main.cpp Bureaucrat.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

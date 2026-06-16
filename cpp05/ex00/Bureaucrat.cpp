@@ -1,61 +1,84 @@
-#include "Breaucrat.hpp"
+#include "Bureaucrat.hpp"
+#include <sstream>
 
-Breaucrat::Breaucrat(const std::string& name, unsigned int grade)
-	: name_(name), grade_(grade)
-{
+// This is Inheritance from std::exception version
+Bureaucrat::Bureaucrat(const std::string &name, int grade)
+    : name_(name), grade_(grade) {
+  if (this->grade_ < 1)
+    throw GradeTooHighException();
+  if (this->grade_ > 150)
+    throw GradeTooLowException();
 }
 
-Breaucrat::~Breaucrat()
-{
+Bureaucrat::~Bureaucrat() {}
+
+const std::string &Bureaucrat::getName() const { return this->name_; }
+
+int Bureaucrat::getGrade() const { return this->grade_; }
+
+void Bureaucrat::incrementGrade() {
+  if (grade_ <= 1) {
+    throw GradeTooHighException();
+  }
+  --grade_;
+  return;
 }
 
-const std::string& Breaucrat::getName() const
-{
-	return this->name_;
+void Bureaucrat::decrementGrade() {
+  if (grade_ >= 150) {
+    throw GradeTooLowException();
+  }
+  ++grade_;
+  return;
 }
 
-std::string Breaucrat::getName()
-{
-	return this->name_;
+const char *Bureaucrat::GradeTooHighException::what() const throw() {
+  return "[ERROR] Grade must be lower than 1";
 }
 
-unsigned int Breaucrat::getGrade()
-{
-	return this->grade_;
+const char *Bureaucrat::GradeTooLowException::what() const throw() {
+  return "[ERROR] Grade must be higher than 150";
 }
 
-const std::string& Breaucrat::getGrade() const
-{
-	std::string result = intToStr(this->grade_);
-	return result;
+//// This is Inheritance from std::logic_error version
+// Bureaucrat::Bureaucrat(const std::string &name, int grade)
+//     : name_(name), grade_(grade) {
+//   if (this->grade_ > 150 || this->grade_ < 1)
+//     throw OutOfRangeException(this->grade_);
+// }
+//
+// Bureaucrat::~Bureaucrat() {}
+//
+// const std::string &Bureaucrat::getName() const { return this->name_; }
+//
+// int Bureaucrat::getGrade() const { return this->grade_; }
+//
+// void Bureaucrat::incrementGrade() {
+//   if (grade_ <= 1) {
+//     throw OutOfRangeException(grade_);
+//   }
+//   --grade_;
+//   return;
+// }
+//
+// void Bureaucrat::decrementGrade() {
+//   if (grade_ >= 150) {
+//     throw OutOfRangeException(grade_);
+//   }
+//   ++grade_;
+//   return;
+// }
+//
+// Bureaucrat::OutOfRangeException::OutOfRangeException(int grade)
+//     : std::logic_error(makeErrMsg(grade)) {}
+//
+// std::string Bureaucrat::makeErrMsg(int grade) {
+//   std::ostringstream oss;
+//   oss << "Invalid Grade: " << grade;
+//   return oss.str();
+// }
+
+std::ostream &operator<<(std::ostream &os, const Bureaucrat &br) {
+  os << br.getName() << ", bureaucrat grade " << br.getGrade();
+  return os;
 }
-
-std::string Breaucrat::getGrade()
-{
-	std::string result = intToStr(this->grade_);
-	return result;
-}
-
-void	Breaucrat::incrementGrade()
-{
-	--grade_;
-	if (grade_ < 1)
-	{
-		throw GradeTooHighException();
-	}
-	return ;
-}
-
-void Breaucrat::decrementGrade()
-{
-	++grade_;
-	if (grade_ > 150)
-	{
-		throw GradeTooLowException();
-	}
-	return ;
-}
-
-std::string&	Breaucrat::intToStr();
-{
-
