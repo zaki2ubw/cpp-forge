@@ -1,9 +1,6 @@
 #include "Bureaucrat.hpp"
 #include <sstream>
 
-#define GRADEHIGHLIMIT 1
-#define GRADELOWLIMIT 150
-
 Bureaucrat::Bureaucrat(const std::string &name, int grade)
     : name_(name), grade_(grade) {
   if (this->grade_ < GRADEHIGHLIMIT)

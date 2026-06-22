@@ -5,8 +5,10 @@
 
 class Form {
 public:
+  // Constructor & Destructor
   Form(const std::string &name, int signGrade, int execGrade);
   ~Form();
+  // Exception Class Definisions
   class GradeTooHighException : public std::exception {
   public:
     const char *what() const throw();
@@ -14,15 +16,20 @@ public:
   class GradeTooLowException : public std::exception {
   public:
     const char *what() const throw();
-  } bool beSigned();
+  };
+  // Required Interface Functions
+  bool beSigned(const Bureaucrat &br);
   int getSignGrade() const;
   int getExecGrade() const;
 
 private:
+  // Required Member valiable
   const std::string name_;
   bool signed_;
   const int signGrade_;
   const int execGrade_;
+
+  // Forbidden OCF Functions
   Form();
   Form(const Form &src);
   Form &operator=(const Form &src);

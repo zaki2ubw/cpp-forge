@@ -5,6 +5,9 @@
 #include <stdexcept>
 #include <string>
 
+#define GRADEHIGHLIMIT 1
+#define GRADELOWLIMIT 150
+
 // This is Inheritance from std::exception version
 class Bureaucrat {
 public:
