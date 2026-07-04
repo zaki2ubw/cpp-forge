@@ -17,15 +17,21 @@ public:
   public:
     const char *what() const throw();
   };
+  class FormAlreadySignedException : public std::exception {
+  public:
+    const char *what() const throw();
+  };
   // Required Interface Functions
   bool beSigned(const Bureaucrat &br);
   int getSignGrade() const;
   int getExecGrade() const;
 
+  const std::string &getName() const;
+
 private:
   // Required Member valiable
   const std::string name_;
-  bool signed_;
+  bool isSigned_;
   const int signGrade_;
   const int execGrade_;
 
@@ -33,4 +39,6 @@ private:
   Form();
   Form(const Form &src);
   Form &operator=(const Form &src);
-}
+};
+
+std::ostream &operator<<(std::ostream &os, const Form &fo);

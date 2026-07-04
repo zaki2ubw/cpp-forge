@@ -22,7 +22,7 @@ public:
   // Requirement Upper/Lower Functions
   void incrementGrade();
   void decrementGrade();
-  void signeForm();
+  void signForm();
 
   // Exception class definition
   class GradeTooHighException : public std::exception {

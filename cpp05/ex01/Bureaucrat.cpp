@@ -1,5 +1,7 @@
-#include "Bureaucrat.hpp"
 #include <sstream>
+
+#include "Bureaucrat.hpp"
+#include "Form.hpp"
 
 Bureaucrat::Bureaucrat(const std::string &name, int grade)
     : name_(name), grade_(grade) {
@@ -28,6 +30,17 @@ void Bureaucrat::decrementGrade() {
     throw GradeTooLowException();
   }
   ++grade_;
+  return;
+}
+
+void Bureaucrat::signForm(Form &form) {
+  try {
+    form.besigned(*this);
+    std::cout << this->name_ << " signed " << form.getName() << std::endl;
+  } catch (std::exception &e) {
+    std::cout << this->name_ << " couldn't sign " << form.getName()
+              << " because " << e.what() << std::endl;
+  }
   return;
 }
 
