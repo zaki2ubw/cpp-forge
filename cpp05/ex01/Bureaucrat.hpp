@@ -8,6 +8,8 @@
 #define GRADEHIGHLIMIT 1
 #define GRADELOWLIMIT 150
 
+class Form;
+
 // This is Inheritance from std::exception version
 class Bureaucrat {
 public:
@@ -22,7 +24,7 @@ public:
   // Requirement Upper/Lower Functions
   void incrementGrade();
   void decrementGrade();
-  void signForm();
+  void signForm(Form &form);
 
   // Exception class definition
   class GradeTooHighException : public std::exception {

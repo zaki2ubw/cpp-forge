@@ -3,6 +3,8 @@
 #include <exception>
 #include <string>
 
+class Bureaucrat;
+
 class Form {
 public:
   // Constructor & Destructor
@@ -22,11 +24,12 @@ public:
     const char *what() const throw();
   };
   // Required Interface Functions
-  bool beSigned(const Bureaucrat &br);
+  void beSigned(const Bureaucrat &br);
   int getSignGrade() const;
   int getExecGrade() const;
 
   const std::string &getName() const;
+  bool getFormIsSigned() const;
 
 private:
   // Required Member valiable
