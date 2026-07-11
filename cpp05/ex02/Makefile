@@ -6,16 +6,21 @@
 #    By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/09 13:39:58 by sohyamaz          #+#    #+#              #
-#    Updated: 2026/07/05 15:13:24 by sohyamaz         ###   ########.fr        #
+#    Updated: 2026/07/11 19:54:26 by sohyamaz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = Form
+NAME = AForm
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
 
-SRCS = main.cpp Bureaucrat.cpp Form.cpp
+SRCS = main.cpp \
+	   Bureaucrat.cpp \
+	   AForm.cpp \
+	   ShrubberyCreationForm.cpp \
+	   RobotomyRequestForm.cpp \
+	   PresidentialPardonForm.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
@@ -35,4 +40,28 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+run: $(NAME)
+	@mkdir -p outfile
+	@rm -rf outfile/*
+	./$(NAME)
+	@ls -l outfile
+
+rerun: re
+	@mkdir -p outfile
+	@rm -rf outfile/*
+	./$(NAME)
+	@ls -l outfile
+
+valrun: $(NAME)
+	@mkdir -p outfile
+	@rm -rf outfile/*
+	@valgrind --leak-check=full ./$(NAME)
+	@ls -l outfile
+
+revalrun: re
+	@mkdir -p outfile
+	@rm -rf outfile/*
+	@valgrind --leak-check=full ./$(NAME)
+	@ls -l outfile
+
+.PHONY: all clean fclean re run rerun valrun revalrun

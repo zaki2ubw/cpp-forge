@@ -9,7 +9,8 @@ class AForm {
 public:
   // Constructor & Destructor
   AForm(const std::string &name, int signGrade, int execGrade);
-  virtual ~AForm();
+  virtual ~AForm(){};
+
   // Exception Class Definisions
   class GradeTooHighException : public std::exception {
   public:
@@ -23,14 +24,27 @@ public:
   public:
     const char *what() const throw();
   };
-  // Required Interface Functions
+  class LessGradeToSignException : public std::exception {
+  public:
+    const char *what() const throw();
+  };
+  class LessGradeToExecuteException : public std::exception {
+  public:
+    const char *what() const throw();
+  };
+
+  // Required Functions
   void beSigned(const Bureaucrat &br);
   int getSignGrade() const;
   int getExecGrade() const;
+
+  // Interface
   virtual void execute(Bureaucrat const &executor) const = 0;
 
   const std::string &getName() const;
   bool getFormIsSigned() const;
+  bool isAbleToSign(const Bureaucrat &br) const;
+  bool isAbleToExec(const Bureaucrat &br) const;
 
 private:
   // Required Member valiable

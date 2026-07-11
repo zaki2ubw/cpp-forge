@@ -8,7 +8,7 @@
 #define GRADEHIGHLIMIT 1
 #define GRADELOWLIMIT 150
 
-class Form;
+class AForm;
 
 // This is Inheritance from std::exception version
 class Bureaucrat {
@@ -21,10 +21,11 @@ public:
   const std::string &getName() const;
   int getGrade() const;
 
-  // Requirement Upper/Lower Functions
+  // Requirement Functions
   void incrementGrade();
   void decrementGrade();
-  void signForm(Form &form);
+  void signForm(AForm &form);
+  void executeForm(AForm const &form) const;
 
   // Exception class definition
   class GradeTooHighException : public std::exception {

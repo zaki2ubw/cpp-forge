@@ -13,8 +13,6 @@ AForm::AForm(const std::string &name, int signGrade, int execGrade)
     throw AForm::GradeTooLowException();
 }
 
-AForm::~AForm() {}
-
 // Exception Class Definisions
 const char *AForm::GradeTooHighException::what() const throw() {
   return "[ERROR] Grade must be lower than 1";
@@ -28,15 +26,25 @@ const char *AForm::FormAlreadySignedException::what() const throw() {
   return "This Form is already signed";
 }
 
-// Required Interface Functions
+const char *AForm::LessGradeToSignException::what() const throw() {
+  return "To sign this, you must get higher grade than now";
+}
+
+const char *AForm::LessGradeToExecuteException::what() const throw() {
+  return "To execute this, you must get higher grade than now";
+}
+
+// Required Functions
 void AForm::beSigned(const Bureaucrat &br) {
   if (this->isSigned_) {
     throw FormAlreadySignedException();
-  } else if (br.getGrade() > this->signGrade_) {
-    std::cout << br.getName() << " has not enough grade to sign AForm."
-              << std::endl;
+    return;
+  } else if (!this->isAbleToSign(br)) {
+    throw LessGradeToSignException();
+    return;
   } else {
     this->isSigned_ = true;
+    return;
   }
 }
 
@@ -47,6 +55,20 @@ int AForm::getExecGrade() const { return this->execGrade_; }
 const std::string &AForm::getName() const { return this->name_; }
 
 bool AForm::getFormIsSigned() const { return this->isSigned_; }
+
+bool AForm::isAbleToSign(const Bureaucrat &br) const {
+  if (br.getGrade() <= this->signGrade_)
+    return true;
+  else
+    return false;
+}
+
+bool AForm::isAbleToExec(const Bureaucrat &br) const {
+  if (br.getGrade() <= this->execGrade_)
+    return true;
+  else
+    return false;
+}
 
 std::ostream &operator<<(std::ostream &os, const AForm &fo) {
   os << "This is the Form Named " << fo.getName() << std::endl
