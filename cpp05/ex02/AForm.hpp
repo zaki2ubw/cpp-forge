@@ -9,7 +9,7 @@ class AForm {
 public:
   // Constructor & Destructor
   AForm(const std::string &name, int signGrade, int execGrade);
-  ~AForm();
+  virtual ~AForm();
   // Exception Class Definisions
   class GradeTooHighException : public std::exception {
   public:
