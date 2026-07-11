@@ -28,15 +28,21 @@ const char *Form::FormAlreadySignedException::what() const throw() {
   return "This Form is already signed";
 }
 
+const char *Form::LessGradeToSignException::what() const throw() {
+  return "To sign this, you must get higher grade than now";
+}
+
 // Required Interface Functions
 void Form::beSigned(const Bureaucrat &br) {
   if (this->isSigned_) {
     throw FormAlreadySignedException();
-  } else if (br.getGrade() > this->signGrade_) {
-    std::cout << br.getName() << " has not enough grade to sign Form."
-              << std::endl;
+    return;
+  } else if (!this->isAbleToSign(br)) {
+    throw LessGradeToSignException();
+    return;
   } else {
     this->isSigned_ = true;
+    return;
   }
 }
 
@@ -47,6 +53,13 @@ int Form::getExecGrade() const { return this->execGrade_; }
 const std::string &Form::getName() const { return this->name_; }
 
 bool Form::getFormIsSigned() const { return this->isSigned_; }
+
+bool Form::isAbleToSign(const Bureaucrat &br) const {
+  if (br.getGrade() <= this->signGrade_)
+    return true;
+  else
+    return false;
+}
 
 std::ostream &operator<<(std::ostream &os, const Form &fo) {
   os << "This is the Form Named " << fo.getName() << std::endl

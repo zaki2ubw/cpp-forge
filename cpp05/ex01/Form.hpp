@@ -23,6 +23,11 @@ public:
   public:
     const char *what() const throw();
   };
+  class LessGradeToSignException : public std::exception {
+  public:
+    const char *what() const throw();
+  };
+
   // Required Interface Functions
   void beSigned(const Bureaucrat &br);
   int getSignGrade() const;
@@ -30,6 +35,7 @@ public:
 
   const std::string &getName() const;
   bool getFormIsSigned() const;
+  bool isAbleToSign(const Bureaucrat &br) const;
 
 private:
   // Required Member valiable
