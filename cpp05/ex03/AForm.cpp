@@ -7,6 +7,8 @@
 AForm::AForm(const std::string &name, int signGrade, int execGrade)
     : name_(name), isSigned_(false), signGrade_(signGrade),
       execGrade_(execGrade) {
+  if (name_.empty())
+    throw std::invalid_argument("Name must be set");
   if (signGrade_ < GRADEHIGHLIMIT || execGrade_ < GRADEHIGHLIMIT)
     throw AForm::GradeTooHighException();
   if (signGrade_ > GRADELOWLIMIT || execGrade_ > GRADELOWLIMIT)

@@ -10,7 +10,6 @@
 
 class Form;
 
-// This is Inheritance from std::exception version
 class Bureaucrat {
 public:
   // Constructor & Destructor
@@ -21,7 +20,7 @@ public:
   const std::string &getName() const;
   int getGrade() const;
 
-  // Requirement Upper/Lower Functions
+  // Requirement Functions
   void incrementGrade();
   void decrementGrade();
   void signForm(Form &form);

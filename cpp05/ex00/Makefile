@@ -6,7 +6,7 @@
 #    By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/09 13:39:58 by sohyamaz          #+#    #+#              #
-#    Updated: 2026/06/16 19:27:32 by sohyamaz         ###   ########.fr        #
+#    Updated: 2026/07/12 12:59:59 by sohyamaz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,4 +35,16 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+run: $(NAME)
+	./$(NAME)
+
+rerun: re
+	./$(NAME)
+
+valrun: $(NAME)
+	@valgrind --leak-check=full ./$(NAME)
+
+revalrun: re
+	@valgrind --leak-check=full ./$(NAME)
+
+.PHONY: all clean fclean re run rerun valrun revalrun

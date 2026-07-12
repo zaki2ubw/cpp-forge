@@ -6,6 +6,8 @@
 
 Bureaucrat::Bureaucrat(const std::string &name, int grade)
     : name_(name), grade_(grade) {
+  if (name_.empty())
+    throw std::invalid_argument("Name must be set");
   if (this->grade_ < GRADEHIGHLIMIT)
     throw GradeTooHighException();
   if (this->grade_ > GRADELOWLIMIT)
