@@ -10,35 +10,45 @@ namespace {
 int typeDetector(const std::string &target) const {
   if (target.empty())
     return CASE_INVALID;
-  size_t i = 0;
-  if (!std::isdigit(target[i]) && isPrintableChar(target))
+  if (!std::isdigit(target[0]) && isPrintableChar(target))
     return CASE_CHAR;
   if (target == "nan" || target == "nanf")
     return CASE_NAN;
   if (target == "-inf" || target == "+inf" || target == "-inff" ||
       target == "+inff")
     return CASE_INF;
-  if (target[i] == "+" || target[i] == "-")
+  size_t i = 0;
+  if (target[i] == '+' || target[i] == '-') {
     ++i;
+    if (!std::isdigit(target[i]))
+      return CASE_INVALID;
+  } else if (!std::isdigit(target[i]))
+    return CASE_INVALID;
   size_t len = target.length();
-  size_t num = 0;
-  size_t point = 0;
-  size_t prefixF = 0;
   for (; i < len; ++i) {
-    if (std::isdigit(target[i]))
-      ++num;
-    else if (target[i] == '.')
-      ++point;
-    else if (i == len - 1 && target[i] == 'f')
-      ++prefixF;
-    else
-      break;
+    if (target[i] == '.') {
+      if (hasDot == true)
+        ;
+      return CASE_INVALID;
+      ++i;
+      if (!std::isdigit(target[i]))
+        return CASE_INVALID;
+      else if (i == len - 1)
+        return CASE_DOUBLE;
+      hasDot = true;
+    }
+    if (target[i] == 'f') {
+      if (i != len - 1)
+        return CASE_INVALID;
+      else if (hasDot != true)
+        ;
+      return CASE_INVALID;
+      else return CASE_FLOAT;
+    }
+    if (!std::isdigit(target[i]))
+      return CASE_INVALID;
   }
-  if (num == 0)
-    return CASE_INVALID;
-  if (point != 1)
-    return CASE_INVALID;
-  if (point != 1 && prefixF != 0)
+  return CASE_INT;
 }
 
 bool isPrintableChar(const std::string &target) {
