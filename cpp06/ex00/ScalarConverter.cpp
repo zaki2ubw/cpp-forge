@@ -20,35 +20,24 @@ int typeDetector(const std::string &target) const {
   size_t i = 0;
   if (target[i] == '+' || target[i] == '-') {
     ++i;
-    if (!std::isdigit(target[i]))
-      return CASE_INVALID;
-  } else if (!std::isdigit(target[i]))
-    return CASE_INVALID;
+  }
   size_t len = target.length();
   for (; i < len; ++i) {
     if (target[i] == '.') {
-      if (hasDot == true)
-        ;
-      return CASE_INVALID;
-      ++i;
-      if (!std::isdigit(target[i]))
+      if (hasDot == true || i + 1 >= len)
         return CASE_INVALID;
-      else if (i == len - 1)
-        return CASE_DOUBLE;
       hasDot = true;
-    }
-    if (target[i] == 'f') {
-      if (i != len - 1)
+    } else if (target[i] == 'f') {
+      if (i != len - 1 || hasDot == false)
         return CASE_INVALID;
-      else if (hasDot != true)
-        ;
-      return CASE_INVALID;
-      else return CASE_FLOAT;
-    }
-    if (!std::isdigit(target[i]))
+      return CASE_FLOAT;
+    } else if (!std::isdigit(target[i]))
       return CASE_INVALID;
   }
-  return CASE_INT;
+  if (hasDot == true)
+    return CASE_DOUBLE;
+  else
+    return CASE_INT;
 }
 
 bool isPrintableChar(const std::string &target) {
