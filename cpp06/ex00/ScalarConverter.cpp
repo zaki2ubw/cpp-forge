@@ -1,50 +1,27 @@
-#include "ScalarConverter.hpp"
+#include <cctype>
+#include <cerrno>
+#include <cmath>
+#include <cstdlib>
+#include <iomanip>
+#include <iostream>
+#include <limits>
+#include <sstream>
+#include <stdexcept>
+#include <string>
 
-void ScalarConverter::convert(const std::string &target) const {
-  if (target.empty())
-    return;
-  int type = typeDetector(target);
-  switch (type) {
-  case -1:
-    // err
-    break;
-  case 0:
-    // nan;
-    break;
-  case 1:
-    // inf
-    break;
-  case 2:
-    // char
-    {
-      unsigned char converted = static_cast<unsigned char>(target);
-      std::cout << "char: " << converted << std::endl;
-      std::cout << "int: " << static_cast<int>(converted) << std::endl;
-      std::cout << "float: " << static_cast<float>(converted) << std::endl;
-      std::cout << "double: " << static_cast<double>(converted) << std::endl;
-    }
-    break;
-  case 3:
-    // float
-    break;
-  case 4:
-    // double
-    break;
-  case 5:
-    // int
-    break;
-  case default:
-    // empty
-    break;
-  }
-}
+#include "ScalarConverter.hpp"
 
 namespace {
 
-void printNanCase(void) {
-  // NAN PRINT
-  return;
-}
+enum e_types {
+  CASE_INVALID = -1,
+  CASE_EMPTY,
+  CASE_CHAR,
+  CASE_NAN,
+  CASE_NEGATIVE_INF,
+  CASE_POSITIVE_INF,
+  CASE_NUMBER
+};
 
 bool isPrintableNonDigit(const std::string &target) {
   if (target.empty())
@@ -93,18 +70,162 @@ bool isNumber(const std::string &target) {
   return true;
 }
 
-int classifyInput(const std::string &target) {
+e_types classifyInput(const std::string &target) {
   if (target.empty())
-    return CASE_INVALID;
+    return CASE_EMPTY;
   if (isPrintableNonDigit(target))
     return CASE_CHAR;
   if (target == "nan" || target == "nanf")
     return CASE_NAN;
-  if (target == "-inf" || target == "+inf" || target == "-inff" ||
+  if (target == "-inf" || target == "-inff")
+    return CASE_NEGATIVE_INF;
+  if (target == "inf" || target == "+inf" || target == "inff" ||
       target == "+inff")
-    return CASE_INF;
+    return CASE_POSITIVE_INF;
   if (isNumber(target))
     return CASE_NUMBER;
   return CASE_INVALID;
 }
+
+double normalizeNumber(const std::string &target) {
+  errno = 0;
+  char *end;
+  const char *str = target.c_str();
+  double n = std::strtod(str, &end);
+  if (errno == ERANGE)
+    throw std::out_of_range("Too big or too small for double");
+  else if (end == str)
+    throw std::invalid_argument("Input must be Number or Char");
+  else if (*end != '\0') {
+    // except float suffix
+    if (!(*end == 'f' && end[1] == '\0'))
+      throw std::invalid_argument("Input must be Number or Char");
+    return n;
+  } else
+    return n;
+}
+
+void printFloat(double n) {
+  std::ostringstream oss;
+  float f = static_cast<float>(n);
+  if (std::floor(f) == f)
+    oss << std::fixed << std::setprecision(1) << f;
+  else
+    oss << std::setprecision(std::numeric_limits<float>::digits10 + 1) << f;
+  std::cout << "float: " << oss.str() << "f" << std::endl;
+  return;
+}
+
+void printDouble(double n) {
+  std::ostringstream oss;
+  double d = static_cast<double>(n);
+  if (std::floor(d) == d)
+    oss << std::fixed << std::setprecision(1) << d;
+  else
+    oss << std::setprecision(std::numeric_limits<double>::digits10 + 1) << d;
+  std::cout << "double: " << oss.str() << std::endl;
+  return;
+}
+
+void printNan(void) {
+  std::cout << "char: impossible" << std::endl;
+  std::cout << "int: impossible" << std::endl;
+  std::cout << "float: nanf" << std::endl;
+  std::cout << "double: nan" << std::endl;
+  return;
+}
+
+void printPositiveInf() {
+  std::cout << "char: impossible" << std::endl;
+  std::cout << "int: impossible" << std::endl;
+  std::cout << "float: +inff" << std::endl;
+  std::cout << "double: +inf" << std::endl;
+  return;
+}
+
+void printNegativeInf() {
+  std::cout << "char: impossible" << std::endl;
+  std::cout << "int: impossible" << std::endl;
+  std::cout << "float: -inff" << std::endl;
+  std::cout << "double: -inf" << std::endl;
+  return;
+}
+
+void printError(void) {
+  std::cout << "char: impossible" << std::endl;
+  std::cout << "int: impossible" << std::endl;
+  std::cout << "float: impossible" << std::endl;
+  std::cout << "double: impossible" << std::endl;
+  return;
+}
+
+void printConvertResult(double n) {
+  double truncated = 0;
+  if (n < 0)
+    truncated = std::ceil(n);
+  else
+    truncated = std::floor(n);
+  // Print char
+  if (truncated < std::numeric_limits<char>::min() ||
+      truncated > std::numeric_limits<char>::max())
+    std::cout << "char: impossible" << std::endl;
+  else if (!std::isprint(static_cast<unsigned char>(truncated)))
+    std::cout << "char: Non displayable" << std::endl;
+  else
+    std::cout << "char: '" << static_cast<char>(truncated) << "'" << std::endl;
+  // Print int
+  if (truncated < std::numeric_limits<int>::min() ||
+      truncated > std::numeric_limits<int>::max())
+    std::cout << "int: impossible" << std::endl;
+  else
+    std::cout << "int: " << static_cast<int>(truncated) << std::endl;
+  // Print float
+  if (n < -std::numeric_limits<float>::max() ||
+      n > std::numeric_limits<float>::max())
+    std::cout << "float: impossible" << std::endl;
+  else
+    printFloat(n);
+  // Print double
+  printDouble(n);
+}
+
 } // namespace
+
+void ScalarConverter::convert(const std::string &target) {
+  double n = 0;
+  e_types type = classifyInput(target);
+  switch (type) {
+  case CASE_INVALID:
+    printError();
+    return;
+  case CASE_EMPTY:
+    std::cout << "Please give me input" << std::endl;
+    return;
+  case CASE_CHAR:
+    n = static_cast<unsigned char>(target[0]);
+    break;
+  case CASE_NAN:
+    printNan();
+    return;
+  case CASE_NEGATIVE_INF:
+    printNegativeInf();
+    return;
+  case CASE_POSITIVE_INF:
+    printPositiveInf();
+    return;
+  case CASE_NUMBER:
+    try {
+      n = normalizeNumber(target);
+    } catch (const std::exception &e) {
+      (void)e;
+      printError();
+      return;
+    }
+    break;
+  default:
+    std::cout << "Please give me input" << std::endl;
+    return;
+  }
+  printConvertResult(n);
+  return;
+}
