@@ -16,13 +16,13 @@ void ScalarConverter::convert(const std::string &target) const {
     break;
   case 2:
     // char
-	{
-		unsigned char converted = static_cast<unsigned char>(target);
-		std::cout << "char: " << converted << std::endl;
-		std::cout << "int: " << static_cast<int>(converted) << std::endl;
-		std::cout << "float: " << static_cast<float>(converted) << std::endl;
-		std::cout << "double: " << static_cast<double>(converted) << std::endl;
-	}
+    {
+      unsigned char converted = static_cast<unsigned char>(target);
+      std::cout << "char: " << converted << std::endl;
+      std::cout << "int: " << static_cast<int>(converted) << std::endl;
+      std::cout << "float: " << static_cast<float>(converted) << std::endl;
+      std::cout << "double: " << static_cast<double>(converted) << std::endl;
+    }
     break;
   case 3:
     // float
@@ -41,7 +41,12 @@ void ScalarConverter::convert(const std::string &target) const {
 
 namespace {
 
-bool isPrintableChar(const std::string &target) {
+void printNanCase(void) {
+  // NAN PRINT
+  return;
+}
+
+bool isPrintableNonDigit(const std::string &target) {
   if (target.empty())
     return false;
   size_t len = target.length();
@@ -56,26 +61,19 @@ bool isPrintableChar(const std::string &target) {
     return true;
 }
 
-int typeDetector(const std::string &target) {
+bool isNumber(const std::string &target) {
   if (target.empty())
-    return CASE_INVALID;
-  if (isPrintableChar(target))
-    return CASE_CHAR;
-  if (target == "nan" || target == "nanf")
-    return CASE_NAN;
-  if (target == "-inf" || target == "+inf" || target == "-inff" ||
-      target == "+inff")
-    return CASE_INF;
+    return false;
   size_t i = 0;
   size_t len = target.length();
   if (target[i] == '+' || target[i] == '-') {
     if (i + 1 >= len ||
         !std::isdigit(static_cast<unsigned char>(target[i + 1])))
-      return CASE_INVALID;
+      return false;
     ++i;
   }
   if (!std::isdigit(static_cast<unsigned char>(target[i])))
-    return CASE_INVALID;
+    return false;
   bool hasDot = false;
   unsigned char c = 0;
   for (; i < len; ++i) {
@@ -83,18 +81,30 @@ int typeDetector(const std::string &target) {
     if (c == '.') {
       if (hasDot == true || i + 1 >= len ||
           !std::isdigit(static_cast<unsigned char>(target[i + 1])))
-        return CASE_INVALID;
+        return false;
       hasDot = true;
     } else if (c == 'f') {
       if (i != len - 1 || hasDot == false)
-        return CASE_INVALID;
-      return CASE_FLOAT;
+        return false;
+      return true;
     } else if (!std::isdigit(c))
-      return CASE_INVALID;
+      return false;
   }
-  if (hasDot == true)
-    return CASE_DOUBLE;
-  else
-    return CASE_INT;
+  return true;
+}
+
+int classifyInput(const std::string &target) {
+  if (target.empty())
+    return CASE_INVALID;
+  if (isPrintableNonDigit(target))
+    return CASE_CHAR;
+  if (target == "nan" || target == "nanf")
+    return CASE_NAN;
+  if (target == "-inf" || target == "+inf" || target == "-inff" ||
+      target == "+inff")
+    return CASE_INF;
+  if (isNumber(target))
+    return CASE_NUMBER;
+  return CASE_INVALID;
 }
 } // namespace
