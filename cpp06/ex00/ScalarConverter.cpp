@@ -3,6 +3,40 @@
 void ScalarConverter::convert(const std::string &target) const {
   if (target.empty())
     return;
+  int type = typeDetector(target);
+  switch (type) {
+  case -1:
+    // err
+    break;
+  case 0:
+    // nan;
+    break;
+  case 1:
+    // inf
+    break;
+  case 2:
+    // char
+	{
+		unsigned char converted = static_cast<unsigned char>(target);
+		std::cout << "char: " << converted << std::endl;
+		std::cout << "int: " << static_cast<int>(converted) << std::endl;
+		std::cout << "float: " << static_cast<float>(converted) << std::endl;
+		std::cout << "double: " << static_cast<double>(converted) << std::endl;
+	}
+    break;
+  case 3:
+    // float
+    break;
+  case 4:
+    // double
+    break;
+  case 5:
+    // int
+    break;
+  case default:
+    // empty
+    break;
+  }
 }
 
 namespace {
