@@ -105,25 +105,36 @@ double normalizeNumber(const std::string &target) {
     return n;
 }
 
+void addDecimalPoint(std::string &target) {
+  if (target.find('.') != std::string::npos)
+    return;
+
+  std::string::size_type exponent = target.find_first_of("eE");
+
+  if (exponent == std::string::npos)
+    target += ".0";
+  else
+    target.insert(exponent, ".0");
+  return;
+}
+
 void printFloat(double n) {
   std::ostringstream oss;
   float f = static_cast<float>(n);
-  if (std::floor(f) == f)
-    oss << std::fixed << std::setprecision(1) << f;
-  else
-    oss << std::setprecision(std::numeric_limits<float>::digits10 + 1) << f;
-  std::cout << "float: " << oss.str() << "f" << std::endl;
+  oss << std::setprecision(std::numeric_limits<float>::digits10 + 1) << f;
+  std::string result = oss.str();
+  addDecimalPoint(result);
+  std::cout << "float: " << result << "f" << std::endl;
   return;
 }
 
 void printDouble(double n) {
   std::ostringstream oss;
   double d = static_cast<double>(n);
-  if (std::floor(d) == d)
-    oss << std::fixed << std::setprecision(1) << d;
-  else
-    oss << std::setprecision(std::numeric_limits<double>::digits10 + 1) << d;
-  std::cout << "double: " << oss.str() << std::endl;
+  oss << std::setprecision(std::numeric_limits<double>::digits10) << d;
+  std::string result = oss.str();
+  addDecimalPoint(result);
+  std::cout << "double: " << result << std::endl;
   return;
 }
 
