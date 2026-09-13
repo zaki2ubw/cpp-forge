@@ -64,7 +64,7 @@ int main(void) {
     std::cout << "===Case03 OutOfBounds===" << std::endl;
     try {
       Array<int> a(3);
-      std::cout << "4th Value is " << a[4] << std::endl;
+      std::cout << "4th Value is " << a[3] << std::endl;
     } catch (const std::exception &e1) {
       std::cout << e1.what() << std::endl;
     }
@@ -153,7 +153,8 @@ int main(void) {
     for (std::size_t i = 0; i < 3; ++i) {
       std::cout << "a[i] = " << a[i] << std::endl;
     }
-    a = a;
+    Array<int> &itself = a;
+    a = itself;
     std::cout << "Current a.size() = " << a.size() << std::endl;
     for (std::size_t l = 0; l < 3; ++l) {
       std::cout << "a[l] = " << a[l] << std::endl;
