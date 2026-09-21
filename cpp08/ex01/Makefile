@@ -6,7 +6,7 @@
 #    By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/09 13:39:58 by sohyamaz          #+#    #+#              #
-#    Updated: 2026/08/15 15:32:12 by sohyamaz         ###   ########.fr        #
+#    Updated: 2026/09/21 01:49:50 by sohyamaz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = Array
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
 
-SRCS = main.cpp
+SRCS = main.cpp Span.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

@@ -17,7 +17,7 @@ public:
       throw std::invalid_argument("range over");
     vec.insert(vec.end(), first, last);
     return;
-  };
+  }
 
 private:
   Span();
