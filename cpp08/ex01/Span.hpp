@@ -7,6 +7,8 @@
 class Span {
 public:
   Span(unsigned int N);
+  Span(const Span &src);
+  Span &operator=(const Span &src);
   ~Span();
   void addNumber(int num);
   unsigned int shortestSpan();
@@ -21,8 +23,6 @@ public:
 
 private:
   Span();
-  Span(const Span &src);
-  Span &operator=(const Span &src);
   std::vector<int> vec;
   unsigned int maxSize;
 };

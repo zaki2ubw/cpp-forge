@@ -8,6 +8,16 @@
 
 Span::Span(unsigned int N) : maxSize(N) {}
 
+Span::Span(const Span &src) : vec(src.vec), maxSize(src.maxSize) {}
+
+Span &Span::operator=(const Span &src) {
+  if (this != &src) {
+    this->vec = src.vec;
+    this->maxSize = src.maxSize;
+  }
+  return *this;
+}
+
 Span::~Span() {}
 
 void Span::addNumber(int num) {
