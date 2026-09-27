@@ -9,12 +9,14 @@
 
 bool isPositiveInteger(const std::string &target) {
   long num = 0;
+  int digit = 0;
   std::size_t len = target.length();
   for (std::size_t i = 0; i < len; ++i) {
-    num += num * 10 + static_cast<long>(target[i]);
+    digit = target[i] - 0;
+    if (num > (INT_MAX - digit) / 10)
+      return false;
+    num = num * 10 + digit;
   }
-  if (num > INT_MAX)
-    return false;
   return true;
 }
 
@@ -50,7 +52,7 @@ void print_before(const std::vector<int> &vec) {
 }
 
 int main(int argc, char **argv) {
-  if (argc < 1)
+  if (argc < 2)
     return 1;
   for (int i = 1; i < argc; ++i) {
     if (!isValidNumber(argv[i]))
