@@ -17,6 +17,8 @@ bool isPositiveInteger(const std::string &target) {
       return false;
     num = num * 10 + digit;
   }
+  if (num == 0)
+    return false;
   return true;
 }
 
