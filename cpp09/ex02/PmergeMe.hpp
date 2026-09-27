@@ -11,6 +11,8 @@ public:
   PmergeMe(const std::vector<int> &origin);
   ~PmergeMe();
   void makePair();
+  // debug
+  void debugPrintPairs() const;
 
 private:
   // Forbidden
