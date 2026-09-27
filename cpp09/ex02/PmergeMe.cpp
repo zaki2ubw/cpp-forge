@@ -1,14 +1,15 @@
 #include <cstddef>
+#include <utility>
 #include <vector>
 
 #include "PmergeMe.hpp"
 
-PmergeMe::PmergeMe(const std::vector<int> &origin) : before(origin) {}
+PmergeMe::PmergeMe(const std::vector<int> &origin)
+    : before(origin), unpaired(0) {}
 
 PmergeMe::~PmergeMe() {}
 
-void PmergeMe::makePair();
-{
+void PmergeMe::makePair() {
   std::size_t len = this->before.size();
   std::size_t i = 0;
   std::size_t id = 0;
