@@ -40,11 +40,5 @@ void PmergeMe::makePair() {
   return;
 }
 
-std::vector<std::pair<int, std::size_t>> PmergeMe::largeNumIdPair();
-{}
-
-std::vector<std::size_t> PmergeMe::sortLargeChain() {
-  std::vector<std::pair<int, std::size_t>> largeNumIdPair = getLargeNumIdPair();
-  std::vector<std::size_t> sortedIds = recursiveSortLarge(largeNumIdPair);
-  return sortedIds;
-}
+std::vector<std::pair<int, size_t>>
+PmergeMe::recursiveSortLarge(std::vector<std::pair<int, size_t>> origin) {}
