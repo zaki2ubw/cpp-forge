@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "PmergeMe.hpp"
+#include "debug_util.hpp"
 
 bool isPositiveInteger(const std::string &target) {
   long num = 0;
@@ -65,5 +66,8 @@ int main(int argc, char **argv) {
     vec.push_back(toInteger(argv[j]));
   }
   print_before(vec);
+  PmergeMe Cont01(vec);
+  Cont01.makePair();
+  Cont01.debugPrintPairs();
   return 0;
 }

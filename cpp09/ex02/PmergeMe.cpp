@@ -5,7 +5,7 @@
 #include "PmergeMe.hpp"
 
 PmergeMe::PmergeMe(const std::vector<int> &origin)
-    : before(origin), unpaired(0) {}
+    : before(origin), unpaired(0), sortCount(0) {}
 
 PmergeMe::~PmergeMe() {}
 
@@ -19,6 +19,7 @@ void PmergeMe::makePair() {
     int left = before[i];
     int right = before[i + 1];
     std::pair<int, int> current_val;
+    ++sortCount;
     if (left <= right) {
       current_val.first = left;
       current_val.second = right;
@@ -37,4 +38,13 @@ void PmergeMe::makePair() {
     this->unpaired = before[i];
   }
   return;
+}
+
+std::vector<std::pair<int, std::size_t>> PmergeMe::largeNumIdPair();
+{}
+
+std::vector<std::size_t> PmergeMe::sortLargeChain() {
+  std::vector<std::pair<int, std::size_t>> largeNumIdPair = getLargeNumIdPair();
+  std::vector<std::size_t> sortedIds = recursiveSortLarge(largeNumIdPair);
+  return sortedIds;
 }
