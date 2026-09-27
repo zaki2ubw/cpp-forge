@@ -1,13 +1,14 @@
 #pragma once
 
 #include <cstddef>
+#include <utility>
 #include <vector>
 
 // Be template later
 
 class PmergeMe {
 public:
-  PmergeMe(const std::vecter<int> &origin);
+  PmergeMe(const std::vector<int> &origin);
   ~PmergeMe();
   void makePair();
 
@@ -19,4 +20,5 @@ private:
   // member
   std::vector<int> before;
   std::vector<std::pair<std::size_t, std::pair<int, int>>> paired;
+  int unpaired;
 };

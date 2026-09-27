@@ -28,17 +28,12 @@ void PmergeMe::makePair();
     std::pair<std::size_t, std::pair<int, int>> current_pair;
     current_pair.first = id;
     current_pair.second = current_val;
-    this->before.push_back(current_pair);
+    this->paired.push_back(current_pair);
     i += 2;
     ++id;
   }
   if (i < len) {
-    // 0 is spacial number for odd argument count case
-    current_val.first = before[i];
-    current_val.second = 0;
-    current_pair.first = id;
-    current_pair.second = current_val;
-    this->before.push_back(current_pair);
+    this->unpaired = before[i];
   }
   return;
 }
