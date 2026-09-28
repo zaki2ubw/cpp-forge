@@ -50,7 +50,7 @@ std::vector<std::size_t> PmergeMe::sortLargeChain() {
     currentPair.second = this->paired[i].first;
     currentLargeChain.push_back(currentPair);
   }
-  BasePairVector sortedLargePair = recursiveSortLarge(currentLargeChain);
+  BasePairVector sortedLargePair = recursiveSortLarge(currentLargeChain, 0);
   std::size_t sortedLen = sortedLargePair.size();
   for (std::size_t j = 0; j < sortedLen; ++j) {
     sortedIds.push_back(sortedLargePair[j].second);
