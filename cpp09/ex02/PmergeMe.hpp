@@ -18,6 +18,11 @@ public:
   void debugPrintPairs() const;
 
 private:
+  // Definition
+  typedef std::pair<int, std::size_t> BasePair;
+  typedef std::pair<BasePair, BasePair> ComparePair;
+  typedef std::vector<BasePair> BasePairVector;
+  typedef std::vector<ComparePair> ComparePairVector;
   // Forbidden
   PmergeMe();
   PmergeMe(const PmergeMe &src);

@@ -40,5 +40,52 @@ void PmergeMe::makePair() {
   return;
 }
 
-std::vector<std::pair<int, size_t>>
-PmergeMe::recursiveSortLarge(std::vector<std::pair<int, size_t>> origin) {}
+BasePairVector PmergeMe::recursiveSortLarge(BasePairVector currentLargeChain) {
+  ComparePairVector currentPairs;
+  BasePair currentUnpaired;
+  BasePairVector nextLargeChain;
+  BasePairVector sortedLargeChain;
+  std::size_t len = currentLargeChain.size();
+  // TODO: base case
+  if (len <= 1)
+    return currentLargeChain;
+
+  // TODO: make compare pairs from currentLargeChain
+  std::size_t i = 0;
+  while (1) {
+    if (len - i <= 1)
+      break;
+    BasePair currentPair;
+    int left = currentLargeChain[i].first();
+    int right = currentLargeChain[i + 1].first();
+    // TODO: compare each pair and decide small / large
+    // TODO: increment sortCount for each value comparison
+    ++this->sortCount;
+    if (left <= right) {
+      currentPair.first() = left;
+      currentPair.second() = right;
+    } else {
+      currentPair.first() = right;
+      currentPair.second() = left;
+    }
+    currentPairs.push_back(currentPair);
+    i += 2;
+  }
+
+  // TODO: if odd, keep currentUnpaired
+  if (i < len)
+    currentUnpaired = currentLargeChain[i];
+
+  // TODO: build nextLargeChain from each pair's large side
+  std::size_t largeSide = len / 2;
+  for (std::size_t j = 0; j < largeSide; ++j) {
+    nextLargeChain.push_back(currentPairs.second());
+  }
+
+  // TODO: recursively sort nextLargeChain
+  sortedLargeChain = PmergeMe::recursiveSortLarge(nextLargeChain);
+
+  // TODO: verify recursive return / restore current level state
+
+  // TODO: later: rebuild Main / Pend and insert
+}
