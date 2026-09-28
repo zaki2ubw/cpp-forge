@@ -56,12 +56,12 @@ BasePairVector PmergeMe::recursiveSortLarge(BasePairVector currentLargeChain) {
     if (len - i <= 1)
       break;
     ComparePair currentPair;
-    BasePair left = currentLargeChain[i].first;
-    BasePair right = currentLargeChain[i + 1].first;
+    BasePair left = currentLargeChain[i];
+    BasePair right = currentLargeChain[i + 1];
     // TODO: compare each pair and decide small / large
     // TODO: increment sortCount for each value comparison
     ++this->sortCount;
-    if (left <= right) {
+    if (left.first <= right.first) {
       currentPair.first = left;
       currentPair.second = right;
     } else {
