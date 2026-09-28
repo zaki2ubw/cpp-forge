@@ -55,18 +55,18 @@ BasePairVector PmergeMe::recursiveSortLarge(BasePairVector currentLargeChain) {
   while (1) {
     if (len - i <= 1)
       break;
-    BasePair currentPair;
-    int left = currentLargeChain[i].first();
-    int right = currentLargeChain[i + 1].first();
+    ComparePair currentPair;
+    BasePair left = currentLargeChain[i].first;
+    BasePair right = currentLargeChain[i + 1].first;
     // TODO: compare each pair and decide small / large
     // TODO: increment sortCount for each value comparison
     ++this->sortCount;
     if (left <= right) {
-      currentPair.first() = left;
-      currentPair.second() = right;
+      currentPair.first = left;
+      currentPair.second = right;
     } else {
-      currentPair.first() = right;
-      currentPair.second() = left;
+      currentPair.first = right;
+      currentPair.second = left;
     }
     currentPairs.push_back(currentPair);
     i += 2;
@@ -79,7 +79,7 @@ BasePairVector PmergeMe::recursiveSortLarge(BasePairVector currentLargeChain) {
   // TODO: build nextLargeChain from each pair's large side
   std::size_t largeSide = len / 2;
   for (std::size_t j = 0; j < largeSide; ++j) {
-    nextLargeChain.push_back(currentPairs.second());
+    nextLargeChain.push_back(currentPairs[j].second);
   }
 
   // TODO: recursively sort nextLargeChain
