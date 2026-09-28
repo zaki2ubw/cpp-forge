@@ -16,8 +16,6 @@ public:
   // recursiveSortLarge(std::vector<std::pair<int, size_t>> origin);
   // debug
   void debugPrintPairs() const;
-  BasePairVector recursiveSortLarge(BasePairVector currentLargeChain,
-                                    std::size_t depth);
 
   void debugPrintRecursiveState(std::size_t depth,
                                 const BasePairVector &currentLargeChain,
@@ -37,6 +35,9 @@ private:
   PmergeMe();
   PmergeMe(const PmergeMe &src);
   PmergeMe &operator=(const PmergeMe &src);
+  // scope
+  BasePairVector recursiveSortLarge(BasePairVector currentLargeChain,
+                                    std::size_t depth);
   // member
   std::vector<int> before;
   std::vector<std::pair<std::size_t, std::pair<int, int>>> paired;
