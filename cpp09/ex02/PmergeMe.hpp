@@ -12,18 +12,10 @@ public:
   ~PmergeMe();
   void makePair();
   std::vector<std::size_t> sortLargeChain();
-  //  std::vector<std::pair<int, size_t>>
-  // recursiveSortLarge(std::vector<std::pair<int, size_t>> origin);
+  //  std::vector<std::pair<int, size_t> >
+  // recursiveSortLarge(std::vector<std::pair<int, size_t> > origin);
   // debug
   void debugPrintPairs() const;
-
-  void debugPrintRecursiveState(std::size_t depth,
-                                const BasePairVector &currentLargeChain,
-                                const ComparePairVector &currentPairs,
-                                bool hasUnpaired,
-                                const BasePair &currentUnpaired,
-                                const BasePairVector &nextLargeChain,
-                                const BasePairVector &sortedLargeChain) const;
 
 private:
   // Definition
@@ -38,9 +30,17 @@ private:
   // scope
   BasePairVector recursiveSortLarge(BasePairVector currentLargeChain,
                                     std::size_t depth);
+  // debug
+  void debugPrintRecursiveState(std::size_t depth,
+                                const BasePairVector &currentLargeChain,
+                                const ComparePairVector &currentPairs,
+                                bool hasUnpaired,
+                                const BasePair &currentUnpaired,
+                                const BasePairVector &nextLargeChain,
+                                const BasePairVector &sortedLargeChain) const;
   // member
   std::vector<int> before;
-  std::vector<std::pair<std::size_t, std::pair<int, int>>> paired;
+  std::vector<std::pair<std::size_t, std::pair<int, int> > > paired;
   int unpaired;
   std::size_t sortCount;
 };

@@ -69,5 +69,6 @@ int main(int argc, char **argv) {
   PmergeMe Cont01(vec);
   Cont01.makePair();
   Cont01.debugPrintPairs();
+  Cont01.sortLargeChain();
   return 0;
 }
