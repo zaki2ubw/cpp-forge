@@ -12,10 +12,20 @@ public:
   ~PmergeMe();
   void makePair();
   std::vector<std::size_t> sortLargeChain();
-  std::vector<std::pair<int, size_t>>
-  recursiveSortLarge(std::vector<std::pair<int, size_t>> origin);
+  //  std::vector<std::pair<int, size_t>>
+  // recursiveSortLarge(std::vector<std::pair<int, size_t>> origin);
   // debug
   void debugPrintPairs() const;
+  BasePairVector recursiveSortLarge(BasePairVector currentLargeChain,
+                                    std::size_t depth);
+
+  void debugPrintRecursiveState(std::size_t depth,
+                                const BasePairVector &currentLargeChain,
+                                const ComparePairVector &currentPairs,
+                                bool hasUnpaired,
+                                const BasePair &currentUnpaired,
+                                const BasePairVector &nextLargeChain,
+                                const BasePairVector &sortedLargeChain) const;
 
 private:
   // Definition

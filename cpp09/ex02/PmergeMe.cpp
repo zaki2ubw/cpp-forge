@@ -40,7 +40,9 @@ void PmergeMe::makePair() {
   return;
 }
 
-BasePairVector PmergeMe::recursiveSortLarge(BasePairVector currentLargeChain) {
+BasePairVector PmergeMe::recursiveSortLarge(BasePairVector currentLargeChain,
+                                            std::size_t depth) {
+  bool hasUnpaired = false;
   ComparePairVector currentPairs;
   BasePair currentUnpaired;
   BasePairVector nextLargeChain;
@@ -83,7 +85,7 @@ BasePairVector PmergeMe::recursiveSortLarge(BasePairVector currentLargeChain) {
   }
 
   // TODO: recursively sort nextLargeChain
-  sortedLargeChain = PmergeMe::recursiveSortLarge(nextLargeChain);
+  sortedLargeChain = PmergeMe::recursiveSortLarge(nextLargeChain, depth + 1);
 
   // TODO: verify recursive return / restore current level state
 
