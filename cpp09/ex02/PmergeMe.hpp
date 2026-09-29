@@ -23,13 +23,29 @@ private:
   typedef std::pair<BasePair, BasePair> ComparePair;
   typedef std::vector<BasePair> BasePairVector;
   typedef std::vector<ComparePair> ComparePairVector;
+
   // Forbidden
   PmergeMe();
   PmergeMe(const PmergeMe &src);
   PmergeMe &operator=(const PmergeMe &src);
-  // scope
+
+  // Recursive sort helpers
+  void makeRecursivePairs(const BasePairVector &currentLargeChain,
+                          ComparePairVector &currentPairs, bool &hasUnpaired,
+                          BasePair &currentUnpaired);
+
+  BasePairVector buildLargeChain(const ComparePairVector &currentPairs) const;
+
+  ComparePairVector reorderPairs(const ComparePairVector &currentPairs,
+                                 const BasePairVector &sortedLargeChain) const;
+
   BasePairVector recursiveSortLarge(BasePairVector currentLargeChain,
                                     std::size_t depth);
+
+  void buildMainAndPend(const ComparePairVector &sortedCurrentPairs,
+                        BasePairVector &mainChain,
+                        ComparePairVector &pendPairs) const;
+
   // debug
   void debugPrintRecursiveState(std::size_t depth,
                                 const BasePairVector &currentLargeChain,
@@ -39,6 +55,7 @@ private:
                                 const BasePair &currentUnpaired,
                                 const BasePairVector &nextLargeChain,
                                 const BasePairVector &sortedLargeChain) const;
+
   // member
   std::vector<int> before;
   std::vector<std::pair<std::size_t, std::pair<int, int> > > paired;
