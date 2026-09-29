@@ -1,3 +1,4 @@
+#include <cctype>
 #include <climits>
 #include <cstddef>
 #include <iostream>
@@ -13,7 +14,7 @@ bool isPositiveInteger(const std::string &target) {
   int digit = 0;
   std::size_t len = target.length();
   for (std::size_t i = 0; i < len; ++i) {
-    digit = target[i] - 0;
+    digit = target[i] - '0';
     if (num > (INT_MAX - digit) / 10)
       return false;
     num = num * 10 + digit;
