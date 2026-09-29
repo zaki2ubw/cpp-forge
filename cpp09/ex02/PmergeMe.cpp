@@ -144,9 +144,15 @@ PmergeMe::recursiveSortLarge(PmergeMe::BasePairVector currentLargeChain,
   ComparePairVector sortedCurrentPairs =
       reorderPairs(currentPairs, sortedLargeChain);
 
+  BasePairVector mainChain;
+  ComparePairVector pendPairs;
+
+  buildMainAndPend(sortedCurrentPairs, mainChain, pendPairs);
+
   debugPrintRecursiveState(depth, currentLargeChain, currentPairs,
-                           sortedCurrentPairs, hasUnpaired, currentUnpaired,
-                           nextLargeChain, sortedLargeChain);
+                           sortedCurrentPairs, mainChain, pendPairs,
+                           hasUnpaired, currentUnpaired, nextLargeChain,
+                           sortedLargeChain);
 
   return sortedLargeChain;
 

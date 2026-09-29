@@ -51,6 +51,8 @@ private:
                                 const BasePairVector &currentLargeChain,
                                 const ComparePairVector &currentPairs,
                                 const ComparePairVector &sortedCurrentPairs,
+                                const BasePairVector &mainChain,
+                                const ComparePairVector &pendPairs,
                                 bool hasUnpaired,
                                 const BasePair &currentUnpaired,
                                 const BasePairVector &nextLargeChain,
