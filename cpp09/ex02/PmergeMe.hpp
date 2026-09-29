@@ -34,6 +34,7 @@ private:
   void debugPrintRecursiveState(std::size_t depth,
                                 const BasePairVector &currentLargeChain,
                                 const ComparePairVector &currentPairs,
+                                const ComparePairVector &sortedCurrentPairs,
                                 bool hasUnpaired,
                                 const BasePair &currentUnpaired,
                                 const BasePairVector &nextLargeChain,

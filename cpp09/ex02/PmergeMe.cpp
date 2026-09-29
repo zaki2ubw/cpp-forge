@@ -107,6 +107,7 @@ PmergeMe::recursiveSortLarge(PmergeMe::BasePairVector currentLargeChain,
 
   // TODO: recursively sort nextLargeChain
   sortedLargeChain = PmergeMe::recursiveSortLarge(nextLargeChain, depth + 1);
+  ComparePairVector sortedCurrentPairs;
   for (std::size_t k = 0; k < sortedLargeChain.size(); ++k) {
     std::size_t targetId = sortedLargeChain[k].second;
     for (std::size_t l = 0; l < currentPairs.size(); ++l) {
@@ -118,8 +119,9 @@ PmergeMe::recursiveSortLarge(PmergeMe::BasePairVector currentLargeChain,
   }
 
   // TODO: verify recursive return / restore current level state
-  debugPrintRecursiveState(depth, currentLargeChain, currentPairs, hasUnpaired,
-                           currentUnpaired, nextLargeChain, sortedLargeChain);
+  debugPrintRecursiveState(depth, currentLargeChain, currentPairs,
+                           sortedCurrentPairs, hasUnpaired, currentUnpaired,
+                           nextLargeChain, sortedLargeChain);
   return sortedLargeChain;
   // TODO: later: rebuild Main / Pend and insert
 }

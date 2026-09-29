@@ -21,7 +21,8 @@ void PmergeMe::debugPrintPairs() const {
 
 void PmergeMe::debugPrintRecursiveState(
     std::size_t depth, const BasePairVector &currentLargeChain,
-    const ComparePairVector &currentPairs, bool hasUnpaired,
+    const ComparePairVector &currentPairs,
+    const ComparePairVector &sortedCurrentPairs, bool hasUnpaired,
     const BasePair &currentUnpaired, const BasePairVector &nextLargeChain,
     const BasePairVector &sortedLargeChain) const {
 
@@ -43,6 +44,15 @@ void PmergeMe::debugPrintRecursiveState(
               << ", id:" << currentPairs[i].first.second << ") large=("
               << currentPairs[i].second.first
               << ", id:" << currentPairs[i].second.second << ")" << std::endl;
+  }
+
+  std::cout << "Sorted Pairs:" << std::endl;
+  for (std::size_t i = 0; i < sortedCurrentPairs.size(); ++i) {
+    std::cout << "  small=(" << sortedCurrentPairs[i].first.first
+              << ", id:" << sortedCurrentPairs[i].first.second << ") large=("
+              << sortedCurrentPairs[i].second.first
+              << ", id:" << sortedCurrentPairs[i].second.second << ")"
+              << std::endl;
   }
 
   std::cout << "Unpaired: ";
