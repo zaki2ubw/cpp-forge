@@ -180,9 +180,9 @@ std::vector<std::size_t> generateJacobVector(std::size_t arraySize) {
   jacobVector.push_back(1);
   std::size_t i = 2;
   while (1) {
-    if (i > arraySize)
+    std::size_t currentJacob = jacobVector[i - 1] + 2 * jacobVector[i - 2];
+    if (currentJacob > arraySize)
       break;
-    std::size_t currentJacob = jacobVector[i - 2] + jacobVector[i - 1];
     jacobVector.push_back(currentJacob);
     ++i;
   }
