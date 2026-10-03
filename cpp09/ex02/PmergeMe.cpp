@@ -154,6 +154,9 @@ PmergeMe::recursiveSortLarge(PmergeMe::BasePairVector currentLargeChain,
                            hasUnpaired, currentUnpaired, nextLargeChain,
                            sortedLargeChain);
 
+  if (pendPairs.empty() && !hasUnpaired)
+    return mainChain;
+
   return sortedLargeChain;
 
   // TODO: later: rebuild Main / Pend and insert
