@@ -174,13 +174,17 @@ void PmergeMe::buildMainAndPend(const ComparePairVector &sortedCurrentPairs,
   return;
 }
 
-std::vector<std::size_t> &genelateJacobVector(std::size_t arraySize) {
+std::vector<std::size_t> generateJacobVector(std::size_t arraySize) {
   std::vector<std::size_t> jacobVector;
   jacobVector.push_back(0);
   jacobVector.push_back(1);
-  for (std::size_t i = 2; i < arraySize; ++i) {
-    std::size_t currentJacob = jacobVector[i - 2] + jacobVector[i + 1];
+  std::size_t i = 2;
+  while (1) {
+    if (i > arraySize)
+      break;
+    std::size_t currentJacob = jacobVector[i - 2] + jacobVector[i - 1];
     jacobVector.push_back(currentJacob);
+    ++i;
   }
   return jacobVector;
 }
