@@ -27,7 +27,7 @@ void PmergeMe::makePair() {
       current_val.first = right;
       current_val.second = left;
     }
-    std::pair<std::size_t, std::pair<int, int> > current_pair;
+    std::pair<std::size_t, std::pair<int, int>> current_pair;
     current_pair.first = id;
     current_pair.second = current_val;
     this->paired.push_back(current_pair);
@@ -172,4 +172,15 @@ void PmergeMe::buildMainAndPend(const ComparePairVector &sortedCurrentPairs,
     pendPairs.push_back(sortedCurrentPairs[i]);
   }
   return;
+}
+
+std::vector<std::size_t> &genelateJacobVector(std::size_t arraySize) {
+  std::vector<std::size_t> jacobVector;
+  jacobVector.push_back(0);
+  jacobVector.push_back(1);
+  for (std::size_t i = 2; i < arraySize; ++i) {
+    std::size_t currentJacob = jacobVector[i - 2] + jacobVector[i + 1];
+    jacobVector.push_back(currentJacob);
+  }
+  return jacobVector;
 }
