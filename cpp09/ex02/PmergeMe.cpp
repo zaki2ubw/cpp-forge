@@ -43,6 +43,8 @@ void PmergeMe::makePair() {
 std::vector<std::size_t> PmergeMe::sortLargeChain() {
   BasePairVector currentLargeChain;
   std::vector<std::size_t> sortedIds;
+  std::vector<std::size_t> jacobStal =
+      generateJacobVector(before.size() + 1 / 2);
   std::size_t len = this->paired.size();
   for (std::size_t i = 0; i < len; ++i) {
     BasePair currentPair;
@@ -125,6 +127,7 @@ PmergeMe::reorderPairs(const ComparePairVector &currentPairs,
 
 PmergeMe::BasePairVector
 PmergeMe::recursiveSortLarge(PmergeMe::BasePairVector currentLargeChain,
+                             const std::vector<std::size_t> &jacobVector,
                              std::size_t depth) {
   if (currentLargeChain.size() <= 1)
     return currentLargeChain;
@@ -139,7 +142,7 @@ PmergeMe::recursiveSortLarge(PmergeMe::BasePairVector currentLargeChain,
   BasePairVector nextLargeChain = buildLargeChain(currentPairs);
 
   BasePairVector sortedLargeChain =
-      recursiveSortLarge(nextLargeChain, depth + 1);
+      recursiveSortLarge(nextLargeChain, jacobVector, depth + 1);
 
   ComparePairVector sortedCurrentPairs =
       reorderPairs(currentPairs, sortedLargeChain);
@@ -174,16 +177,16 @@ void PmergeMe::buildMainAndPend(const ComparePairVector &sortedCurrentPairs,
   return;
 }
 
-std::vector<std::size_t> generateJacobVector(std::size_t mainChainSize) {
+std::vector<std::size_t> generateJacobVector(std::size_t jacobLimit) {
   std::vector<std::size_t> jacobVector;
   jacobVector.push_back(0);
   jacobVector.push_back(1);
   std::size_t i = 2;
   while (1) {
-    if (currentJacob > mainChainSize)
-      break;
     std::size_t currentJacob = jacobVector[i - 1] + 2 * jacobVector[i - 2];
     jacobVector.push_back(currentJacob);
+    if (currentJacob > jacobLimit)
+      break;
     ++i;
   }
   return jacobVector;
