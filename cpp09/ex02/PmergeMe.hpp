@@ -13,8 +13,6 @@ public:
   void makePair();
   std::vector<std::size_t> sortLargeChain();
   void debugPrintPairs() const;
-  void binaryInsert(BasePairVector &mainChain, const BasePair &target,
-                    std::size_t rightBound);
 
 private:
   // Definition
@@ -52,6 +50,9 @@ private:
   buildInsertionOrder(const std::vector<std::size_t> &jacobVector,
                       std::size_t jacobLimit) const;
 
+  void binaryInsert(BasePairVector &mainChain, const BasePair &target,
+                    std::size_t rightBound);
+
   // debug
   void debugPrintRecursiveState(std::size_t depth,
                                 const BasePairVector &currentLargeChain,
@@ -70,7 +71,7 @@ private:
 
   // member
   std::vector<int> before;
-  std::vector<std::pair<std::size_t, std::pair<int, int> > > paired;
+  std::vector<std::pair<std::size_t, std::pair<int, int>>> paired;
   int unpaired;
   std::size_t sortCount;
 };

@@ -230,15 +230,14 @@ void PmergeMe::binaryInsert(BasePairVector &mainChain, const BasePair &target,
   std::size_t left = 0;
   std::size_t right = rightBound;
   std::size_t mid;
-  while (1) {
-    if (mid >= left && mid <= right)
-      break;
-    mid = left + ((rigth - left) / 2);
-    if (mid >= target)
+  while (left < right) {
+    mid = left + ((right - left) / 2);
+    if (mainChain[mid].first <= target.first)
       left = mid + 1;
     else
       right = mid;
+    ++sortCount;
   }
-  mainChain.insert(mainChain.begin() + mid, target.second;);
+  mainChain.insert(mainChain.begin() + left, target;);
   return;
 }
