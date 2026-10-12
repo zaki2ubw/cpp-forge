@@ -40,11 +40,14 @@ private:
                                  const BasePairVector &sortedLargeChain) const;
 
   BasePairVector recursiveSortLarge(BasePairVector currentLargeChain,
+                                    const std::vector<std::size_t> &jacobVector,
                                     std::size_t depth);
 
   void buildMainAndPend(const ComparePairVector &sortedCurrentPairs,
                         BasePairVector &mainChain,
                         ComparePairVector &pendPairs) const;
+
+  std::vector<std::size_t> generateJacobVector(std::size_t jacobLimit) const;
 
   // debug
   void debugPrintRecursiveState(std::size_t depth,
@@ -60,7 +63,7 @@ private:
 
   // member
   std::vector<int> before;
-  std::vector<std::pair<std::size_t, std::pair<int, int> > > paired;
+  std::vector<std::pair<std::size_t, std::pair<int, int>>> paired;
   int unpaired;
   std::size_t sortCount;
 };
