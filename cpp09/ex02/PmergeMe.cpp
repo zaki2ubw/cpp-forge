@@ -27,7 +27,7 @@ void PmergeMe::makePair() {
       current_val.first = right;
       current_val.second = left;
     }
-    std::pair<std::size_t, std::pair<int, int> > current_pair;
+    std::pair<std::size_t, std::pair<int, int>> current_pair;
     current_pair.first = id;
     current_pair.second = current_val;
     this->paired.push_back(current_pair);
@@ -223,4 +223,22 @@ PmergeMe::buildInsertionOrder(const std::vector<std::size_t> &jacobVector,
     previousBoundary = currentBoundary;
   }
   return insertionOrder;
+}
+
+void PmergeMe::binaryInsert(BasePairVector &mainChain, const BasePair &target,
+                            std::size_t rightBound) {
+  std::size_t left = 0;
+  std::size_t right = rightBound;
+  std::size_t mid;
+  while (1) {
+    if (mid >= left && mid <= right)
+      break;
+    mid = left + ((rigth - left) / 2);
+    if (mid >= target)
+      left = mid + 1;
+    else
+      right = mid;
+  }
+  mainChain.insert(mainChain.begin() + mid, target.second;);
+  return;
 }

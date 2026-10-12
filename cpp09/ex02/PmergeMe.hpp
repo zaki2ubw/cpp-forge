@@ -12,10 +12,9 @@ public:
   ~PmergeMe();
   void makePair();
   std::vector<std::size_t> sortLargeChain();
-  //  std::vector<std::pair<int, size_t> >
-  // recursiveSortLarge(std::vector<std::pair<int, size_t> > origin);
-  // debug
   void debugPrintPairs() const;
+  void binaryInsert(BasePairVector &mainChain, const BasePair &target,
+                    std::size_t rightBound);
 
 private:
   // Definition
