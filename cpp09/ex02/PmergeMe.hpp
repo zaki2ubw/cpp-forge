@@ -65,9 +65,13 @@ private:
                                 const BasePairVector &nextLargeChain,
                                 const BasePairVector &sortedLargeChain) const;
 
+  void debugPrintInsertionOrder(
+      std::size_t jacobLimit,
+      const std::vector<std::size_t> &insertionOrder) const;
+
   // member
   std::vector<int> before;
-  std::vector<std::pair<std::size_t, std::pair<int, int>>> paired;
+  std::vector<std::pair<std::size_t, std::pair<int, int> > > paired;
   int unpaired;
   std::size_t sortCount;
 };

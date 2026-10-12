@@ -27,7 +27,7 @@ void PmergeMe::makePair() {
       current_val.first = right;
       current_val.second = left;
     }
-    std::pair<std::size_t, std::pair<int, int>> current_pair;
+    std::pair<std::size_t, std::pair<int, int> > current_pair;
     current_pair.first = id;
     current_pair.second = current_val;
     this->paired.push_back(current_pair);
@@ -45,6 +45,16 @@ std::vector<std::size_t> PmergeMe::sortLargeChain() {
   std::vector<std::size_t> sortedIds;
   std::vector<std::size_t> jacobVector =
       generateJacobVector((before.size() + 1) / 2);
+  // debug
+  std::vector<std::size_t> order3 = buildInsertionOrder(jacobVector, 3);
+  std::vector<std::size_t> order5 = buildInsertionOrder(jacobVector, 5);
+  std::vector<std::size_t> order10 = buildInsertionOrder(jacobVector, 10);
+
+  debugPrintInsertionOrder(3, order3);
+  debugPrintInsertionOrder(5, order5);
+  debugPrintInsertionOrder(10, order10);
+  // debug end
+
   std::size_t len = this->paired.size();
   for (std::size_t i = 0; i < len; ++i) {
     BasePair currentPair;
@@ -199,7 +209,7 @@ PmergeMe::buildInsertionOrder(const std::vector<std::size_t> &jacobVector,
                               std::size_t jacobLimit) const {
   std::vector<std::size_t> insertionOrder;
   std::size_t previousBoundary = 1;
-  for (std::size_t i = 3; i <= jacobVector.size(); ++i) {
+  for (std::size_t i = 3; i < jacobVector.size(); ++i) {
     std::size_t currentBoundary = jacobVector[i];
     if (currentBoundary >= jacobLimit)
       currentBoundary = jacobLimit;

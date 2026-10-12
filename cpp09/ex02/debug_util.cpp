@@ -20,14 +20,11 @@ void PmergeMe::debugPrintPairs() const {
 }
 
 void PmergeMe::debugPrintRecursiveState(
-    std::size_t depth,
-    const BasePairVector &currentLargeChain,
+    std::size_t depth, const BasePairVector &currentLargeChain,
     const ComparePairVector &currentPairs,
     const ComparePairVector &sortedCurrentPairs,
-    const BasePairVector &mainChain,
-    const ComparePairVector &pendPairs,
-    bool hasUnpaired,
-    const BasePair &currentUnpaired,
+    const BasePairVector &mainChain, const ComparePairVector &pendPairs,
+    bool hasUnpaired, const BasePair &currentUnpaired,
     const BasePairVector &nextLargeChain,
     const BasePairVector &sortedLargeChain) const {
 
@@ -45,31 +42,24 @@ void PmergeMe::debugPrintRecursiveState(
 
   std::cout << "Pairs:" << std::endl;
   for (std::size_t i = 0; i < currentPairs.size(); ++i) {
-    std::cout << "  small=("
-              << currentPairs[i].first.first
-              << ", id:" << currentPairs[i].first.second
-              << ") large=("
+    std::cout << "  small=(" << currentPairs[i].first.first
+              << ", id:" << currentPairs[i].first.second << ") large=("
               << currentPairs[i].second.first
-              << ", id:" << currentPairs[i].second.second
-              << ")" << std::endl;
+              << ", id:" << currentPairs[i].second.second << ")" << std::endl;
   }
 
   std::cout << "Sorted Pairs:" << std::endl;
   for (std::size_t i = 0; i < sortedCurrentPairs.size(); ++i) {
-    std::cout << "  small=("
-              << sortedCurrentPairs[i].first.first
-              << ", id:" << sortedCurrentPairs[i].first.second
-              << ") large=("
+    std::cout << "  small=(" << sortedCurrentPairs[i].first.first
+              << ", id:" << sortedCurrentPairs[i].first.second << ") large=("
               << sortedCurrentPairs[i].second.first
-              << ", id:" << sortedCurrentPairs[i].second.second
-              << ")" << std::endl;
+              << ", id:" << sortedCurrentPairs[i].second.second << ")"
+              << std::endl;
   }
 
   std::cout << "Main: ";
   for (std::size_t i = 0; i < mainChain.size(); ++i) {
-    std::cout << "("
-              << mainChain[i].first
-              << ", id:" << mainChain[i].second
+    std::cout << "(" << mainChain[i].first << ", id:" << mainChain[i].second
               << ")";
     if (i + 1 < mainChain.size())
       std::cout << " ";
@@ -78,21 +68,16 @@ void PmergeMe::debugPrintRecursiveState(
 
   std::cout << "Pend:" << std::endl;
   for (std::size_t i = 0; i < pendPairs.size(); ++i) {
-    std::cout << "  small=("
-              << pendPairs[i].first.first
-              << ", id:" << pendPairs[i].first.second
-              << ") partner=("
+    std::cout << "  small=(" << pendPairs[i].first.first
+              << ", id:" << pendPairs[i].first.second << ") partner=("
               << pendPairs[i].second.first
-              << ", id:" << pendPairs[i].second.second
-              << ")" << std::endl;
+              << ", id:" << pendPairs[i].second.second << ")" << std::endl;
   }
 
   std::cout << "Unpaired: ";
   if (hasUnpaired) {
-    std::cout << "("
-              << currentUnpaired.first
-              << ", id:" << currentUnpaired.second
-              << ")";
+    std::cout << "(" << currentUnpaired.first
+              << ", id:" << currentUnpaired.second << ")";
   } else {
     std::cout << "none";
   }
@@ -100,10 +85,8 @@ void PmergeMe::debugPrintRecursiveState(
 
   std::cout << "Next Large: ";
   for (std::size_t i = 0; i < nextLargeChain.size(); ++i) {
-    std::cout << "("
-              << nextLargeChain[i].first
-              << ", id:" << nextLargeChain[i].second
-              << ")";
+    std::cout << "(" << nextLargeChain[i].first
+              << ", id:" << nextLargeChain[i].second << ")";
     if (i + 1 < nextLargeChain.size())
       std::cout << " ";
   }
@@ -111,12 +94,26 @@ void PmergeMe::debugPrintRecursiveState(
 
   std::cout << "Returned Sorted Large: ";
   for (std::size_t i = 0; i < sortedLargeChain.size(); ++i) {
-    std::cout << "("
-              << sortedLargeChain[i].first
-              << ", id:" << sortedLargeChain[i].second
-              << ")";
+    std::cout << "(" << sortedLargeChain[i].first
+              << ", id:" << sortedLargeChain[i].second << ")";
     if (i + 1 < sortedLargeChain.size())
       std::cout << " ";
   }
+  std::cout << std::endl;
+}
+
+void PmergeMe::debugPrintInsertionOrder(
+    std::size_t jacobLimit,
+    const std::vector<std::size_t> &insertionOrder) const {
+  std::cout << "--- Insertion Order ---" << std::endl;
+  std::cout << "Jacob Limit: " << jacobLimit << std::endl;
+  std::cout << "Order: ";
+
+  for (std::size_t i = 0; i < insertionOrder.size(); ++i) {
+    std::cout << insertionOrder[i];
+    if (i + 1 < insertionOrder.size())
+      std::cout << " ";
+  }
+
   std::cout << std::endl;
 }
