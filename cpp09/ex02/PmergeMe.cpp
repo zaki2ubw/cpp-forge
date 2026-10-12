@@ -178,7 +178,8 @@ void PmergeMe::buildMainAndPend(const ComparePairVector &sortedCurrentPairs,
   return;
 }
 
-std::vector<std::size_t> generateJacobVector(std::size_t jacobLimit) {
+std::vector<std::size_t>
+PmergeMe::generateJacobVector(std::size_t jacobLimit) const {
   std::vector<std::size_t> jacobVector;
   jacobVector.push_back(0);
   jacobVector.push_back(1);
@@ -191,4 +192,25 @@ std::vector<std::size_t> generateJacobVector(std::size_t jacobLimit) {
     ++i;
   }
   return jacobVector;
+}
+
+std::vector<std::size_t>
+PmergeMe::buildInsertionOrder(const std::vector<std::size_t> &jacobVector,
+                              std::size_t jacobLimit) const {
+  std::vector<std::size_t> insertionOrder;
+  std::size_t previousBoundary = 1;
+  for (std::size_t i = 3; jacobVector[i] >= jacobLimit; ++i) {
+    std::size_t currentBoundary = jacobVector[i];
+    if (currentBoundary >= jacobLimit)
+      currentBoundary = jacobLimit;
+    boundaryNumber = currentBoundary;
+    while (boundaryNumber > previousBoundary) {
+      insertionOrder.push_back(jacobVector[boundaryNumber]);
+      --boundaryNumber;
+    }
+    if (currentBoundary == jacobLimit)
+      break;
+    previousBoundary = currentBoundary;
+  }
+  return insertionOrder;
 }

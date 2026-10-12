@@ -49,6 +49,10 @@ private:
 
   std::vector<std::size_t> generateJacobVector(std::size_t jacobLimit) const;
 
+  std::vector<std::size_t>
+  buildInsertionOrder(const std::vector<std::size_t> &jacobVector,
+                      std::size_t jacobLimit) const;
+
   // debug
   void debugPrintRecursiveState(std::size_t depth,
                                 const BasePairVector &currentLargeChain,
