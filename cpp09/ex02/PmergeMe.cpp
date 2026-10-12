@@ -4,11 +4,30 @@
 
 #include "PmergeMe.hpp"
 
+/**
+ * before    : copy of the original input sequence
+ * unpaired  : leftover element when the input size is odd (set in makePair)
+ * sortCount : number of element comparisons performed so far
+ */
 PmergeMe::PmergeMe(const std::vector<int> &origin)
     : before(origin), unpaired(0), sortCount(0) {}
 
+/** Nothing to release; all members are self-managed containers. */
 PmergeMe::~PmergeMe() {}
 
+/**
+ * Top-level pairing step of Ford-Johnson on the raw int input.
+ *
+ * before       : original input sequence
+ * paired       : output, vector of (pair id, (small, large))
+ * id           : sequential pair id, equal to the index in `paired`
+ * i            : read position in `before`, advanced by 2 per pair
+ * left / right : adjacent elements before[i], before[i + 1]
+ * current_val  : (small, large) of the current pair, one comparison each
+ * current_pair : (id, current_val) pushed into `paired`
+ * unpaired     : leftover element when the input size is odd
+ * sortCount    : incremented once per comparison
+ */
 void PmergeMe::makePair() {
   std::size_t len = this->before.size();
   std::size_t i = 0;
@@ -40,6 +59,17 @@ void PmergeMe::makePair() {
   return;
 }
 
+/**
+ * Entry point of the recursive sort of the larger elements.
+ *
+ * currentLargeChain : initial large chain, one BasePair per entry of
+ *                     `paired`: (large value, pair id)
+ * jacobVector       : Jacobsthal numbers generated up to (n + 1) / 2,
+ *                     n = before.size()
+ * order3/5/10       : debug only, insertion orders for small limits
+ * sortedLargePair   : large chain as returned by recursiveSortLarge
+ * sortedIds         : pair ids extracted from sortedLargePair (return value)
+ */
 std::vector<std::size_t> PmergeMe::sortLargeChain() {
   BasePairVector currentLargeChain;
   std::vector<std::size_t> sortedIds;
@@ -71,6 +101,17 @@ std::vector<std::size_t> PmergeMe::sortLargeChain() {
   return sortedIds;
 }
 
+/**
+ * Pairing step at one recursion level, on BasePairs instead of ints.
+ *
+ * currentLargeChain : BasePairs to be paired at this level
+ * currentPairs      : output, one ComparePair (small, large) per adjacent
+ *                     pair, ordered by value (.first), one comparison each
+ * left / right      : adjacent BasePairs currentLargeChain[i], [i + 1]
+ * hasUnpaired       : set to true when the chain length is odd
+ * currentUnpaired   : the leftover BasePair when hasUnpaired is true
+ * sortCount         : incremented once per comparison
+ */
 void PmergeMe::makeRecursivePairs(const BasePairVector &currentLargeChain,
                                   ComparePairVector &currentPairs,
                                   bool &hasUnpaired,
@@ -106,6 +147,11 @@ void PmergeMe::makeRecursivePairs(const BasePairVector &currentLargeChain,
   }
 }
 
+/**
+ * nextLargeChain : the large BasePair (.second) of each ComparePair, in the
+ *                  order of currentPairs; input chain of the next recursion
+ *                  level
+ */
 PmergeMe::BasePairVector
 PmergeMe::buildLargeChain(const ComparePairVector &currentPairs) const {
   BasePairVector nextLargeChain;
@@ -117,6 +163,17 @@ PmergeMe::buildLargeChain(const ComparePairVector &currentPairs) const {
   return nextLargeChain;
 }
 
+/**
+ * Restores the pair structure after the recursive call sorted the large
+ * elements.
+ *
+ * currentPairs       : unsorted ComparePairs of this level
+ * sortedLargeChain   : large BasePairs in sorted order (result of recursion)
+ * targetId           : original id of the current sorted large element
+ * sortedCurrentPairs : currentPairs reordered to follow sortedLargeChain;
+ *                      matched via the id of the large element
+ *                      (currentPairs[j].second.second == targetId)
+ */
 PmergeMe::ComparePairVector
 PmergeMe::reorderPairs(const ComparePairVector &currentPairs,
                        const BasePairVector &sortedLargeChain) const {
@@ -136,6 +193,26 @@ PmergeMe::reorderPairs(const ComparePairVector &currentPairs,
   return sortedCurrentPairs;
 }
 
+/**
+ * One level of the Ford-Johnson recursion.
+ *
+ * currentLargeChain  : chain to sort at this level (copied by value)
+ * jacobVector        : shared Jacobsthal numbers, passed down unchanged
+ * depth              : recursion depth, 0 at the top level (debug output)
+ * currentPairs       : (small, large) ComparePairs made from currentLargeChain
+ * hasUnpaired /
+ * currentUnpaired    : leftover BasePair when the chain length is odd
+ * nextLargeChain     : large elements only, input of the recursive call
+ * sortedLargeChain   : result of the recursive call on nextLargeChain
+ * sortedCurrentPairs : currentPairs reordered to match sortedLargeChain
+ * mainChain          : b_1, a_1, a_2, ..., a_k (see buildMainAndPend)
+ * pendPairs          : ComparePairs whose small element b_i is still
+ *                      pending insertion into mainChain
+ *
+ * Note: insertion of pendPairs / currentUnpaired is not implemented yet
+ * (see the TODO at the end). mainChain is returned only when there is
+ * nothing left to insert; otherwise sortedLargeChain is returned.
+ */
 PmergeMe::BasePairVector
 PmergeMe::recursiveSortLarge(PmergeMe::BasePairVector currentLargeChain,
                              const std::vector<std::size_t> &jacobVector,
@@ -176,6 +253,17 @@ PmergeMe::recursiveSortLarge(PmergeMe::BasePairVector currentLargeChain,
   // TODO: later: rebuild Main / Pend and insert
 }
 
+/**
+ * Splits the sorted pairs into Main and Pend. Ford-Johnson notation:
+ * a_i = large element, b_i = small element of the i-th sorted pair.
+ *
+ * sortedCurrentPairs : ComparePairs ordered by their large element
+ * mainChain          : b_1, a_1, a_2, ..., a_k
+ *                      (b_1 needs no comparison since b_1 <= a_1)
+ * pendPairs          : sortedCurrentPairs[1 .. k-1]; the whole ComparePair
+ *                      is kept so that each pending b_i (.first) still knows
+ *                      its partner a_i (.second)
+ */
 void PmergeMe::buildMainAndPend(const ComparePairVector &sortedCurrentPairs,
                                 BasePairVector &mainChain,
                                 ComparePairVector &pendPairs) const {
@@ -188,6 +276,13 @@ void PmergeMe::buildMainAndPend(const ComparePairVector &sortedCurrentPairs,
   return;
 }
 
+/**
+ * jacobVector  : Jacobsthal numbers J(0)=0, J(1)=1, J(n)=J(n-1)+2*J(n-2):
+ *                0, 1, 1, 3, 5, 11, 21, ...
+ * jacobLimit   : generation stops once a term >= jacobLimit is appended
+ *                (that term is included)
+ * currentJacob : the term being computed
+ */
 std::vector<std::size_t>
 PmergeMe::generateJacobVector(std::size_t jacobLimit) const {
   std::vector<std::size_t> jacobVector;
@@ -204,6 +299,22 @@ PmergeMe::generateJacobVector(std::size_t jacobLimit) const {
   return jacobVector;
 }
 
+/**
+ * Builds the Ford-Johnson insertion order as 1-based indices: for each
+ * Jacobsthal boundary J, emit J, J-1, ..., previousBoundary + 1.
+ * Index 1 is never emitted (previousBoundary starts at 1).
+ * Example, jacobLimit = 10: 3 2 5 4 10 9 8 7 6
+ *
+ * jacobVector      : Jacobsthal numbers; iteration starts at index 3 (J=3)
+ * jacobLimit       : inclusive upper bound of the emitted indices; a
+ *                    boundary beyond it is clamped to jacobLimit and ends
+ *                    the sequence
+ * previousBoundary : last boundary already emitted (exclusive lower bound)
+ * currentBoundary  : current Jacobsthal number, clamped to jacobLimit
+ * boundaryNumber   : countdown index from currentBoundary down to
+ *                    previousBoundary + 1
+ * insertionOrder   : resulting sequence of indices (return value)
+ */
 std::vector<std::size_t>
 PmergeMe::buildInsertionOrder(const std::vector<std::size_t> &jacobVector,
                               std::size_t jacobLimit) const {
@@ -225,6 +336,17 @@ PmergeMe::buildInsertionOrder(const std::vector<std::size_t> &jacobVector,
   return insertionOrder;
 }
 
+/**
+ * Binary insertion of one pending element into the main chain.
+ *
+ * mainChain    : currently constructed sorted main chain
+ * target       : b_i to insert into the main chain
+ * rightBound   : exclusive upper bound of the search range [0, rightBound);
+ *                intended to be the current index of target's partner a_i
+ * left / right : current search range; `left` ends as the insertion index
+ * mid          : probe index; `<=` places target after equal values
+ * sortCount    : incremented once per comparison
+ */
 void PmergeMe::binaryInsert(BasePairVector &mainChain, const BasePair &target,
                             std::size_t rightBound) {
   std::size_t left = 0;
