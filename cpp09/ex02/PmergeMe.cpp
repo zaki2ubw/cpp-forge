@@ -199,13 +199,13 @@ PmergeMe::buildInsertionOrder(const std::vector<std::size_t> &jacobVector,
                               std::size_t jacobLimit) const {
   std::vector<std::size_t> insertionOrder;
   std::size_t previousBoundary = 1;
-  for (std::size_t i = 3; jacobVector[i] >= jacobLimit; ++i) {
+  for (std::size_t i = 3; jacobVector[i] <= jacobLimit; ++i) {
     std::size_t currentBoundary = jacobVector[i];
     if (currentBoundary >= jacobLimit)
       currentBoundary = jacobLimit;
-    boundaryNumber = currentBoundary;
+    std::size_t boundaryNumber = currentBoundary;
     while (boundaryNumber > previousBoundary) {
-      insertionOrder.push_back(jacobVector[boundaryNumber]);
+      insertionOrder.push_back(boundaryNumber);
       --boundaryNumber;
     }
     if (currentBoundary == jacobLimit)
