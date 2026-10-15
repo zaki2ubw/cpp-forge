@@ -244,7 +244,14 @@ PmergeMe::recursiveSortLarge(PmergeMe::BasePairVector currentLargeChain,
                            sortedCurrentPairs, mainChain, pendPairs,
                            hasUnpaired, currentUnpaired, nextLargeChain,
                            sortedLargeChain);
-
+  std::size_t jacobLimit = currentPairs.size();
+  if (hasUnpaired)
+    jacobLimit += 1;
+  std::vector<std::size_t> insertionOrder =
+      buildInsertionOrder(jacobVector, jacobLimit);
+  for (std::size_t i = 0; i < insertionOrder.size(); ++i)
+{
+	insertionOrder[i] + 2
   if (pendPairs.empty() && !hasUnpaired)
     return mainChain;
 
@@ -377,5 +384,5 @@ std::size_t PmergeMe::findPartnerIndex(const BasePairVector &mainChain,
     if (mainChain[i].second == partnerId)
       return i;
   }
-  throw std::runtimeError("Unfortunately, pair was not found.");
+  throw std::runtime_error("Unfortunately, pair was not found.");
 }
