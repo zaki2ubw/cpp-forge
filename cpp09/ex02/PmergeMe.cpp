@@ -363,3 +363,18 @@ void PmergeMe::binaryInsert(BasePairVector &mainChain, const BasePair &target,
   mainChain.insert(mainChain.begin() + left, target;);
   return;
 }
+
+/**
+ * mainChain : currently constructed sorted main chain
+ * partnerId : original id of target's partner a_i
+ *
+ * return     : current index of the partner in mainChain
+ */
+std::size_t PmergeMe::findPartnerIndex(const BasePairVector &mainChain,
+                                       std::size_t partnerId) const {
+  for (std::size_t i = 0; i < mainChain.size(); ++i) {
+    if (mainChain[i].second == partnerId)
+      break;
+  }
+  return i;
+}

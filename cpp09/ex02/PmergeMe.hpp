@@ -80,6 +80,9 @@ private:
   void binaryInsert(BasePairVector &mainChain, const BasePair &target,
                     std::size_t rightBound);
 
+  std::size_t findPartnerIndex(const BasePairVector &mainChain,
+                               std::size_t partnerId) const;
+
   // debug
   void debugPrintRecursiveState(std::size_t depth,
                                 const BasePairVector &currentLargeChain,
