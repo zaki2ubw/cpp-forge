@@ -372,9 +372,10 @@ void PmergeMe::binaryInsert(BasePairVector &mainChain, const BasePair &target,
  */
 std::size_t PmergeMe::findPartnerIndex(const BasePairVector &mainChain,
                                        std::size_t partnerId) const {
+
   for (std::size_t i = 0; i < mainChain.size(); ++i) {
     if (mainChain[i].second == partnerId)
-      break;
+      return i;
   }
-  return i;
+  throw std::runtimeError("Unfortunately, pair was not found.");
 }
