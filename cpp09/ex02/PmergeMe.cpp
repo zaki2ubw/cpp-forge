@@ -249,9 +249,20 @@ PmergeMe::recursiveSortLarge(PmergeMe::BasePairVector currentLargeChain,
     jacobLimit += 1;
   std::vector<std::size_t> insertionOrder =
       buildInsertionOrder(jacobVector, jacobLimit);
-  for (std::size_t i = 0; i < insertionOrder.size(); ++i)
-{
-	insertionOrder[i] + 2
+  for (std::size_t i = 0; i < insertionOrder.size(); ++i) {
+    BasePair target;
+    std::size_t rightBound;
+    if (hasUnpaired && insertionOrder[i] == currentPairs.size() + 1) {
+      target = currentUnpaired;
+      rightBound = mainChain.size();
+    } else {
+      std::size_t pendIndex = insertionOrder[i] - 2;
+      target = pendPairs[pendIndex].first;
+      BasePair partner = pendPairs[pendIndex].second;
+      rightBound = findPartnerIndex(mainChain, partner.second);
+    }
+    binaryInsert(mainChain, target, rightBound);
+  }
   if (pendPairs.empty() && !hasUnpaired)
     return mainChain;
 
