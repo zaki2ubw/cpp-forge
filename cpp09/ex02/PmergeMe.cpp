@@ -414,6 +414,7 @@ PmergeMe::InputPairVector PmergeMe::reorderTopLevelPairs(
 }
 
 std::vector<int> PmergeMe::mergeInsertionSort() {
+  makePair();
   std::vector<std::size_t> jacobVector =
       generateJacobVector((before.size() + 1) / 2);
   std::vector<std::size_t> sortedIds = sortLargeChain(jacobVector);
@@ -423,7 +424,7 @@ std::vector<int> PmergeMe::mergeInsertionSort() {
   for (std::size_t i = 0; i < sortedIds.size(); ++i) {
     ComparePair currentPair;
     currentPair.first.first = sortedPairs[i].second.first;
-    currentPair.first.second = sortedPairs[i].first;
+    currentPair.first.second = sortedPairs[i].first + paired.size() + 1;
     currentPair.second.first = sortedPairs[i].second.second;
     currentPair.second.second = sortedPairs[i].first;
     topLevelPairs.push_back(currentPair);
@@ -431,9 +432,32 @@ std::vector<int> PmergeMe::mergeInsertionSort() {
   BasePairVector mainChain;
   ComparePairVector pendPairs;
   buildMainAndPend(topLevelPairs, mainChain, pendPairs);
+  std::size_t jacobLimit = topLevelPairs.size();
   BasePair unpairedTarget;
   if (hasUnpaired) {
     unpairedTarget.first = unpaired;
     unpairedTarget.second = paired.size();
+    ++jacobLimit;
   }
+  std::vector<std::size_t> insertionOrder =
+      buildInsertionOrder(jacobVector, jacobLimit);
+  for (std::size_t i = 0; i < insertionOrder.size(); ++i) {
+    BasePair target;
+    std::size_t rightBound;
+    if (hasUnpaired && insertionOrder[i] == topLevelPairs.size() + 1) {
+      target = unpairedTarget;
+      rightBound = mainChain.size();
+    } else {
+      std::size_t pendIndex = insertionOrder[i] - 2;
+      target = pendPairs[pendIndex].first;
+      BasePair partner = pendPairs[pendIndex].second;
+      rightBound = findPartnerIndex(mainChain, partner.second);
+    }
+    binaryInsert(mainChain, target, rightBound);
+  }
+  std::vector<int> sorted;
+  for (std::size_t i = 0; i < mainChain.size(); ++i) {
+    sorted.push_back(mainChain[i].first);
+  }
+  return sorted;
 }

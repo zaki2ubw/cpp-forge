@@ -44,9 +44,18 @@ int toInteger(const std::string &target) {
   return num;
 }
 
-// Be template later
 void print_before(const std::vector<int> &vec) {
   std::cout << "Before: ";
+  std::size_t len = vec.size();
+  for (std::size_t i = 0; i < len; ++i) {
+    std::cout << vec[i] << " ";
+  }
+  std::cout << std::endl;
+  return;
+}
+
+void print_after(const std::vector<int> &vec) {
+  std::cout << "After : ";
   std::size_t len = vec.size();
   for (std::size_t i = 0; i < len; ++i) {
     std::cout << vec[i] << " ";
@@ -68,8 +77,7 @@ int main(int argc, char **argv) {
   }
   print_before(vec);
   PmergeMe Cont01(vec);
-  Cont01.makePair();
-  Cont01.debugPrintPairs();
-  Cont01.sortLargeChain();
+  Cont01.mergeInsertionSort();
+  print_after(vec);
   return 0;
 }
