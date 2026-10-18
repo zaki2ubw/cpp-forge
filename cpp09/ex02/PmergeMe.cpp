@@ -400,14 +400,15 @@ std::size_t PmergeMe::findPartnerIndex(const BasePairVector &mainChain,
  *
  * return    : input pairs in sorted-large order
  */
-InputPairVector PmergeMe::reorderTopLevelPairs(
+PmergeMe::InputPairVector PmergeMe::reorderTopLevelPairs(
     const std::vector<std::size_t> &sortedIds) const {
-  InputPairVector reordered;
+  PmergeMe::InputPairVector reordered;
   for (std::size_t i = 0; i < sortedIds.size(); ++i) {
     for (std::size_t j = 0; j < paired.size(); ++j) {
-      if (sortedIds[i] == paired[j].first)
+      if (sortedIds[i] == paired[j].first) {
+        reordered.push_back(paired[j]);
         break;
-      reordered.push_back(paired[j]);
+      }
     }
   }
   return reordered;
