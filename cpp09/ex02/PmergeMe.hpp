@@ -34,6 +34,8 @@ private:
    * BasePairVector    : std::vector<BasePair>
    * ComparePairVector : std::vector<ComparePair>
    */
+  typedef std::pair<std::size_t, std::pair<int, int>> InputPair;
+  typedef std::vector<InputPair> InputPairVector;
   typedef std::pair<int, std::size_t> BasePair;
   typedef std::pair<BasePair, BasePair> ComparePair;
   typedef std::vector<BasePair> BasePairVector;
@@ -83,6 +85,9 @@ private:
   std::size_t findPartnerIndex(const BasePairVector &mainChain,
                                std::size_t partnerId) const;
 
+  InputPairVector
+  reorderTopLevelPairs(const std::vector<std::size_t> &sortedIds) const;
+
   // debug
   void debugPrintRecursiveState(std::size_t depth,
                                 const BasePairVector &currentLargeChain,
@@ -103,7 +108,7 @@ private:
   /** before    : original input sequence, kept unmodified */
   std::vector<int> before;
   /** paired    : (pair id, (small, large)) built from `before` by makePair */
-  std::vector<std::pair<std::size_t, std::pair<int, int>>> paired;
+  InputPairVector paired;
   /** unpaired  : leftover element of `before` when its size is odd */
   int unpaired;
   /** sortCount : number of element comparisons performed so far */

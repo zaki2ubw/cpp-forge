@@ -1,4 +1,5 @@
 #include <cstddef>
+#include <stdexcept>
 #include <utility>
 #include <vector>
 
@@ -263,12 +264,7 @@ PmergeMe::recursiveSortLarge(PmergeMe::BasePairVector currentLargeChain,
     }
     binaryInsert(mainChain, target, rightBound);
   }
-  if (pendPairs.empty() && !hasUnpaired)
-    return mainChain;
-
-  return sortedLargeChain;
-
-  // TODO: later: rebuild Main / Pend and insert
+  return mainChain;
 }
 
 /**
@@ -378,7 +374,7 @@ void PmergeMe::binaryInsert(BasePairVector &mainChain, const BasePair &target,
       right = mid;
     ++sortCount;
   }
-  mainChain.insert(mainChain.begin() + left, target;);
+  mainChain.insert(mainChain.begin() + left, target);
   return;
 }
 
@@ -396,4 +392,23 @@ std::size_t PmergeMe::findPartnerIndex(const BasePairVector &mainChain,
       return i;
   }
   throw std::runtime_error("Unfortunately, pair was not found.");
+}
+
+/**
+ * sortedIds : top-level pair ids ordered by ascending large value
+ * reordered : input pairs reordered to follow sortedIds
+ *
+ * return    : input pairs in sorted-large order
+ */
+InputPairVector PmergeMe::reorderTopLevelPairs(
+    const std::vector<std::size_t> &sortedIds) const {
+  InputPairVector reordered;
+  for (std::size_t i = 0; i < sortedIds.size(); ++i) {
+    for (std::size_t j = 0; j < paired.size(); ++j) {
+      if (sortedIds[i] == paired[j].first)
+        break;
+      reordered.push_back(paired[j]);
+    }
+  }
+  return reordered;
 }
