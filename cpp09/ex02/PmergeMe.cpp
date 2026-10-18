@@ -71,11 +71,10 @@ void PmergeMe::makePair() {
  * sortedLargePair   : large chain as returned by recursiveSortLarge
  * sortedIds         : pair ids extracted from sortedLargePair (return value)
  */
-std::vector<std::size_t> PmergeMe::sortLargeChain() {
+std::vector<std::size_t>
+PmergeMe::sortLargeChain(const std::vector<std::size_t> &jacobVector) {
   BasePairVector currentLargeChain;
   std::vector<std::size_t> sortedIds;
-  std::vector<std::size_t> jacobVector =
-      generateJacobVector((before.size() + 1) / 2);
   // debug
   std::vector<std::size_t> order3 = buildInsertionOrder(jacobVector, 3);
   std::vector<std::size_t> order5 = buildInsertionOrder(jacobVector, 5);
@@ -412,4 +411,29 @@ PmergeMe::InputPairVector PmergeMe::reorderTopLevelPairs(
     }
   }
   return reordered;
+}
+
+std::vector<int> PmergeMe::mergeInsertionSort() {
+  std::vector<std::size_t> jacobVector =
+      generateJacobVector((before.size() + 1) / 2);
+  std::vector<std::size_t> sortedIds = sortLargeChain(jacobVector);
+  InputPairVector sortedPairs = reorderTopLevelPairs(sortedIds);
+  bool hasUnpaired = (before.size() % 2 != 0);
+  ComparePairVector topLevelPairs;
+  for (std::size_t i = 0; i < sortedIds.size(); ++i) {
+    ComparePair currentPair;
+    currentPair.first.first = sortedPairs[i].second.first;
+    currentPair.first.second = sortedPairs[i].first;
+    currentPair.second.first = sortedPairs[i].second.second;
+    currentPair.second.second = sortedPairs[i].first;
+    topLevelPairs.push_back(currentPair);
+  }
+  BasePairVector mainChain;
+  ComparePairVector pendPairs;
+  buildMainAndPend(topLevelPairs, mainChain, pendPairs);
+  BasePair unpairedTarget;
+  if (hasUnpaired) {
+    unpairedTarget.first = unpaired;
+    unpairedTarget.second = paired.size();
+  }
 }

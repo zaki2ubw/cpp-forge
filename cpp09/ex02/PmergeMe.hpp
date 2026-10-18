@@ -20,8 +20,10 @@ public:
   void makePair();
   /** @brief Sorts the large elements recursively; returns pair ids in
    *         the resulting order. */
-  std::vector<std::size_t> sortLargeChain();
+  std::vector<std::size_t>
+  sortLargeChain(const std::vector<std::size_t> &jacobVector);
   void debugPrintPairs() const;
+  std::vector<int> mergeInsertionSort();
 
 private:
   // Definition
