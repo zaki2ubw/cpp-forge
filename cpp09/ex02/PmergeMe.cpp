@@ -414,6 +414,8 @@ PmergeMe::InputPairVector PmergeMe::reorderTopLevelPairs(
 }
 
 std::vector<int> PmergeMe::mergeInsertionSort() {
+  if (before.size() <= 1)
+    return before;
   makePair();
   std::vector<std::size_t> jacobVector =
       generateJacobVector((before.size() + 1) / 2);
