@@ -47,7 +47,7 @@ void PmergeMe::makePair() {
       current_val.first = right;
       current_val.second = left;
     }
-    std::pair<std::size_t, std::pair<int, int>> current_pair;
+    std::pair<std::size_t, std::pair<int, int> > current_pair;
     current_pair.first = id;
     current_pair.second = current_val;
     this->paired.push_back(current_pair);

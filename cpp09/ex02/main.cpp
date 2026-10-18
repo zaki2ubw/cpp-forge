@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
   }
   print_before(vec);
   PmergeMe Cont01(vec);
-  Cont01.mergeInsertionSort();
-  print_after(vec);
+  std::vector<int> sorted = Cont01.mergeInsertionSort();
+  print_after(sorted);
   return 0;
 }
