@@ -7,7 +7,6 @@
 #include <vector>
 
 #include "PmergeMe.hpp"
-#include "debug_util.hpp"
 
 bool isPositiveInteger(const std::string &target) {
   long num = 0;

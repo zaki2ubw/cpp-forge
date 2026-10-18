@@ -6,7 +6,7 @@
 #    By: sohyamaz <sohyamaz@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/09 13:39:58 by sohyamaz          #+#    #+#              #
-#    Updated: 2026/10/12 21:20:24 by sohyamaz         ###   ########.fr        #
+#    Updated: 2026/10/18 22:20:27 by sohyamaz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
 
 TEST_ARGS = 42 7 19 88 3 61 25 14 73 5 90 31 11 67 2 54 38 21 80 9 46
 
-SRCS = main.cpp PmergeMe.cpp debug_util.cpp
+SRCS = main.cpp PmergeMe.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
