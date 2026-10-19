@@ -33,16 +33,20 @@ VectorFordJohnson::~VectorFordJohnson() {}
  * Pairs the input, sorts the large elements recursively, then splits the
  * sorted top-level pairs into Main and Pend and inserts every pending small
  * element (and the leftover, if any) in Jacobsthal order, each bounded by
- * the current position of its partner.
+ * the current position of its partner. Working state is reset first so
+ * that repeated calls on the same instance behave identically.
  *
  * @return sorted copy of `before`
  */
 std::vector<int> VectorFordJohnson::mergeInsertionSort() {
+  paired.clear();
+  unpaired = 0;
+  sortCount = 0;
   if (before.size() <= 1)
     return before;
   makePair();
   std::vector<std::size_t> jacobVector =
-      Jacobsthal::generateSequence((before.size() + 1) / 2);
+      generateJacobsthalSequence((before.size() + 1) / 2);
   std::vector<std::size_t> sortedIds = sortLargeChain(jacobVector);
   ComparePairVector topLevelPairs =
       buildTopLevelPairs(reorderTopLevelPairs(sortedIds));
@@ -351,7 +355,7 @@ void VectorFordJohnson::insertPending(
   if (hasUnpaired)
     jacobLimit += 1;
   std::vector<std::size_t> insertionOrder =
-      Jacobsthal::buildInsertionOrder(jacobVector, jacobLimit);
+      buildJacobsthalInsertionOrder(jacobVector, jacobLimit);
   for (std::size_t i = 0; i < insertionOrder.size(); ++i) {
     BasePair target;
     std::size_t rightBound;

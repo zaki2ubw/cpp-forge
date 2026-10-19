@@ -3,8 +3,6 @@
 
 #include "Jacobsthal.hpp"
 
-namespace Jacobsthal {
-
 /**
  * Jacobsthal numbers J(0)=0, J(1)=1, J(n)=J(n-1)+2*J(n-2):
  * 0, 1, 1, 3, 5, 11, 21, ...
@@ -12,7 +10,8 @@ namespace Jacobsthal {
  * @param jacobLimit generation stops once a term >= jacobLimit is appended
  *                   (that term is included)
  */
-std::vector<std::size_t> generateSequence(std::size_t jacobLimit) {
+std::vector<std::size_t>
+generateJacobsthalSequence(std::size_t jacobLimit) {
   std::vector<std::size_t> jacobVector;
   jacobVector.push_back(0);
   jacobVector.push_back(1);
@@ -39,8 +38,8 @@ std::vector<std::size_t> generateSequence(std::size_t jacobLimit) {
  *                    the sequence
  */
 std::vector<std::size_t>
-buildInsertionOrder(const std::vector<std::size_t> &jacobVector,
-                    std::size_t jacobLimit) {
+buildJacobsthalInsertionOrder(const std::vector<std::size_t> &jacobVector,
+                              std::size_t jacobLimit) {
   std::vector<std::size_t> insertionOrder;
   std::size_t previousBoundary = 1;
   for (std::size_t i = 3; i < jacobVector.size(); ++i) {
@@ -58,5 +57,3 @@ buildInsertionOrder(const std::vector<std::size_t> &jacobVector,
   }
   return insertionOrder;
 }
-
-} // namespace Jacobsthal
