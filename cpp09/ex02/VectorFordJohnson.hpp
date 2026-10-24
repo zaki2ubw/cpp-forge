@@ -19,7 +19,8 @@ public:
   ~VectorFordJohnson();
 
   /** @brief Entry point: returns a sorted copy of the input. */
-  std::vector<int> mergeInsertionSort();
+  std::vector<int>
+  mergeInsertionSort(const std : vector<std::size_t> &jacobVector);
 
 private:
   /**
@@ -33,7 +34,7 @@ private:
    * BasePairVector    : std::vector<BasePair>
    * ComparePairVector : std::vector<ComparePair>
    */
-  typedef std::pair<std::size_t, std::pair<int, int> > InputPair;
+  typedef std::pair<std::size_t, std::pair<int, int>> InputPair;
   typedef std::vector<InputPair> InputPairVector;
   typedef std::pair<int, std::size_t> BasePair;
   typedef std::pair<BasePair, BasePair> ComparePair;
@@ -55,7 +56,8 @@ private:
 
   /** @brief Converts sorted top-level pairs into ComparePairs with
    *         distinct small/large ids. */
-  ComparePairVector buildTopLevelPairs(const InputPairVector &sortedPairs) const;
+  ComparePairVector
+  buildTopLevelPairs(const InputPairVector &sortedPairs) const;
 
   /** @brief Extracts the values of the finished main chain. */
   std::vector<int> extractValues(const BasePairVector &mainChain) const;

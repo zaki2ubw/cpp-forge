@@ -38,15 +38,14 @@ VectorFordJohnson::~VectorFordJohnson() {}
  *
  * @return sorted copy of `before`
  */
-std::vector<int> VectorFordJohnson::mergeInsertionSort() {
+std::vector<int> VectorFordJohnson::mergeInsertionSort(
+    const std::vector<std::size_t> &jacobVector) {
   paired.clear();
   unpaired = 0;
   sortCount = 0;
   if (before.size() <= 1)
     return before;
   makePair();
-  std::vector<std::size_t> jacobVector =
-      generateJacobsthalSequence((before.size() + 1) / 2);
   std::vector<std::size_t> sortedIds = sortLargeChain(jacobVector);
   ComparePairVector topLevelPairs =
       buildTopLevelPairs(reorderTopLevelPairs(sortedIds));
@@ -59,8 +58,7 @@ std::vector<int> VectorFordJohnson::mergeInsertionSort() {
     unpairedTarget.first = unpaired;
     unpairedTarget.second = paired.size();
   }
-  insertPending(mainChain, pendPairs, hasUnpaired, unpairedTarget,
-                jacobVector);
+  insertPending(mainChain, pendPairs, hasUnpaired, unpairedTarget, jacobVector);
   return extractValues(mainChain);
 }
 
@@ -90,7 +88,7 @@ void VectorFordJohnson::makePair() {
       current_val.first = right;
       current_val.second = left;
     }
-    std::pair<std::size_t, std::pair<int, int> > current_pair;
+    std::pair<std::size_t, std::pair<int, int>> current_pair;
     current_pair.first = id;
     current_pair.second = current_val;
     this->paired.push_back(current_pair);
@@ -292,9 +290,9 @@ VectorFordJohnson::BasePairVector VectorFordJohnson::buildLargeChain(
  * @param sortedLargeChain large elements in sorted order
  * @return currentPairs reordered to follow sortedLargeChain
  */
-VectorFordJohnson::ComparePairVector VectorFordJohnson::reorderPairs(
-    const ComparePairVector &currentPairs,
-    const BasePairVector &sortedLargeChain) const {
+VectorFordJohnson::ComparePairVector
+VectorFordJohnson::reorderPairs(const ComparePairVector &currentPairs,
+                                const BasePairVector &sortedLargeChain) const {
   ComparePairVector sortedCurrentPairs;
 
   for (std::size_t i = 0; i < sortedLargeChain.size(); ++i) {
@@ -378,9 +376,8 @@ void VectorFordJohnson::insertPending(
  * @return current index of the partner in mainChain
  * @throws std::runtime_error when the partner is not present
  */
-std::size_t
-VectorFordJohnson::findPartnerIndex(const BasePairVector &mainChain,
-                                    std::size_t partnerId) const {
+std::size_t VectorFordJohnson::findPartnerIndex(const BasePairVector &mainChain,
+                                                std::size_t partnerId) const {
 
   for (std::size_t i = 0; i < mainChain.size(); ++i) {
     if (mainChain[i].second == partnerId)

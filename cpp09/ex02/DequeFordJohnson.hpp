@@ -20,7 +20,8 @@ public:
   ~DequeFordJohnson();
 
   /** @brief Entry point: returns a sorted copy of the input. */
-  std::deque<int> mergeInsertionSort();
+  std::deque<int>
+  mergeInsertionSort(const std::vector<std::size_t> &jacobVector);
 
 private:
   /**

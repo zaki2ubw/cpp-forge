@@ -3,8 +3,8 @@
 #include <utility>
 #include <vector>
 
-#include "Jacobsthal.hpp"
 #include "DequeFordJohnson.hpp"
+#include "Jacobsthal.hpp"
 
 DequeFordJohnson::DequeFordJohnson() : unpaired(0), sortCount(0) {}
 
@@ -38,15 +38,14 @@ DequeFordJohnson::~DequeFordJohnson() {}
  *
  * @return sorted copy of `before`
  */
-std::deque<int> DequeFordJohnson::mergeInsertionSort() {
+std::deque<int> DequeFordJohnson::mergeInsertionSort(
+    const std::vector<std::size_t> &jacobVector) {
   paired.clear();
   unpaired = 0;
   sortCount = 0;
   if (before.size() <= 1)
     return before;
   makePair();
-  std::vector<std::size_t> jacobVector =
-      generateJacobsthalSequence((before.size() + 1) / 2);
   std::vector<std::size_t> sortedIds = sortLargeChain(jacobVector);
   ComparePairDeque topLevelPairs =
       buildTopLevelPairs(reorderTopLevelPairs(sortedIds));
@@ -59,8 +58,7 @@ std::deque<int> DequeFordJohnson::mergeInsertionSort() {
     unpairedTarget.first = unpaired;
     unpairedTarget.second = paired.size();
   }
-  insertPending(mainChain, pendPairs, hasUnpaired, unpairedTarget,
-                jacobVector);
+  insertPending(mainChain, pendPairs, hasUnpaired, unpairedTarget, jacobVector);
   return extractValues(mainChain);
 }
 
@@ -90,7 +88,7 @@ void DequeFordJohnson::makePair() {
       current_val.first = right;
       current_val.second = left;
     }
-    std::pair<std::size_t, std::pair<int, int> > current_pair;
+    std::pair<std::size_t, std::pair<int, int>> current_pair;
     current_pair.first = id;
     current_pair.second = current_val;
     this->paired.push_back(current_pair);
@@ -156,8 +154,8 @@ DequeFordJohnson::InputPairDeque DequeFordJohnson::reorderTopLevelPairs(
  * @param sortedPairs top-level pairs ordered by ascending large value
  * @return the same pairs as (small BasePair, large BasePair)
  */
-DequeFordJohnson::ComparePairDeque DequeFordJohnson::buildTopLevelPairs(
-    const InputPairDeque &sortedPairs) const {
+DequeFordJohnson::ComparePairDeque
+DequeFordJohnson::buildTopLevelPairs(const InputPairDeque &sortedPairs) const {
   ComparePairDeque topLevelPairs;
   for (std::size_t i = 0; i < sortedPairs.size(); ++i) {
     ComparePair currentPair;
@@ -273,8 +271,8 @@ void DequeFordJohnson::makeRecursivePairs(
  * @return the large element of each pair, in the same order; this is the
  *         input of the next recursion level
  */
-DequeFordJohnson::BasePairDeque DequeFordJohnson::buildLargeChain(
-    const ComparePairDeque &currentPairs) const {
+DequeFordJohnson::BasePairDeque
+DequeFordJohnson::buildLargeChain(const ComparePairDeque &currentPairs) const {
   BasePairDeque nextLargeChain;
 
   for (std::size_t i = 0; i < currentPairs.size(); ++i) {
@@ -292,9 +290,9 @@ DequeFordJohnson::BasePairDeque DequeFordJohnson::buildLargeChain(
  * @param sortedLargeChain large elements in sorted order
  * @return currentPairs reordered to follow sortedLargeChain
  */
-DequeFordJohnson::ComparePairDeque DequeFordJohnson::reorderPairs(
-    const ComparePairDeque &currentPairs,
-    const BasePairDeque &sortedLargeChain) const {
+DequeFordJohnson::ComparePairDeque
+DequeFordJohnson::reorderPairs(const ComparePairDeque &currentPairs,
+                               const BasePairDeque &sortedLargeChain) const {
   ComparePairDeque sortedCurrentPairs;
 
   for (std::size_t i = 0; i < sortedLargeChain.size(); ++i) {
@@ -378,9 +376,8 @@ void DequeFordJohnson::insertPending(
  * @return current index of the partner in mainChain
  * @throws std::runtime_error when the partner is not present
  */
-std::size_t
-DequeFordJohnson::findPartnerIndex(const BasePairDeque &mainChain,
-                                    std::size_t partnerId) const {
+std::size_t DequeFordJohnson::findPartnerIndex(const BasePairDeque &mainChain,
+                                               std::size_t partnerId) const {
 
   for (std::size_t i = 0; i < mainChain.size(); ++i) {
     if (mainChain[i].second == partnerId)
@@ -400,8 +397,8 @@ DequeFordJohnson::findPartnerIndex(const BasePairDeque &mainChain,
  *                   mainChain.size() for the leftover element
  */
 void DequeFordJohnson::binaryInsert(BasePairDeque &mainChain,
-                                     const BasePair &target,
-                                     std::size_t rightBound) {
+                                    const BasePair &target,
+                                    std::size_t rightBound) {
   std::size_t left = 0;
   std::size_t right = rightBound;
   std::size_t mid;
