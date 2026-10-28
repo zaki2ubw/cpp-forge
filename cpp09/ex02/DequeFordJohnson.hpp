@@ -23,6 +23,8 @@ public:
   std::deque<int>
   mergeInsertionSort(const std::vector<std::size_t> &jacobVector);
 
+  std::size_t getSortCount() const;
+
 private:
   /**
    * InputPair         : (pair id, (small, large)) built from the int input

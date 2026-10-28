@@ -6,9 +6,20 @@
 
 PmergeMe::PmergeMe() {}
 
-PmergeMe::PmergeMe(const PmergeMe &src){}
+PmergeMe::PmergeMe(const PmergeMe &src) { *this = src; }
 
 PmergeMe &PmergeMe::operator=(const PmergeMe &src) {
+  if (this != &src) {
+    jacobVector = src.jacobVector;
+    vectorResult = src.vectorResult;
+    dequeResult = src.dequeResult;
+    jacobTimeUs = src.jacobTimeUs;
+    vectorTimeUs = src.vectorTimeUs;
+    dequeTimeUs = src.dequeTimeUs;
+    vectorSortCount = src.vectorSortCount;
+    dequeSortCount = src.dequeSortCount;
+    theoreticalMax = src.theoreticalMax;
+  }
   return *this;
 }
 

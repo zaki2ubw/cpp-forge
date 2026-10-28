@@ -62,6 +62,8 @@ std::deque<int> DequeFordJohnson::mergeInsertionSort(
   return extractValues(mainChain);
 }
 
+std::size_t DequeFordJohnson::getSortCount() const { return sortCount; }
+
 /**
  * Top-level pairing of `before` into `paired`.
  *

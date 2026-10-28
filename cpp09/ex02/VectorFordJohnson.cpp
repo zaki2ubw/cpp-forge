@@ -62,6 +62,8 @@ std::vector<int> VectorFordJohnson::mergeInsertionSort(
   return extractValues(mainChain);
 }
 
+std::size_t VectorFordJohnson::getSortCount() const { return sortCount; }
+
 /**
  * Top-level pairing of `before` into `paired`.
  *
