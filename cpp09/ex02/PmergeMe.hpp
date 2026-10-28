@@ -19,8 +19,7 @@ public:
   void benchmark(int argc, char **argv);
 
 private:
-  template <typename Container>
-  Container PmergeMe::makeContainer(int argc, char **argv) {
+  template <typename Container> Container makeContainer(int argc, char **argv) {
     Container container;
 
     for (int i = 1; i < argc; ++i) {

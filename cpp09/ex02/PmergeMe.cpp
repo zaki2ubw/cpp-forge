@@ -45,19 +45,19 @@ void PmergeMe::benchmark(int argc, char **argv) {
   // 2. Jacob生成 + 計測
   const std::size_t inputSize = static_cast<std::size_t>(argc - 1);
 
-  double start = getCurrentTime();
+  double jacobStart = getCurrentTime();
   jacobVector = generateJacobsthalSequence((inputSize + 1) / 2);
-  jacobTimeUs = getCurrentTime() - start;
+  jacobTimeUs = getCurrentTime() - jacobStart;
   // 3. raw input -> vector
   //    VectorFordJohnson実行 + 計測
-  double start = getCurrentTime();
+  double startVector = getCurrentTime();
 
   std::vector<int> vectorInput = makeContainer<std::vector<int>>(argc, argv);
 
   VectorFordJohnson vectorSorter(vectorInput);
   vectorResult = vectorSorter.mergeInsertionSort(jacobVector);
 
-  vectorTimeUs = jacobTimeUs + (getCurrentTime() - start);
+  vectorTimeUs = jacobTimeUs + (getCurrentTime() - startVector);
   vectorSortCount = vectorSorter.getSortCount();
   // 4. raw input -> deque
   //    DequeFordJohnson実行 + 計測
