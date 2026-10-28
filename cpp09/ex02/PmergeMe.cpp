@@ -1,3 +1,4 @@
+#include <deque>
 #include <vector>
 
 #include "PmergeMe.hpp"
@@ -22,7 +23,7 @@ std::vector<int> PmergeMe::sortVector() const {
   return sorter.mergeInsertionSort();
 }
 
-void PmergeMe::benchmark() {
+void PmergeMe::benchmark(int argc, char **argv) {
   // 1. 前回状態をreset
 
   // 2. Jacob生成 + 計測

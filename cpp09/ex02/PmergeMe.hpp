@@ -1,5 +1,6 @@
 #pragma once
 
+#include <deque>
 #include <vector>
 
 /**
@@ -24,7 +25,7 @@ private:
   /** before : original input sequence, kept unmodified */
   std::vector<std::size_t> jacobVector;
   std::vector<int> vectorResult;
-  std::vector<int> dequeResult;
+  std::deque<int> dequeResult;
   double jacobTimeUs;
   double vectorTimeUs;
   double dequeTimeUs;

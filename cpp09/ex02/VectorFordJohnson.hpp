@@ -20,7 +20,7 @@ public:
 
   /** @brief Entry point: returns a sorted copy of the input. */
   std::vector<int>
-  mergeInsertionSort(const std : vector<std::size_t> &jacobVector);
+  mergeInsertionSort(const std::vector<std::size_t> &jacobVector);
 
 private:
   /**
