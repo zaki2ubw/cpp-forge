@@ -36,21 +36,11 @@ bool isValidNumber(const std::string &target) {
   return true;
 }
 
-int toInteger(const std::string &target) {
-  std::stringstream ss(target);
-  int num = 0;
-  ss >> num;
-  return num;
-}
-
-void print_before(const std::vector<int> &vec) {
+void print_before(int argc, char **argv) {
   std::cout << "Before: ";
-  std::size_t len = vec.size();
-  for (std::size_t i = 0; i < len; ++i) {
-    std::cout << vec[i] << " ";
-  }
+  for (int i = 1; i < argc; ++i)
+    std::cout << argv[i] << " ";
   std::cout << std::endl;
-  return;
 }
 
 void print_after(const std::vector<int> &vec) {
@@ -66,17 +56,32 @@ void print_after(const std::vector<int> &vec) {
 int main(int argc, char **argv) {
   if (argc < 2)
     return 1;
+
   for (int i = 1; i < argc; ++i) {
     if (!isValidNumber(argv[i]))
       return 1;
   }
-  std::vector<int> vec;
-  for (int j = 1; j < argc; ++j) {
-    vec.push_back(toInteger(argv[j]));
+
+  try {
+    PmergeMe runner;
+
+    print_before(argc, argv);
+
+    runner.benchmark(argc, argv);
+
+    print_after(runner.getResult());
+
+    std::cout << "Time to process a range of " << argc - 1
+              << " elements with std::vector : " << runner.getVectorTimeUs()
+              << " us" << std::endl;
+
+    std::cout << "Time to process a range of " << argc - 1
+              << " elements with std::deque  : " << runner.getDequeTimeUs()
+              << " us" << std::endl;
+  } catch (const std::exception &e) {
+    std::cerr << "Error: " << e.what() << std::endl;
+    return 1;
   }
-  print_before(vec);
-  PmergeMe Cont01(vec);
-  std::vector<int> sorted = Cont01.sortVector();
-  print_after(sorted);
+
   return 0;
 }

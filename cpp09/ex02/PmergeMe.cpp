@@ -78,6 +78,18 @@ void PmergeMe::benchmark(int argc, char **argv) {
   auditResults();
 }
 
+const std::vector<int> &PmergeMe::getResult() const { return vectorResult; }
+
+double PmergeMe::getVectorTimeUs() const { return vectorTimeUs; }
+
+double PmergeMe::getDequeTimeUs() const { return dequeTimeUs; }
+
+std::size_t PmergeMe::getVectorSortCount() const { return vectorSortCount; }
+
+std::size_t PmergeMe::getDequeSortCount() const { return dequeSortCount; }
+
+std::size_t PmergeMe::getTheoreticalMax() const { return theoreticalMax; }
+
 double PmergeMe::getCurrentTime() const {
   struct timeval time;
 

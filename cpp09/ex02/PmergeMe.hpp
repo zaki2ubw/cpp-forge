@@ -17,6 +17,12 @@ public:
 
   /** @brief Returns the input sorted with the std::vector implementation. */
   void benchmark(int argc, char **argv);
+  const std::vector<int> &getResult() const;
+  double getVectorTimeUs() const;
+  double getDequeTimeUs() const;
+  std::size_t getVectorSortCount() const;
+  std::size_t getDequeSortCount() const;
+  std::size_t getTheoreticalMax() const;
 
 private:
   template <typename Container> Container makeContainer(int argc, char **argv) {
