@@ -1,6 +1,7 @@
 #pragma once
 
 #include <deque>
+#include <sstream>
 #include <vector>
 
 /**
@@ -18,7 +19,32 @@ public:
   void benchmark(int argc, char **argv);
 
 private:
-  template <typename Container> Container makeContainer(int argc, char **argv);
+  template <typename Container>
+  Container PmergeMe::makeContainer(int argc, char **argv) {
+    Container container;
+
+    for (int i = 1; i < argc; ++i) {
+      std::stringstream ss(argv[i]);
+      int value;
+
+      ss >> value;
+      container.push_back(value);
+    }
+    return container;
+  }
+
+  template <typename Container>
+  bool isSorted(const Container &container) const {
+    for (std::size_t i = 1; i < container.size(); ++i) {
+      if (container[i - 1] > container[i])
+        return false;
+    }
+    return true;
+  }
+
+  double getCurrentTime() const;
+  std::size_t calculateTheoreticalMax(std::size_t inputSize) const;
+  void auditResults() const;
 
   /** before : original input sequence, kept unmodified */
   std::vector<std::size_t> jacobVector;
