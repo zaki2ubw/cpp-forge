@@ -52,7 +52,7 @@ void PmergeMe::benchmark(int argc, char **argv) {
   //    VectorFordJohnson実行 + 計測
   double startVector = getCurrentTime();
 
-  std::vector<int> vectorInput = makeContainer<std::vector<int>>(argc, argv);
+  std::vector<int> vectorInput = makeContainer<std::vector<int> >(argc, argv);
 
   VectorFordJohnson vectorSorter(vectorInput);
   vectorResult = vectorSorter.mergeInsertionSort(jacobVector);
@@ -63,7 +63,7 @@ void PmergeMe::benchmark(int argc, char **argv) {
   //    DequeFordJohnson実行 + 計測
   double startDeque = getCurrentTime();
 
-  std::deque<int> dequeInput = makeContainer<std::deque<int>>(argc, argv);
+  std::deque<int> dequeInput = makeContainer<std::deque<int> >(argc, argv);
 
   DequeFordJohnson dequeSorter(dequeInput);
   dequeResult = dequeSorter.mergeInsertionSort(jacobVector);

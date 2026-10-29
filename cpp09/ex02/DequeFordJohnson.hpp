@@ -38,7 +38,7 @@ private:
    * ComparePairDeque : std::deque<ComparePair>
    * B
    */
-  typedef std::pair<std::size_t, std::pair<int, int>> InputPair;
+  typedef std::pair<std::size_t, std::pair<int, int> > InputPair;
   typedef std::deque<InputPair> InputPairDeque;
   typedef std::pair<int, std::size_t> BasePair;
   typedef std::pair<BasePair, BasePair> ComparePair;
