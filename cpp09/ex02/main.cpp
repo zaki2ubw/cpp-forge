@@ -78,6 +78,14 @@ int main(int argc, char **argv) {
     std::cout << "Time to process a range of " << argc - 1
               << " elements with std::deque  : " << runner.getDequeTimeUs()
               << " us" << std::endl;
+    std::cout << "Vector comparisons : " << runner.getVectorSortCount()
+              << std::endl;
+
+    std::cout << "Deque comparisons  : " << runner.getDequeSortCount()
+              << std::endl;
+
+    std::cout << "Theoretical max    : " << runner.getTheoreticalMax()
+              << std::endl;
   } catch (const std::exception &e) {
     std::cerr << "Error: " << e.what() << std::endl;
     return 1;
