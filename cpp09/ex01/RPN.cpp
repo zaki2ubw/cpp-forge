@@ -3,29 +3,34 @@
 #include <stack>
 #include <string>
 
-int RPN::calculate(const std::string &expression) {
-#stackを用意
+#include "RPN.hpp"
+
+int RPN::calculate(const std::string &expression) const {
+  // stackを用意
   std::stack<int, std::list<int>> calcStack;
-#stringstreamにexpressionを入れる
-  stringstream ss = expression;
-  int token while (ss >> token) if (RPN::isNumber(token)) calcStack.push(token);
+  // stringstreamにexpressionを入れる
+  std::stringstream ss(expression);
+  std::string token;
+  while (ss >> token) {
+    if (RPN::isNumber(token))
+      calcStack.push(token);
+    else if (RPN::isOperator(token)) {
+      // stackに2個未満しかなければError
+      if (calcStack.size() < 2)
+        throw std::runtime_error("Error");
+      int right = calcStack.top();
+      calcStack.pop();
 
-  else if (RPN::isOperator(token)) {
-#stackに2個未満しかなければError
-    if (stack.size() < 2)
+      int left = calcStack.top();
+      calcStack.pop();
+
+      int result = applyOperator(left, right, token[0]);
+      calcStack.push(result);
+    } else
       return -1;
-    int right = calcStack.top();
-    calcStack.pop();
-
-    int left = calcStack.top();
-    calcStack.pop();
-
-    result = applyOperator(left, right, operator) calcStack.push(result);
   }
-  else return -1;
-
-#最後にstackの要素数が1でなければError
+  // 最後にstackの要素数が1でなければError
   if (calcStack.size() != 1)
-    return -1;
+    throw std::runtime_error("Error");
   return calcStack.top();
 }
