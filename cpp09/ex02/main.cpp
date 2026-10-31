@@ -54,12 +54,16 @@ void print_after(const std::vector<int> &vec) {
 }
 
 int main(int argc, char **argv) {
-  if (argc < 2)
+  if (argc < 2) {
+    std::cerr << "Error" << std::endl;
     return 1;
+  }
 
   for (int i = 1; i < argc; ++i) {
-    if (!isValidNumber(argv[i]))
+    if (!isValidNumber(argv[i])) {
+      std::cerr << "Error" << std::endl;
       return 1;
+    }
   }
 
   try {
@@ -70,21 +74,18 @@ int main(int argc, char **argv) {
     runner.benchmark(argc, argv);
 
     print_after(runner.getResult());
-
     std::cout << "Time to process a range of " << argc - 1
               << " elements with std::vector : " << runner.getVectorTimeUs()
-              << " us" << std::endl;
+              << " us"
+              << " | comparisons: " << runner.getVectorSortCount()
+              << " / theoretical max: " << runner.getTheoreticalMax()
+              << std::endl;
 
     std::cout << "Time to process a range of " << argc - 1
               << " elements with std::deque  : " << runner.getDequeTimeUs()
-              << " us" << std::endl;
-    std::cout << "Vector comparisons : " << runner.getVectorSortCount()
-              << std::endl;
-
-    std::cout << "Deque comparisons  : " << runner.getDequeSortCount()
-              << std::endl;
-
-    std::cout << "Theoretical max    : " << runner.getTheoreticalMax()
+              << " us"
+              << " | comparisons: " << runner.getDequeSortCount()
+              << " / theoretical max: " << runner.getTheoreticalMax()
               << std::endl;
   } catch (const std::exception &e) {
     std::cerr << "Error: " << e.what() << std::endl;

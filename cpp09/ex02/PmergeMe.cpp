@@ -8,7 +8,9 @@
 #include "PmergeMe.hpp"
 #include "VectorFordJohnson.hpp"
 
-PmergeMe::PmergeMe() {}
+PmergeMe::PmergeMe()
+    : jacobTimeUs(0.0), vectorTimeUs(0.0), dequeTimeUs(0.0), vectorSortCount(0),
+      dequeSortCount(0), theoreticalMax(0) {}
 
 PmergeMe::PmergeMe(const PmergeMe &src) { *this = src; }
 
