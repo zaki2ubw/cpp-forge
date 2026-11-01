@@ -8,6 +8,13 @@
 
 RPN::RPN() {}
 
+RPN::RPN(const RPN &src) { (void)src; }
+
+RPN &RPN::operator=(const RPN &src) {
+  (void)src;
+  return *this;
+}
+
 RPN::~RPN() {}
 
 bool RPN::isNumber(const std::string &token) const {
