@@ -1,9 +1,25 @@
-#include <iterator>
+#include <fstream>
+#include <iostream>
 #include <map>
+#include <sstream>
 #include <stdexcept>
 #include <string>
+#include <utility>
 
 #include "BitcoinExchange.hpp"
+
+BitcoinExchange::BitcoinExchange() {}
+
+BitcoinExchange::BitcoinExchange(const BitcoinExchange &src)
+    : rates(src.rates) {}
+
+BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &src) {
+  if (this != &src)
+    rates = src.rates;
+  return *this;
+}
+
+BitcoinExchange::~BitcoinExchange() {}
 
 double BitcoinExchange::findRate(const std::string &date) const {
   std::map<std::string, double>::const_iterator it = rates.lower_bound(date);
